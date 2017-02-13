@@ -23,7 +23,7 @@ public class ComboSystem : MonoBehaviour
         
 	}
 
-    float ActivateCombo (int _nrOfNotes, int _noteSpeed, float _interval, int _critNoteChance)
+    public float ActivateCombo (int _nrOfNotes, int _noteSpeed, float _interval, int _critNoteChance)
     {
         GetComponent<Image>().enabled = true;
 
