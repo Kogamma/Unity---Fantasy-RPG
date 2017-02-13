@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ComboSystem : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class ComboSystem : MonoBehaviour
 
     float ActivateCombo (int _nrOfNotes, int _noteSpeed, float _interval, int _critNoteChance)
     {
+        GetComponent<Image>().enabled = true;
+
         nrOfNotes = _nrOfNotes;
         noteSpeed = _noteSpeed;
         interval = _interval;
@@ -31,7 +34,7 @@ public class ComboSystem : MonoBehaviour
 
         while (notesFinished < nrOfNotes)
         {
-            if (timer > interval)
+            if (timer > interval && notes.Count < nrOfNotes)
             {
                 rndPath = Random.Range(1, 5);
 
@@ -41,6 +44,9 @@ public class ComboSystem : MonoBehaviour
                 timer += Time.deltaTime;
         }
 
+
+
+        GetComponent<Image>().enabled = false;
         return hitAccuracy;
     }
 }
