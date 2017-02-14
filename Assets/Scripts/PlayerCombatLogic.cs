@@ -13,8 +13,6 @@ public class PlayerCombatLogic : MonoBehaviour {
     float dmg;
     int meeleAttack = Animator.StringToHash("MeeleAttack");
     public GameObject playerComabat;
-    public Camera mainCamera;
-    public Camera playerCamera;
 
 
 	// Use this for initialization
@@ -35,18 +33,29 @@ public class PlayerCombatLogic : MonoBehaviour {
         interval = 0.5f;
         critchance = 10;
 
-
-
         //playerComabat.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval, critchance);
-        mainCamera.enabled = false;
-        playerCamera.enabled = true;
+        //mainCamera.enabled = false;
+        //playerCamera.enabled = true;
 
         anim.SetTrigger(meeleAttack);
 
         dmg = PlayerSingleton.instance.playerDmg + (1.4f * (float) PlayerSingleton.instance.playerStr);
 
         Mathf.FloorToInt(dmg);
-             
+        Debug.Log("hey");
+
+        PlayerSingleton.instance.currentDmg = (int)dmg;
+
+
+
+ PlayerSingleton.instance.playerAttacked = true;
+            playerComabat.GetComponent<CombatScript>().ChangeViewPort(CombatScript.cameraState.ENEMY);
+        
     }
+    public void IceAttack()
+    {
+
+    } 
+       
         
 }

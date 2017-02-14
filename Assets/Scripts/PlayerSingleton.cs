@@ -32,6 +32,8 @@ public class PlayerSingleton : MonoBehaviour
     public int playerDex = 5;
     public int playerLuck = 5;
     public int playerMana = 10;
+    public int currentDmg;
+    public bool playerAttacked = false;
 
     // Use this for initialization
     void Start()
