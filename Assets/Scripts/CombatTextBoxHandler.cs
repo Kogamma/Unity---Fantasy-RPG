@@ -13,11 +13,12 @@ public class CombatTextBoxHandler : MonoBehaviour
 
     // Here we can add text to the dialogue, each string element is a page of textbox/dialogue
     [TextArea]
-    public string[] textBoxStrings;
-
+    private string[] _textBoxStrings;
 
     // How much time between the print of each character of text
     public float characterPrintInterval = 0.01f;
+    // How much time to take before closing/going to the next page
+    public float newPageInterval = 0.75f;
 
     // If we are currently revealing a string
     private bool _stringIsBeingRevealed = false;
@@ -26,9 +27,6 @@ public class CombatTextBoxHandler : MonoBehaviour
     // Checks if we're playing the last page of text
     private bool _isEndOfText = false;
 
-    // Icons for the textbox
-    public GameObject ContinueIcon;
-    public GameObject StopIcon;
 
     private AudioSource _audioSource;
     // The sound when playing text
@@ -36,7 +34,7 @@ public class CombatTextBoxHandler : MonoBehaviour
 
     bool playSound = true;
 
-    bool startPlaying = false;
+    bool finishText = false;
 
     void Start()
     {
@@ -47,27 +45,29 @@ public class CombatTextBoxHandler : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
-
-    void Update()
+    // Call on this function to print a message of your choice
+    public void PrintMessage(/*string[] textPages*/)
     {
-        if (startPlaying)
+        string[] textPages = new string[] {"You attacked the enemy and it took 73 damage! \n<<b>(89 % accuracy!)</b>>", "The enemy was also burned by your attack!" };
+        _textBoxStrings = textPages;
+
+        // Makes the textbox visible
+        transform.parent.gameObject.GetComponent<Image>().enabled = true;
+
+        // Checks if we're not already playing text
+        if (!_textIsPlaying)
         {
-            startPlaying = false;
-
-            if (!_textIsPlaying)
-            {
-                _textIsPlaying = true;
-
-                // Starts a textbox
-                StartCoroutine(StartTextBox());
-            }
+            _textIsPlaying = true;
+            
+            // Starts a textbox
+            StartCoroutine(StartTextBox());
         }
     }
 
     private IEnumerator StartTextBox()
     {
         // Sets how many pages of text there are
-        int textBoxLength = textBoxStrings.Length;
+        int textBoxLength = _textBoxStrings.Length;
         // Which page we're currently on
         int currentTextPage = 0;
 
@@ -79,9 +79,10 @@ public class CombatTextBoxHandler : MonoBehaviour
             {
                 // We will start revealing string again
                 _stringIsBeingRevealed = true;
-                StartCoroutine(DisplayString(textBoxStrings[currentTextPage++]));
+                // Starts displaying the text of the page we are currently on
+                StartCoroutine(DisplayString(_textBoxStrings[currentTextPage++]));
 
-                // If we're on the last page of text
+                // If we're going to be on the last page of text this iteration
                 if (currentTextPage >= textBoxLength)
                 {
                     _isEndOfText = true;
@@ -91,12 +92,22 @@ public class CombatTextBoxHandler : MonoBehaviour
             yield return 0;
         }
 
-        while(true)
+        // This is when we're finished with the last page of text
+        while (true)
         {
-            yield return new WaitForSeconds(0.2f);
+            // We close the last page of text
+            if (!_stringIsBeingRevealed)
+            {
+                yield return new WaitForSeconds(newPageInterval * 2f);
+                break;
+            }
 
-            break;
+            yield return 0;
         }
+
+        // Makes the textbox invisible
+        _textComponent.text = "";
+        transform.parent.gameObject.GetComponent<Image>().enabled = false;
 
         _isEndOfText = false;
         _textIsPlaying = false;
@@ -104,6 +115,7 @@ public class CombatTextBoxHandler : MonoBehaviour
 
     private IEnumerator DisplayString(string stringToDisplay)
     {
+
         int stringLength = stringToDisplay.Length;
         // Current character in the string to write next
         int currentCharIndex = 0;
@@ -189,17 +201,13 @@ public class CombatTextBoxHandler : MonoBehaviour
 
         // When the whole string has been displayed...
         while (true)
-        {
-            // So we don't skip the text since the speed up and close textbox buttons are the same
-            yield return new WaitForSeconds(0.3f);
+        {        
+            // We go to the next page after a while
+            yield return new WaitForSeconds(newPageInterval);
 
             break;
         }
-
         // We are currently not revealing text
         _stringIsBeingRevealed = false;
-
-        // Clears textcomponent
-        _textComponent.text = "";
     }
 }
