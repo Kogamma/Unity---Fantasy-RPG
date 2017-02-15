@@ -17,9 +17,6 @@ public class TextBoxHandler : MonoBehaviour {
     // Text object for the "speaker" of the text box
     public Text nameText;
 
-    // Name of the object/npc "saying" the text
-    public string speakerName;
-
     // How much time between the print of each character of text
     public float characterPrintInterval = 0.1f;
 
@@ -37,12 +34,11 @@ public class TextBoxHandler : MonoBehaviour {
     public GameObject StopIcon;
 
     private AudioSource _audioSource;
+    
     // The sound when playing text
     public AudioClip textClip;
-
+    // An audio clip for going to the next page
     public AudioClip nextPageClip;
-    public AudioClip closeBoxClip;
-    private AudioClip _currentClip;
 
     bool playSound = true;
 
@@ -59,24 +55,34 @@ public class TextBoxHandler : MonoBehaviour {
         // Hides start/continue buttons
         HideIcons();	
 	}
-	
 
-	void Update ()
-    {
-        if (Input.GetKeyDown(textBoxInput))
+    public void StartMessage(/*string[] textPages, string messagerName*/)
+    {       
+        // Checks if we're not already playing some text
+        if (!_textIsPlaying)
         {
-            if (!_textIsPlaying)
-            {
-                // Sets the name of the "speaker" of the text box
-                nameText.text = speakerName;
+            string messagerName = "Timmy Trigger";
 
-                _textIsPlaying = true;
+            string[] textPages = new string[] { "Hi my name is <<color=aqua>Timmy Trigger</color>>, and this is my pawnshop",
+                "I run this place with my son, <<b><size=69>Big</size></b>> Håkan and my old man" };
+            // Makes the textbox visible
+            transform.parent.gameObject.GetComponent<Image>().enabled = true;
+            textBoxStrings = textPages;
+            // Gets our textcomponent and clears it from all text
+            _textComponent = GetComponent<Text>();
+            _textComponent.text = "";
 
-                // Starts a textbox
-                StartCoroutine(StartTextBox());
-            }
+            nameText.text = "";
+
+            // Sets the name of the "speaker" of the text box
+            nameText.text = messagerName;
+
+            _textIsPlaying = true;
+
+            // Starts a textbox
+            StartCoroutine(StartTextBox());
         }
-	}
+    }
 
     private IEnumerator StartTextBox()
     {
@@ -107,16 +113,22 @@ public class TextBoxHandler : MonoBehaviour {
             yield return 0;
         }
 
-        while(true)
+        // This is when we're finished with the last page of text
+        while (true)
         {
-            // We go to the next page of text
-            if(Input.GetKeyDown(textBoxInput))
-            {                
+            // We close the last page of text
+            if (Input.GetKeyDown(textBoxInput) && !_stringIsBeingRevealed)
+            {
                 break;
             }
 
             yield return 0;
         }
+
+        // Makes the textbox invisible
+        _textComponent.text = "";
+        transform.parent.gameObject.GetComponent<Image>().enabled = false;
+        nameText.text = "";
 
         // We hide the stop/continue icons
         HideIcons();
@@ -215,11 +227,12 @@ public class TextBoxHandler : MonoBehaviour {
         // When the whole string has been displayed...
         while (true)
         {
-            // So we don't skip the text since the speed up and close textbox buttons are the same
+            // We go to the next page when we press the textBoxInput
             if (Input.GetKeyDown(textBoxInput))
-            {
+            {   
                 break;
             }
+
             // ...the string will be paused so the player can read it completely
             yield return 0;
         }
@@ -236,7 +249,7 @@ public class TextBoxHandler : MonoBehaviour {
     // Hides the continue/stop icons
     private void HideIcons()
     {
-        _audioSource.PlayOneShot(_currentClip, 1f);
+        _audioSource.PlayOneShot(nextPageClip, 1f);
 
         ContinueIcon.SetActive(false);
         StopIcon.SetActive(false);
@@ -247,11 +260,9 @@ public class TextBoxHandler : MonoBehaviour {
         // Shows the red stop icon if we're on the last page of text
         if(_isEndOfText)
         {
-            _currentClip = closeBoxClip;
             StopIcon.SetActive(true);
             return;
         }
-        _currentClip = nextPageClip;
         // Shows the green continue icon for showing the next page
         ContinueIcon.SetActive(true);
     }
