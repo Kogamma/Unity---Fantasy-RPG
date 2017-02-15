@@ -10,6 +10,7 @@ public class CombatScript : MonoBehaviour
 
     public enum cameraState {PLAYER , ENEMY , MAIN };
     public GameObject player;
+    public GameObject attackButtons;
     public int currentState;
 
 
@@ -33,6 +34,7 @@ public class CombatScript : MonoBehaviour
             _EnemyCamera.enabled = false;
             _mainCamera.enabled = true;
             currentState = (int)cameraState.MAIN;
+            attackButtons.SetActive(true);
 
         }
 
@@ -64,8 +66,9 @@ public class CombatScript : MonoBehaviour
 
     public void PlayerAttack(string attack)
     {
+        attackButtons.SetActive(false);
         ChangeViewPort(cameraState.PLAYER);
-        player.GetComponent<PlayerCombatLogic>().Invoke(attack, 0.5f);
+        player.GetComponent<PlayerCombatLogic>().StartCoroutine(attack, 0.5f);
     }
 
 }

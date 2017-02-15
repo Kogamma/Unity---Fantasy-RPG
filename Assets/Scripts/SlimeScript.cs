@@ -22,21 +22,28 @@ public class SlimeScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        Debug.Log(slimeHp);
 		if(combatSystem.GetComponent<CombatScript>().currentState == 1)
         {
             anim.SetTrigger(attacked);
             slimeHp -= PlayerSingleton.instance.currentDmg;
-            PlayerSingleton.instance.playerAttacked = false;
+            combatSystem.GetComponent<CombatScript>().currentState = 2;
+
         }
 
         if(slimeHp <= 0)
         {
             anim.SetBool("isDead", true);
-        }          
+            combatSystem.GetComponent<CombatScript>().currentState = 2;
+        }        
 	}
-
-    void IsDead()
+    void EndAttacked()
     {
-        Debug.Log("hey");
+        combatSystem.GetComponent<CombatScript>().ChangeViewPort(CombatScript.cameraState.MAIN);
     }
+    void DeadEvent()
+    {
+        combatSystem.GetComponent<CombatScript>().ChangeViewPort(CombatScript.cameraState.MAIN);
+    }
+
 }
