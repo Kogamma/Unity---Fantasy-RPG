@@ -9,42 +9,51 @@ public class CombatScript : MonoBehaviour
     [SerializeField] Camera _EnemyCamera;
 
     public enum cameraState {PLAYER , ENEMY , MAIN };
-    cameraState state;
     public GameObject player;
+    public int currentState;
+
 
 	// Use this for initialization
 	void Start ()
     {
+        player.GetComponent<Animator>();
         _playerCamera.enabled = false;
         _EnemyCamera.enabled = false;
+        currentState = (int)cameraState.MAIN;
 	}
 	
 	// Update is called once per frame
-	public void ChangeViewPort (cameraState state)
-    {       
-        if (state == cameraState.MAIN)
+	public void ChangeViewPort (cameraState viewState)
+    {
+
+        if (viewState == cameraState.MAIN)
         {
             
             _playerCamera.enabled = false;
             _EnemyCamera.enabled = false;
             _mainCamera.enabled = true;
+            currentState = (int)cameraState.MAIN;
 
         }
 
-        else if (state == cameraState.PLAYER)
+        else if (viewState == cameraState.PLAYER)
         {
             _playerCamera.enabled = true;
             _EnemyCamera.enabled = false;
             _mainCamera.enabled = false;
+            currentState = (int)cameraState.PLAYER;
         }
 
-        else if (state == cameraState.ENEMY)
+        else if (viewState == cameraState.ENEMY)
         {
             _playerCamera.enabled = false;
             _mainCamera.enabled = false;
             _EnemyCamera.enabled = true;
+            currentState = (int)cameraState.ENEMY;
+
         }
-	}
+
+    }
 
     /*public IEnumerator PlayerAttack()
     {
@@ -56,6 +65,7 @@ public class CombatScript : MonoBehaviour
     public void PlayerAttack(string attack)
     {
         ChangeViewPort(cameraState.PLAYER);
-        player.GetComponent<PlayerCombatLogic>().Invoke(attack, 1);
+        player.GetComponent<PlayerCombatLogic>().Invoke(attack, 0.5f);
     }
+
 }

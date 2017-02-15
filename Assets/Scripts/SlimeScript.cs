@@ -5,7 +5,8 @@ using UnityEngine;
 public class SlimeScript : MonoBehaviour {
 
     Animator anim;
-    AnimationClip deathAnim;
+    public GameObject combatSystem;
+    bool isStunned;
     int slimeHp = 20;
     bool stunnded = false;
     int attacked = Animator.StringToHash("Attacked");
@@ -21,8 +22,7 @@ public class SlimeScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        Debug.Log(slimeHp);
-		if(PlayerSingleton.instance.playerAttacked)
+		if(combatSystem.GetComponent<CombatScript>().currentState == 1)
         {
             anim.SetTrigger(attacked);
             slimeHp -= PlayerSingleton.instance.currentDmg;
@@ -32,7 +32,11 @@ public class SlimeScript : MonoBehaviour {
         if(slimeHp <= 0)
         {
             anim.SetBool("isDead", true);
-            Destroy(gameObject);
         }          
 	}
+
+    void IsDead()
+    {
+        Debug.Log("hey");
+    }
 }
