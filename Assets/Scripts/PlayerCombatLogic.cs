@@ -10,9 +10,12 @@ public class PlayerCombatLogic : MonoBehaviour {
     int noteSpeed;
     float interval;
     int critchance;
+    public float hitAccuracy;
+    public bool comboIsDone = false;
     float dmg;
     int meeleAttack = Animator.StringToHash("MeeleAttack");
     public GameObject playerComabat;
+    [SerializeField] GameObject comboSystem;
     float timer = 0;
 
 
@@ -23,8 +26,21 @@ public class PlayerCombatLogic : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate ()
+	void Update ()
     {
+        if (comboIsDone)
+        {
+            anim.SetTrigger(meeleAttack);
+
+            dmg = PlayerSingleton.instance.playerDmg + ((1.4f * (float)PlayerSingleton.instance.playerStr) * hitAccuracy);
+
+            Mathf.FloorToInt(dmg);
+            Debug.Log("hey");
+
+            PlayerSingleton.instance.currentDmg = (int)dmg;
+
+            PlayerSingleton.instance.playerAttacked = true;
+        }
     }
 
     public void MeeleAttack()
@@ -34,19 +50,10 @@ public class PlayerCombatLogic : MonoBehaviour {
         interval = 0.5f;
         critchance = 10;
 
-        //playerComabat.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval, critchance);
+        comboSystem.SetActive(true);
+        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval, critchance);
 
-        anim.SetTrigger(meeleAttack);
 
-        dmg = PlayerSingleton.instance.playerDmg + (1.4f * (float) PlayerSingleton.instance.playerStr);
-
-        Mathf.FloorToInt(dmg);
-        Debug.Log("hey");
-
-        PlayerSingleton.instance.currentDmg = (int)dmg;
-       
-        PlayerSingleton.instance.playerAttacked = true;
-        
         
     }
     public void IceAttack()
