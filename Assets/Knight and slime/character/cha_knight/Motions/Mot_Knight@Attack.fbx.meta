@@ -61,7 +61,7 @@ ModelImporter:
     400052: Locator
     400054: Group Locator
     400056: Texture Group
-    7400000: Take 001
+    7400000: Attack
     9500000: //RootNode
     11100000: //RootNode
   materials:
@@ -84,7 +84,101 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Attack
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 16
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.9027027
+        functionName: OnAttackFinished
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Group Locator
+        weight: 1
+      - path: Group Locator/Locator
+        weight: 1
+      - path: Group Locator/Root
+        weight: 1
+      - path: Group Locator/Root/Goal
+        weight: 1
+      - path: Group Locator/Root/Goal (2)
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root/Locator_Leg_L
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root/Locator_Leg_L/Skeleton_UpperLeg_L
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root/Locator_Leg_L/Skeleton_UpperLeg_L/FullBodyIK
+          (2)
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root/Locator_Leg_L/Skeleton_UpperLeg_L/Skeleton_Leg_L
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root/Locator_Leg_L/Skeleton_UpperLeg_L/Skeleton_Leg_L/Skeleton_Foot_L
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root/Locator_Leg_R
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root/Locator_Leg_R/Skeleton_UpperLeg_R
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root/Locator_Leg_R/Skeleton_UpperLeg_R/FullBodyIK
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root/Locator_Leg_R/Skeleton_UpperLeg_R/Skeleton_Leg_R
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root/Locator_Leg_R/Skeleton_UpperLeg_R/Skeleton_Leg_R/Skeleton_Foot_R
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root/Skeleton_Spine01
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root/Skeleton_Spine01/Skeleton_Spine02
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root/Skeleton_Spine01/Skeleton_Spine02/Skeleton_Arm_L
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root/Skeleton_Spine01/Skeleton_Spine02/Skeleton_Arm_L/Skeleton_ForeArm_L
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root/Skeleton_Spine01/Skeleton_Spine02/Skeleton_Arm_L/Skeleton_ForeArm_L/Skeleton_Hand_L
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root/Skeleton_Spine01/Skeleton_Spine02/Skeleton_Arm_R
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root/Skeleton_Spine01/Skeleton_Spine02/Skeleton_Arm_R/Skeleton_ForeArm_R
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root/Skeleton_Spine01/Skeleton_Spine02/Skeleton_Arm_R/Skeleton_ForeArm_R/Skeleton_Hand_R
+        weight: 1
+      - path: Group Locator/Root/Skeleton_Root/Skeleton_Spine01/Skeleton_Spine02/Skeleton_Head
+        weight: 1
+      - path: Group Locator/Root/UpVector_Leg_L
+        weight: 1
+      - path: Group Locator/Root/UpVector_Leg_R
+        weight: 1
+      - path: Texture Group
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
