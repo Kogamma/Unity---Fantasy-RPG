@@ -5,22 +5,31 @@ using UnityEngine.UI;
 
 // To make sure we have a text component on the object
 [RequireComponent(typeof(Text))]
-public class TextBoxHandler : MonoBehaviour {
+public class TextBoxHandler : MonoBehaviour
+{
 
     // Our text component that is on the same gameObject as this script
     private Text _textComponent;
 
     // Here we can add text to the dialogue, each string element is a page of textbox/dialogue
-    [TextArea]
-    public string[] textBoxStrings;
+    private string[] _textBoxStrings;
 
     // Text object for the "speaker" of the text box
     public Text nameText;
 
     // How much time between the print of each character of text
+    [Range(0.01f, 0.1f, order = 0)]
+    [Header("How long between each character print")]
     public float characterPrintInterval = 0.1f;
 
-    public KeyCode textBoxInput = KeyCode.Return;
+    [Range(0.01f, 1f, order = 0)]
+    [Header("Modifies the value of characterPrintInterval when we hold down 'A'.")]
+    [Header("The lower the number, the faster.")]
+    public float printSpeedup = 0.1f;
+
+
+    public KeyCode continueInput = KeyCode.Return;
+    public KeyCode closeBoxInput = KeyCode.Return;
 
     // If we are currently revealing a string
     private bool _stringIsBeingRevealed = false;
@@ -30,19 +39,28 @@ public class TextBoxHandler : MonoBehaviour {
     private bool _isEndOfText = false;
 
     // Icons for the textbox
-    public GameObject ContinueIcon;
-    public GameObject StopIcon;
+    public Image ContinueIcon;
+    public Image StopIcon;
+    public Image Border;
+    public Image Background;
 
     private AudioSource _audioSource;
-    
+
     // The sound when playing text
     public AudioClip textClip;
     // An audio clip for going to the next page
     public AudioClip nextPageClip;
 
-    bool playSound = true;
+    // How many character prints between each sound played
+    [Header("How often you want textSound to play.")]
+    [Header("The lower, the more often it plays.")]
+    [Range(1, 10)]
+    public int soundInterval = 2;
 
-	void Start ()
+    // Used for counting when to play the sound
+    private int _soundCounter = 0;
+
+    void Start()
     {
         // Gets our textcomponent and clears it from all text
         _textComponent = GetComponent<Text>();
@@ -53,21 +71,25 @@ public class TextBoxHandler : MonoBehaviour {
         _audioSource = GetComponent<AudioSource>();
 
         // Hides start/continue buttons
-        HideIcons();	
-	}
+        ContinueIcon.enabled = false;
+        StopIcon.enabled = false;
 
-    public void StartMessage(/*string[] textPages, string messagerName*/)
-    {       
+        // Hides textbox
+        Border.enabled = false;
+        Background.enabled = false;
+    }
+
+    public void StartMessage(string[] textPages, string messagerName)
+    {
         // Checks if we're not already playing some text
         if (!_textIsPlaying)
         {
-            string messagerName = "Timmy Trigger";
-
-            string[] textPages = new string[] { "Hi my name is <<color=aqua>Timmy Trigger</color>>, and this is my pawnshop",
-                "I run this place with my son, <<b><size=69>Big</size></b>> Håkan and my old man" };
             // Makes the textbox visible
-            transform.parent.gameObject.GetComponent<Image>().enabled = true;
-            textBoxStrings = textPages;
+            Border.enabled = true;
+            Background.enabled = true;
+
+            _textBoxStrings = textPages;
+
             // Gets our textcomponent and clears it from all text
             _textComponent = GetComponent<Text>();
             _textComponent.text = "";
@@ -87,54 +109,30 @@ public class TextBoxHandler : MonoBehaviour {
     private IEnumerator StartTextBox()
     {
         // Sets how many pages of text there are
-        int textBoxLength = textBoxStrings.Length;
+        int textBoxLength = _textBoxStrings.Length;
         // Which page we're currently on
         int currentTextPage = 0;
 
         // When we're not revealing a string or we're not on the last page of text
-        while(currentTextPage < textBoxLength || !_stringIsBeingRevealed)
+        while (currentTextPage < textBoxLength || !_stringIsBeingRevealed)
         {
-            yield return new WaitForSeconds(0.2f);
-
             // When a string is not being revealed/played
             if (!_stringIsBeingRevealed)
             {
-                // We will start revealing string again
-                _stringIsBeingRevealed = true;
-                StartCoroutine(DisplayString(textBoxStrings[currentTextPage++]));
-
                 // If we're on the last page of text
-                if(currentTextPage >= textBoxLength)
+                if (currentTextPage + 1 >= textBoxLength)
                 {
                     _isEndOfText = true;
                 }
+
+                // We will start revealing string again
+                _stringIsBeingRevealed = true;
+                StartCoroutine(DisplayString(_textBoxStrings[currentTextPage++]));          
             }
 
             yield return 0;
         }
 
-        // This is when we're finished with the last page of text
-        while (true)
-        {
-            // We close the last page of text
-            if (Input.GetKeyDown(textBoxInput) && !_stringIsBeingRevealed)
-            {
-                break;
-            }
-
-            yield return 0;
-        }
-
-        // Makes the textbox invisible
-        _textComponent.text = "";
-        transform.parent.gameObject.GetComponent<Image>().enabled = false;
-        nameText.text = "";
-
-        // We hide the stop/continue icons
-        HideIcons();
-
-        _isEndOfText = false;
-        _textIsPlaying = false;
     }
 
     private IEnumerator DisplayString(string stringToDisplay)
@@ -145,7 +143,7 @@ public class TextBoxHandler : MonoBehaviour {
 
         // Clears textcomponent
         _textComponent.text = "";
-
+        print(_isEndOfText);
         // Loops through all characters of the string 
         while (currentCharIndex < stringLength)
         {
@@ -198,23 +196,31 @@ public class TextBoxHandler : MonoBehaviour {
             _textComponent.text += stringToAdd;
 
             // Plays a sound when revealing a character
-            if (playSound)
+            if (_soundCounter >= soundInterval)
             {
-                playSound = false;
+                _soundCounter = 0;
 
                 _audioSource.pitch = Random.Range(0.9f, 1f);
                 _audioSource.PlayOneShot(textClip, 1f);
             }
             else
-                playSound = true;
+                _soundCounter++;
             // Increments the character index to get the next character in the string
             currentCharIndex++;
 
             // When we still have characters in the string left to display
             if(currentCharIndex < stringLength)
-            {          
-                // Prints at normal speed
-                yield return new WaitForSeconds(characterPrintInterval);
+            {
+                if (Input.GetKey(continueInput))
+                {
+                    // Prints at a higher speed
+                    yield return new WaitForSeconds(characterPrintInterval * printSpeedup);
+                }
+                else
+                {
+                    // Prints at normal speed
+                    yield return new WaitForSeconds(characterPrintInterval);
+                }
             }
             else
             {
@@ -228,22 +234,33 @@ public class TextBoxHandler : MonoBehaviour {
         while (true)
         {
             // We go to the next page when we press the textBoxInput
-            if (Input.GetKeyDown(textBoxInput))
-            {   
+            if (Input.GetKeyDown(continueInput))
+            {              
                 break;
             }
 
             // ...the string will be paused so the player can read it completely
             yield return 0;
         }
-
         HideIcons();
 
         // We are currently not revealing text
         _stringIsBeingRevealed = false;
 
         // Clears textcomponent
-        _textComponent.text = "";
+        if(!_isEndOfText)
+            _textComponent.text = "";
+        else
+        {
+            // Makes the textbox invisible
+            _textComponent.text = "";
+            Border.enabled = false;
+            Background.enabled = false;
+            nameText.text = "";
+
+            _isEndOfText = false;
+            _textIsPlaying = false;
+        }
     }
 
     // Hides the continue/stop icons
@@ -251,8 +268,8 @@ public class TextBoxHandler : MonoBehaviour {
     {
         _audioSource.PlayOneShot(nextPageClip, 1f);
 
-        ContinueIcon.SetActive(false);
-        StopIcon.SetActive(false);
+        ContinueIcon.enabled = false;
+        StopIcon.enabled = false;
     }
 
     private void ShowIcons()
@@ -260,10 +277,11 @@ public class TextBoxHandler : MonoBehaviour {
         // Shows the red stop icon if we're on the last page of text
         if(_isEndOfText)
         {
-            StopIcon.SetActive(true);
+            StopIcon.enabled = true;
             return;
         }
         // Shows the green continue icon for showing the next page
-        ContinueIcon.SetActive(true);
+        ContinueIcon.enabled = true;
     }
 }
+

@@ -16,8 +16,13 @@ public class CombatTextBoxHandler : MonoBehaviour
     private string[] _textBoxStrings;
 
     // How much time between the print of each character of text
+    [Range(0.01f, 0.1f, order = 0)]
+    [Header("How long between each character print")]
     public float characterPrintInterval = 0.01f;
+    
     // How much time to take before closing/going to the next page
+    [Range(0.05f, 1.5f, order = 0)]
+    [Header("How long between each new page")]
     public float newPageInterval = 0.75f;
 
     // If we are currently revealing a string
@@ -26,6 +31,10 @@ public class CombatTextBoxHandler : MonoBehaviour
     private bool _textIsPlaying = false;
     // Checks if we're playing the last page of text
     private bool _isEndOfText = false;
+
+    // The text box images
+    public Image Border;
+    public Image Background;
 
 
     private AudioSource _audioSource;
@@ -36,6 +45,15 @@ public class CombatTextBoxHandler : MonoBehaviour
 
     bool finishText = false;
 
+    // How many character prints between each sound played
+    [Header("How often you want textSound to play.")]
+    [Header("The lower, the more often it plays.")]
+    [Range(0, 10)]
+    public int soundInterval = 2;
+
+    // Used for counting when to play the sound
+    private int _soundCounter = 0;
+
     void Start()
     {
         // Gets our textcomponent and clears it from all text
@@ -43,16 +61,20 @@ public class CombatTextBoxHandler : MonoBehaviour
         _textComponent.text = "";
 
         _audioSource = GetComponent<AudioSource>();
+
+        // Hides textbox
+        Border.enabled = false;
+        Background.enabled = false;
     }
 
     // Call on this function to print a message of your choice
-    public void PrintMessage(/*string[] textPages*/)
+    public void PrintMessage(string[] textPages)
     {
-        string[] textPages = new string[] {"You attacked the enemy and it took 73 damage! \n<<b>(89 % accuracy!)</b>>", "The enemy was also burned by your attack!" };
         _textBoxStrings = textPages;
 
         // Makes the textbox visible
-        transform.parent.gameObject.GetComponent<Image>().enabled = true;
+        Border.enabled = true;
+        Background.enabled = true;
 
         // Checks if we're not already playing text
         if (!_textIsPlaying)
@@ -107,7 +129,8 @@ public class CombatTextBoxHandler : MonoBehaviour
 
         // Makes the textbox invisible
         _textComponent.text = "";
-        transform.parent.gameObject.GetComponent<Image>().enabled = false;
+        Border.enabled = false;
+        Background.enabled = false;
 
         _isEndOfText = false;
         _textIsPlaying = false;
@@ -175,15 +198,15 @@ public class CombatTextBoxHandler : MonoBehaviour
             _textComponent.text += stringToAdd;
 
             // Plays a sound when revealing a character
-            if (playSound)
+            if (_soundCounter >= soundInterval && stringToDisplay[currentCharIndex] != ' ')
             {
-                playSound = false;
+                _soundCounter = 0;
 
                 _audioSource.pitch = Random.Range(0.9f, 1f);
                 _audioSource.PlayOneShot(textSound, 1f);
             }
             else
-                playSound = true;
+                _soundCounter++;
             // Increments the character index to get the next character in the string
             currentCharIndex++;
 
