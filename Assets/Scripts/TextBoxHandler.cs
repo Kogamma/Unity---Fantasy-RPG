@@ -38,6 +38,8 @@ public class TextBoxHandler : MonoBehaviour
     // Checks if we're playing the last page of text
     private bool _isEndOfText = false;
 
+    private bool finishedText = false;
+
     // Icons for the textbox
     public Image ContinueIcon;
     public Image StopIcon;
@@ -60,6 +62,9 @@ public class TextBoxHandler : MonoBehaviour
     // Used for counting when to play the sound
     private int _soundCounter = 0;
 
+    private GameObject _methodCaller;
+    private string _methodToInvoke = "";
+
     void Start()
     {
         // Gets our textcomponent and clears it from all text
@@ -79,8 +84,11 @@ public class TextBoxHandler : MonoBehaviour
         Background.enabled = false;
     }
 
-    public void StartMessage(string[] textPages, string messagerName)
+    public void StartMessage(string[] textPages, string messagerName, GameObject methodHolder, string invokeMethod)
     {
+        _methodCaller = methodHolder;
+        _methodToInvoke = invokeMethod;
+
         // Checks if we're not already playing some text
         if (!_textIsPlaying)
         {
@@ -102,8 +110,23 @@ public class TextBoxHandler : MonoBehaviour
             _textIsPlaying = true;
 
             // Starts a textbox
-            StartCoroutine(StartTextBox());
+            StartCoroutine(WaitForTextFinish());
         }
+    }
+
+    private IEnumerator WaitForTextFinish()
+    {
+        StartCoroutine(StartTextBox());
+
+        while (!finishedText)
+            yield return null;
+
+        if (_methodCaller != null)
+            if (_methodToInvoke != null)
+                _methodCaller.SendMessage(_methodToInvoke);
+
+        _methodCaller = null;
+        _methodToInvoke = null;
     }
 
     private IEnumerator StartTextBox()
