@@ -9,7 +9,7 @@ public class Player_Movement : MonoBehaviour
     private Animator _anim;
 
     // How fast the player will be moving
-    [Range(1f, 1000f)]
+    [Range(1f, 15f)]
     public float moveSpeed;
 
 	void Start ()
@@ -36,13 +36,13 @@ public class Player_Movement : MonoBehaviour
         if (inputMagnitude > 0)
         {
             transform.rotation = Quaternion.LookRotation(inputVec);
-        }
 
-        // If the player is moving in both directions, the speed will be lowered 
-        if(inputMagnitude > 1)
-        {
-            inputVec.x = inputMagnitude / 2;
-            inputVec.x = inputMagnitude / 2;
+            if(inputMagnitude > 1.2f)
+            {
+                inputVec.x *= inputMagnitude * 0.5f;
+                inputVec.z *= inputMagnitude * 0.5f;
+                Debug.Log(inputVec.x);
+            }
         }
 
         // Moves the character with the CharacterController component

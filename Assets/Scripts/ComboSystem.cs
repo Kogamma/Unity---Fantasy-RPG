@@ -6,39 +6,44 @@ using UnityEngine.UI;
 public class ComboSystem : MonoBehaviour
 {
     private int nrOfNotes = 4;              // The amount of notes that will appear
-    private int missDist = 32;              // The minimum distance between notes and goals that gives a miss 
-    private int goodDist = 18;              // The minimum distance between notes and goals that gives a 'good' 
-    private int greatDist = 4;             // The minimum distance between notes and goals that gives a 'great' 
-    private int excellentDist = 0;          // The minimum distance between notes and goals that gives a 'excellent'
-    private int notesInPlay = 0;
+    private int missDist = 32;              // The minimum distance between notes and targets that gives a miss 
+    private int goodDist = 18;              // The minimum distance between notes and targets that gives a 'good' 
+    private int greatDist = 4;              // The minimum distance between notes and targets that gives a 'great' 
+    private int excellentDist = 0;          // The minimum distance between notes and targets that gives a 'excellent'
+    private int notesInPlay = 0;            // The amounts of notes active in the combo
     private int notesFinished = 0;          // Number of notes that is either hit or missed
-    private int noteSpeed = 150;            // Speed of the notes
-    private int critChance = 1;             // The probability of a crit note appears
+    private int critChance = 10;            // The probability of a crit note appears
     private int rndPath = -1;               // The randomized path that a nothe will follow
     private int rndHolder = 0;              // Will hold the randomized number before it is set to the 'rndPath'
     private int rndResetCount = 0;          // Number of times that the randomization will be reset
+    private float noteSpeed = 0.3f;         // Speed of the notes
     private float interval = 0.5f;          // The amount of time that the notes will spawn between eachother
     private float goodHit = 0;              // Number of notes hit by the player with an 'good' score
     private float greatHit = 0;             // Number of notes hit by the player with a 'great' score
     private float excellentHit = 0;         // Number of notes hit by the player with a 'excellent' score
+    private float critHit = 0;              // Number of crit-notes hit by the player
     private float hitAccuracy = 0f;         // The percentage of how many notes the player hit and how well they were hit
     private float timer = 0;                // A timer that counts the time for spawning the notes
-    private float removeDelay = 2.1f;
-    private float removeTimer = 0f;
+    private float removeDelay = 2.1f;       // The delay time before removing the combo system and adding accuracy to the player
+    private float removeTimer = 0f;         // A timer that counts time for when to remove the combo system
     private float leftBorderPos;            // The left side of the note background
     private bool shouldSpawn = true;        // Should more notes be spawned
-   
-    [SerializeField] private GameObject note;                       // The note gameobject that will be instantiated
-    [SerializeField] private GameObject redCross;                   // A cross that will cover missed notes
-    [SerializeField] private GameObject player;
-    [SerializeField] private GameObject[] goals = new GameObject[4];// The positions that the notes must be near when the player hits the corresponding buttons
-    [SerializeField] private Transform noteKillPos;                 // A transform that holds which x-position the notes will be destroyed at
-    private List<GameObject> notesY = new List<GameObject>();        // All the notes in the Y-row
-    private List<GameObject> notesX = new List<GameObject>();        // All the notes in the X-row
-    private List<GameObject> notesB = new List<GameObject>();        // All the notes in B-row
-    private List<GameObject> notesA = new List<GameObject>();        // All the notes in A-row
-    private List<List<GameObject>> noteRows = new List<List<GameObject>>();
 
+    private GameObject noteInstance;                // The note gameobject that will be instantiated
+    [SerializeField] private GameObject note;       // A normal note that the player must hit
+    [SerializeField] private GameObject critNote;   // Rare notes that gives extra damage
+    [SerializeField] private GameObject redCross;   // A cross that will cover missed notes
+    [SerializeField] private GameObject player;     // The player
+    [SerializeField] private Transform leftBorder;  // A transform that holds the position of the left border of the combo background
+
+    private List<GameObject> notesY = new List<GameObject>();               // All the notes in the Y-row
+    private List<GameObject> notesX = new List<GameObject>();               // All the notes in the X-row
+    private List<GameObject> notesB = new List<GameObject>();               // All the notes in the B-row
+    private List<GameObject> notesA = new List<GameObject>();               // All the notes in the A-row
+    private List<List<GameObject>> noteRows = new List<List<GameObject>>(); // A list containing all above rows for notes
+    [SerializeField] private GameObject[] targets = new GameObject[4];      // The positions that the notes must be near when the player hits the corresponding buttons
+
+    // All button images for Xbox controlls
     [SerializeField] private Sprite buttonA;
     [SerializeField] private Sprite buttonA_pressed;
     [SerializeField] private Sprite buttonB;
@@ -48,18 +53,27 @@ public class ComboSystem : MonoBehaviour
     [SerializeField] private Sprite buttonY;
     [SerializeField] private Sprite buttonY_pressed;
 
+    // All texts displaying how well the player hit a note
     [SerializeField] private GameObject missText;
     [SerializeField] private GameObject goodText;
     [SerializeField] private GameObject greatText;
     [SerializeField] private GameObject excellentText;
 
+    // All sound effects
+    [SerializeField] private AudioClip hitSound;
+    [SerializeField] private AudioClip missSound;
+    private AudioSource audioSource;
+
 
     void Start ()
     {
+        // Adds the note rows in the list
         noteRows.Add(notesY);
         noteRows.Add(notesX);
         noteRows.Add(notesB);
         noteRows.Add(notesA);
+
+        audioSource = GetComponent<AudioSource>();
     }
 	
 
@@ -87,16 +101,22 @@ public class ComboSystem : MonoBehaviour
                     break;
                 }
             }
+            
+            // Randomizes if a crit-note should spawn based on the crit-chance
+            if (Random.Range(0, 100 / critChance) == 0)
+                noteInstance = critNote;
+            else
+                noteInstance = note;
 
             // Instantiates a note and adds it to the randomized row (list) in the row-list
-            noteRows[rndPath].Add(Instantiate(note, transform.GetChild(rndPath).transform.position, transform.rotation, transform.GetChild(rndPath + 4).transform));
-
+            noteRows[rndPath].Add(Instantiate(noteInstance, transform.GetChild(rndPath).transform.position, transform.rotation, transform.GetChild(rndPath + 4).transform));
             notesInPlay++;
 
+            // Notes will no longer spawn if the amount of active notes is equal to the requested amount
             if (notesInPlay == nrOfNotes)
                 shouldSpawn = false;
 
-            // Resets randomization reset counter and the spawn timer
+            // Resets randomization reset-counter and the spawn timer
             rndResetCount = 0;
             timer = 0;
         }
@@ -109,16 +129,15 @@ public class ComboSystem : MonoBehaviour
             for (int j = 0; j < noteRows[i].Count; j++)
             {
                 // Moves notes to the left
-                noteRows[i][j].transform.Translate(-noteSpeed * Time.deltaTime, 0f, 0f);
+                noteRows[i][j].transform.Translate(GetComponent<RectTransform>().sizeDelta.x * -noteSpeed * Time.deltaTime, 0f, 0f);
 
                 // If a note goes past the left border of the combo background
-                if (noteRows[i][j].transform.position.x <= noteKillPos.position.x)
-                {
+                if (noteRows[i][j].transform.position.x <= leftBorder.position.x)
                     StartCoroutine(RemoveNote(i));
-                }
             }
         }
 
+        // When a button is pressed, the distance of the corresponding target and first note in its corresponding row will be checked 
         if (Input.GetButtonDown("Y/Up"))
             CheckNoteDist(0);
         else if (Input.GetButtonDown("X/Left"))
@@ -128,42 +147,55 @@ public class ComboSystem : MonoBehaviour
         else if (Input.GetButtonDown("A/Down"))
             CheckNoteDist(3);
 
+        // Changes the button images depending on the player presses them or not
         if (Input.GetButton("Y/Up"))
-            goals[0].GetComponent<Image>().sprite = buttonY_pressed;
+            targets[0].GetComponent<Image>().sprite = buttonY_pressed;
         else
-            goals[0].GetComponent<Image>().sprite = buttonY;
+            targets[0].GetComponent<Image>().sprite = buttonY;
 
         if (Input.GetButton("X/Left"))
-            goals[1].GetComponent<Image>().sprite = buttonX_pressed;
+            targets[1].GetComponent<Image>().sprite = buttonX_pressed;
         else
-            goals[1].GetComponent<Image>().sprite = buttonX;
+            targets[1].GetComponent<Image>().sprite = buttonX;
 
         if (Input.GetButton("B/Right"))
-            goals[2].GetComponent<Image>().sprite = buttonB_pressed;
+            targets[2].GetComponent<Image>().sprite = buttonB_pressed;
         else
-            goals[2].GetComponent<Image>().sprite = buttonB;
+            targets[2].GetComponent<Image>().sprite = buttonB;
 
         if (Input.GetButton("A/Down"))
-            goals[3].GetComponent<Image>().sprite = buttonA_pressed;
+            targets[3].GetComponent<Image>().sprite = buttonA_pressed;
         else
-            goals[3].GetComponent<Image>().sprite = buttonA;
+            targets[3].GetComponent<Image>().sprite = buttonA;
 
+        // If all notes are out of play
         if (notesFinished == nrOfNotes)
         {
+            // If the timer has reached its delay
             if (removeTimer >= removeDelay)
             {
+                // Resets timer
                 removeTimer = 0;
 
+                // Calculates the procentual hit accuracy
+                hitAccuracy += (critHit / nrOfNotes) * 1.5f;
                 hitAccuracy += excellentHit / nrOfNotes;
                 hitAccuracy += (greatHit / nrOfNotes) / 1.5f;
                 hitAccuracy += (goodHit / nrOfNotes) / 2;
+
                 print("Hit Accuracy: " + hitAccuracy);
+                print("Crit hit: " + critHit);
                 print("Excellent hit: " + excellentHit);
                 print("Great hit: " + greatHit);
                 print("Good hit: " + goodHit);
 
+                // Sets the calculated hit accuracy to the players hit accuracy
                 player.GetComponent<PlayerCombatLogic>().hitAccuracy = hitAccuracy;
+
+                // Tells the player that the combo is now finished
                 player.GetComponent<PlayerCombatLogic>().comboIsDone = true;
+
+                // Deactivates the combo system
                 gameObject.SetActive(false);
             }
             else
@@ -172,9 +204,10 @@ public class ComboSystem : MonoBehaviour
         
     }
     
-
-    public void ActivateCombo (int _nrOfNotes, int _noteSpeed, float _interval, int _critChance)
+    
+    public void ActivateCombo (int _nrOfNotes, float _noteSpeed, float _interval, int _critChance)
     {
+        // Resets variables
         shouldSpawn = true;
         hitAccuracy = 0;
         excellentHit = 0;
@@ -183,55 +216,121 @@ public class ComboSystem : MonoBehaviour
         notesFinished = 0;
         notesInPlay = 0;
 
-        // Assigns the variables that will differense the attacks from eachother
+        // Assigns the variables that will difference the attacks from eachother
         nrOfNotes = _nrOfNotes;
         noteSpeed = _noteSpeed;
         interval = _interval;
         critChance = _critChance;
-         
     }
 
-    void CheckNoteDist (int goalIndex)
+
+    void CheckNoteDist (int targetIndex)
     {
-        Vector3 goalPos = goals[goalIndex].transform.position;
+        // Gets the position of the note target
+        Vector3 targetPos = targets[targetIndex].transform.position;
+        Vector3 targetAnchorPos = targets[targetIndex].GetComponent<RectTransform>().anchoredPosition;
 
-        if (noteRows[goalIndex][0] != null)
+
+        // If a note exits on the first index of the target row
+        if (noteRows[targetIndex][0] != null)
         {
-            Vector3 notePos = noteRows[goalIndex][0].transform.position;
+            // Gets the position of the first note in the row
+            Vector3 notePos = noteRows[targetIndex][0].transform.position;
+            Vector3 noteAnchorPos = noteRows[targetIndex][0].GetComponent<RectTransform>().anchoredPosition;
 
-            if (Vector3.Distance(goalPos, notePos) >= missDist)
+            // If the distance between the target and the note is greater than the minimum distance that gives a miss
+            if (Vector3.Distance(targetAnchorPos, noteAnchorPos) >= missDist)
             {
-                Instantiate(missText, new Vector3(goalPos.x - 70f, goalPos.y), transform.rotation, transform);
-                Instantiate(redCross, notePos, transform.rotation, noteRows[goalIndex][0].transform);
-                StartCoroutine(RemoveNote(goalIndex));
+                // Instantiates a miss-text to the left of the target
+                Instantiate(missText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
+
+                // Instantiates a cross on the left note showing it was missed
+                Instantiate(redCross, notePos, transform.rotation, noteRows[targetIndex][0].transform);
+
+                audioSource.PlayOneShot(missSound, 1f);
+
+                // Removes the note
+                StartCoroutine(RemoveNote(targetIndex));
             }
-            else if (Vector3.Distance(goalPos, notePos) >= goodDist && Vector3.Distance(goalPos, notePos) <= missDist)
+
+            // Distance check for normal notes
+            if (noteRows[targetIndex][0].tag != "Crit Note")
             {
-                Instantiate(goodText, new Vector3(goalPos.x - 70f, goalPos.y), transform.rotation, transform);
-                StartCoroutine(RemoveNote(goalIndex));
-                goodHit++;
+                // If the distance between the target and the note is greater than the minimum distance that gives a good hit and is less than the minimum miss distance
+                if (Vector3.Distance(targetAnchorPos, noteAnchorPos) >= goodDist && Vector3.Distance(targetAnchorPos, noteAnchorPos) <= missDist)
+                {
+                    // Instantiates a good-text to the left of the target
+                    Instantiate(goodText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
+
+                    audioSource.PlayOneShot(hitSound, 1f);
+
+                    // REmoves note
+                    StartCoroutine(RemoveNote(targetIndex));
+
+                    goodHit++;
+                }
+                // If the distance between the target and the note is greater than the minimum distance that gives a great hit and is less than the minimum good distance
+                else if (Vector3.Distance(targetAnchorPos, noteAnchorPos) >= greatDist && Vector3.Distance(targetAnchorPos, noteAnchorPos) <= goodDist)
+                {
+                    // Instantiates a great-text to the left of the target
+                    Instantiate(greatText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
+
+                    audioSource.PlayOneShot(hitSound, 1f);
+
+                    // Removes note
+                    StartCoroutine(RemoveNote(targetIndex));
+
+                    greatHit++;
+                }
+                // If the distance between the target and the note is greater than the minimum distance that gives an excellent hit and is less than the minimum great distance
+                else if (Vector3.Distance(targetAnchorPos, noteAnchorPos) >= excellentDist && Vector3.Distance(targetAnchorPos, noteAnchorPos) <= greatDist)
+                {
+                    // Instantiates an excellent-text to the left of the target
+                    Instantiate(excellentText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
+
+                    audioSource.PlayOneShot(hitSound, 1f);
+
+                    // Removes note
+                    StartCoroutine(RemoveNote(targetIndex));
+
+                    excellentHit++;
+                }
             }
-            else if (Vector3.Distance(goalPos, notePos) >= greatDist && Vector3.Distance(goalPos, notePos) <= goodDist)
+            // Distance check for crit-notes
+            else
             {
-                Instantiate(greatText, new Vector3(goalPos.x - 70f, goalPos.y), transform.rotation, transform);
-                StartCoroutine(RemoveNote(goalIndex));
-                greatHit++;
-            }
-            else if (Vector3.Distance(goalPos, notePos) >= excellentDist && Vector3.Distance(goalPos, notePos) <= greatDist)
-            {
-                Instantiate(excellentText, new Vector3(goalPos.x - 70f, goalPos.y), transform.rotation, transform);
-                StartCoroutine(RemoveNote(goalIndex));
-                excellentHit++;
+                // If the crit-note is within the target
+                if (Vector3.Distance(targetAnchorPos, noteAnchorPos) >= 0 && Vector3.Distance(targetAnchorPos, noteAnchorPos) <= missDist)
+                {
+                    // Instantiates an excellent-text to the left of the target
+                    Instantiate(excellentText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
+
+                    audioSource.PlayOneShot(hitSound, 1f);
+
+                    // Removes note
+                    StartCoroutine(RemoveNote(targetIndex));
+
+                    critHit++;
+                }
             }
         }
     }
 
+
     private IEnumerator RemoveNote(int rowIndex)
     {
         notesFinished++;
+
+        // Plays fade animation
         noteRows[rowIndex][0].GetComponent<Animator>().Play("TextFade");
+
+        // Creates a reference holding the note to destroy
         GameObject noteToDestroy = noteRows[rowIndex][0];
+
+        // Removes the note from the list
         noteRows[rowIndex].RemoveAt(0);
+
+        // Waits two seconds, the time for the animation to reach its end, then destroys the note
         yield return new WaitForSeconds(2f);
         Destroy(noteToDestroy);
     }
