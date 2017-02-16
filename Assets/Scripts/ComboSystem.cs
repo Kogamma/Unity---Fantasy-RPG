@@ -17,7 +17,8 @@ public class ComboSystem : MonoBehaviour
     private int rndHolder = 0;              // Will hold the randomized number before it is set to the 'rndPath'
     private int rndResetCount = 0;          // Number of times that the randomization will be reset
     private float noteSpeed = 0.3f;         // Speed of the notes
-    private float interval = 0.5f;          // The amount of time that the notes will spawn between eachother
+    private float baseInterval = 0.5f;      // The base value of the amount of time that the notes will spawn between eachother
+    private float interval = 0.5f;          // The actual amount of time that the notes will spawn between eachother
     private float goodHit = 0;              // Number of notes hit by the player with an 'good' score
     private float greatHit = 0;             // Number of notes hit by the player with a 'great' score
     private float excellentHit = 0;         // Number of notes hit by the player with a 'excellent' score
@@ -58,9 +59,11 @@ public class ComboSystem : MonoBehaviour
     [SerializeField] private GameObject goodText;
     [SerializeField] private GameObject greatText;
     [SerializeField] private GameObject excellentText;
+    [SerializeField] private GameObject critText;
 
     // All sound effects
     [SerializeField] private AudioClip hitSound;
+    [SerializeField] private AudioClip critHitSound;
     [SerializeField] private AudioClip missSound;
     private AudioSource audioSource;
 
@@ -82,6 +85,9 @@ public class ComboSystem : MonoBehaviour
         // If the timer has reached the interval delay and there is less nothes in play than the amount requested
         if (timer > interval && shouldSpawn)
         {
+            // Resets interval to it's base value
+            interval = baseInterval;
+
             // While the randomization hasn't been reset 3 times
             while (rndResetCount < 3)
             {
@@ -115,6 +121,9 @@ public class ComboSystem : MonoBehaviour
             // Notes will no longer spawn if the amount of active notes is equal to the requested amount
             if (notesInPlay == nrOfNotes)
                 shouldSpawn = false;
+
+            // Makes the next interval less or more for variation 
+            interval *= Random.Range(0.7f, 1.3f);
 
             // Resets randomization reset-counter and the spawn timer
             rndResetCount = 0;
@@ -219,7 +228,7 @@ public class ComboSystem : MonoBehaviour
         // Assigns the variables that will difference the attacks from eachother
         nrOfNotes = _nrOfNotes;
         noteSpeed = _noteSpeed;
-        interval = _interval;
+        baseInterval = _interval;
         critChance = _critChance;
     }
 
@@ -303,9 +312,9 @@ public class ComboSystem : MonoBehaviour
                 if (Vector3.Distance(targetAnchorPos, noteAnchorPos) >= 0 && Vector3.Distance(targetAnchorPos, noteAnchorPos) <= missDist)
                 {
                     // Instantiates an excellent-text to the left of the target
-                    Instantiate(excellentText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
+                    Instantiate(critText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
 
-                    audioSource.PlayOneShot(hitSound, 1f);
+                    audioSource.PlayOneShot(critHitSound, 1f);
 
                     // Removes note
                     StartCoroutine(RemoveNote(targetIndex));
