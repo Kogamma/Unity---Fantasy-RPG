@@ -2,48 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlimeScript : MonoBehaviour {
+public class SlimeScript : EnemyClass {
 
-    Animator anim;
     public GameObject combatSystem;
-    bool isStunned;
-    int slimeHp = 20;
-    bool stunnded = false;
     int attacked = Animator.StringToHash("Attacked");
 
-    AnimationEvent evt = new AnimationEvent();
+    public int hp = 5;
+    public int dmg = 4;
+    public int armorClass = 1;
+    public int exp = 30;
 
     // Use this for initialization
-    void Start ()
+    void Awake ()
     {
-        anim = GetComponent<Animator>();
+        enemyExp = exp;
+        enemyHp = hp;
+        enemyDmg = dmg;
+        enemyArmorClass = armorClass;
     }
 	
-	// Update is called once per frame
-	void Update ()
+	void Update()
     {
-        Debug.Log(slimeHp);
-		if(combatSystem.GetComponent<CombatScript>().currentState == 1)
-        {
-            anim.SetTrigger(attacked);
-            slimeHp -= PlayerSingleton.instance.currentDmg;
-            combatSystem.GetComponent<CombatScript>().currentState = 2;
+        Debug.Log("Enemy hp = " + enemyHp);
+    }
 
-        }
+    public override void AttackPattern()
+    {
+        base.NormalAttack();
+    }
 
-        if(slimeHp <= 0)
-        {
-            anim.SetBool("isDead", true);
-            combatSystem.GetComponent<CombatScript>().currentState = 2;
-        }        
-	}
     void EndAttacked()
     {
-        combatSystem.GetComponent<CombatScript>().ChangeViewPort(CombatScript.cameraState.MAIN);
+        //combatSystem.GetComponent<CombatScript>().ChangeViewPort(CombatScript.cameraState.MAIN);
     }
     void DeadEvent()
     {
-        combatSystem.GetComponent<CombatScript>().ChangeViewPort(CombatScript.cameraState.MAIN);
+        //combatSystem.GetComponent<CombatScript>().ChangeViewPort(CombatScript.cameraState.MAIN);
     }
 
 }
