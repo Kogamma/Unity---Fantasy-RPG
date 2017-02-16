@@ -8,6 +8,9 @@ public class Player_Movement : MonoBehaviour
     private CharacterController controller;
     private Animator _anim;
 
+    private AudioSource source;
+    public AudioClip grassStep;
+
     // How fast the player will be moving
     [Range(1f, 10f)]
     public float moveSpeed = 0f;
@@ -17,6 +20,8 @@ public class Player_Movement : MonoBehaviour
         controller = GetComponent<CharacterController>();
 
         _anim = GetComponent<Animator>();
+
+        source = GetComponent<AudioSource>();
 	}
 	
 	void Update ()
@@ -46,5 +51,12 @@ public class Player_Movement : MonoBehaviour
         
         // Moves the character with the CharacterController component
         controller.Move(inputVec * moveSpeed * Time.deltaTime);
+    }
+
+    void FootStep()
+    {
+        source.pitch = Random.Range(0.9f, 1.1f);
+        source.PlayOneShot(grassStep, 0.4f);
+
     }
 }
