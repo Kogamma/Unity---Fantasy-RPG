@@ -12,11 +12,11 @@ public class ComboSystem : MonoBehaviour
     private int excellentDist = 0;          // The minimum distance between notes and targets that gives a 'excellent'
     private int notesInPlay = 0;            // The amounts of notes active in the combo
     private int notesFinished = 0;          // Number of notes that is either hit or missed
-    private float noteSpeed = 0.3f;         // Speed of the notes
     private int critChance = 10;            // The probability of a crit note appears
     private int rndPath = -1;               // The randomized path that a nothe will follow
     private int rndHolder = 0;              // Will hold the randomized number before it is set to the 'rndPath'
     private int rndResetCount = 0;          // Number of times that the randomization will be reset
+    private float noteSpeed = 0.3f;         // Speed of the notes
     private float interval = 0.5f;          // The amount of time that the notes will spawn between eachother
     private float goodHit = 0;              // Number of notes hit by the player with an 'good' score
     private float greatHit = 0;             // Number of notes hit by the player with a 'great' score
@@ -205,7 +205,7 @@ public class ComboSystem : MonoBehaviour
     }
     
     
-    public void ActivateCombo (int _nrOfNotes, int _noteSpeed, float _interval, int _critChance)
+    public void ActivateCombo (int _nrOfNotes, float _noteSpeed, float _interval, int _critChance)
     {
         // Resets variables
         shouldSpawn = true;
