@@ -25,7 +25,7 @@ public class CombatSceneStart : MonoBehaviour {
 
         if (blackScreen.fillAmount <=0)
         {
-            textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(textPages);
+            textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(textPages, null, null);
         }
     }
 }

@@ -43,7 +43,10 @@ public class CombatTextBoxHandler : MonoBehaviour
 
     bool playSound = true;
 
-    bool finishText = false;
+    bool finishedText = false;
+
+    private GameObject _methodCaller;
+    private string _methodToInvoke = "";
 
     // How many character prints between each sound played
     [Header("How often you want textSound to play.")]
@@ -68,8 +71,11 @@ public class CombatTextBoxHandler : MonoBehaviour
     }
 
     // Call on this function to print a message of your choice
-    public void PrintMessage(string[] textPages)
+    public void PrintMessage(string[] textPages, GameObject methodHolder, string invokeMethod)
     {
+        _methodCaller = methodHolder;
+        _methodToInvoke = invokeMethod;
+
         _textBoxStrings = textPages;
         
         // Makes the textbox visible
@@ -80,10 +86,25 @@ public class CombatTextBoxHandler : MonoBehaviour
         if (!_textIsPlaying)
         {
             _textIsPlaying = true;
-            
+            finishedText = false;
             // Starts a textbox
-            StartCoroutine(StartTextBox());
+            StartCoroutine(WaitForTextFinish());
         }
+    }
+
+    private IEnumerator WaitForTextFinish()
+    {
+        StartCoroutine(StartTextBox());
+
+        while (!finishedText)
+            yield return null;
+
+        if (_methodCaller != null)
+            if (_methodToInvoke != null)
+                _methodCaller.SendMessage(_methodToInvoke);
+
+        _methodCaller = null;
+        _methodToInvoke = null;
     }
 
     private IEnumerator StartTextBox()
@@ -121,6 +142,7 @@ public class CombatTextBoxHandler : MonoBehaviour
             if (!_stringIsBeingRevealed)
             {
                 yield return new WaitForSeconds(newPageInterval * 2f);
+                finishedText = true;
                 break;
             }
 
