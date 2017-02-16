@@ -9,12 +9,23 @@ public class CombatSceneStart : MonoBehaviour {
     public Image blackScreen;
     bool fill = false;
     public float waitTime = 10.0f;
+    [TextArea]
+    public string[] textPages;
+    public GameObject textBox;
 
-
-    void Update()
+    void Start()
     {
-
-            blackScreen.fillAmount -= 1.0f / waitTime * Time.deltaTime;
         
+        
+    }
+
+    void LateUpdate()
+    {
+            blackScreen.fillAmount -= 1.0f / waitTime * Time.deltaTime;
+
+        if (blackScreen.fillAmount <=0)
+        {
+            textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(textPages);
+        }
     }
 }

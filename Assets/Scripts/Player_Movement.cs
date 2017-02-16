@@ -4,42 +4,48 @@ using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
 {
-    private CharacterController playerCon;
+    // The characters player controller and animator components
+    private CharacterController controller;
+    private Animator _anim;
 
-    public Animator anim;
+    // How fast the player will be moving
+    [Range(1f, 1000f)]
     public float moveSpeed;
 
-
-	// Use this for initialization
 	void Start ()
     {
-        playerCon = GetComponent<CharacterController>();
+        controller = GetComponent<CharacterController>();
 
-        anim = GetComponent<Animator>();
+        _anim = GetComponent<Animator>();
 	}
 	
-	// Update is called once per frame
 	void Update ()
     {
-        
-
+        // Creates a vector for input
         Vector3 inputVec = Vector3.zero;
-
         inputVec.x = Input.GetAxis("Horizontal");
         inputVec.z = Input.GetAxis("Vertical");
 
-        if(inputVec.x != 0 || inputVec.z != 0)
-        {
+        // Calculates the magnitude of the two input values we created
+        float inputMagnitude = Vector3.Magnitude(inputVec);
 
+        // Sets the parameter for the player's walk animation
+        _anim.SetFloat("Velocity", inputMagnitude);
+
+        // If the player is moving we change their rotation
+        if (inputMagnitude > 0)
+        {
             transform.rotation = Quaternion.LookRotation(inputVec);
         }
 
-        
+        // If the player is moving in both directions, the speed will be lowered 
+        if(inputMagnitude > 1)
+        {
+            inputVec.x = inputMagnitude / 2;
+            inputVec.x = inputMagnitude / 2;
+        }
 
-        playerCon.SimpleMove(inputVec * moveSpeed * Time.deltaTime);
-
-        anim.SetFloat("Velocity", Vector3.Magnitude(inputVec));
-
-        Debug.Log(Vector3.Magnitude(inputVec));
+        // Moves the character with the CharacterController component
+        controller.SimpleMove(inputVec * moveSpeed * Time.deltaTime);
     }
 }

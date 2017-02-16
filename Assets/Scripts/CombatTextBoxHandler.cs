@@ -71,7 +71,7 @@ public class CombatTextBoxHandler : MonoBehaviour
     public void PrintMessage(string[] textPages)
     {
         _textBoxStrings = textPages;
-
+        
         // Makes the textbox visible
         Border.enabled = true;
         Background.enabled = true;

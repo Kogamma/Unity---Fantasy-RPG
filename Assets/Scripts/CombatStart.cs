@@ -10,6 +10,8 @@ public class CombatStart : MonoBehaviour {
     bool fill = false;
     public float waitTime = 10.0f;
 
+
+    //
     void Update()
     {
         if(fill)
