@@ -9,8 +9,8 @@ public class Player_Movement : MonoBehaviour
     private Animator _anim;
 
     // How fast the player will be moving
-    [Range(1f, 15f)]
-    public float moveSpeed;
+    [Range(1f, 10f)]
+    public float moveSpeed = 0f;
 
 	void Start ()
     {
@@ -24,7 +24,7 @@ public class Player_Movement : MonoBehaviour
         // Creates a vector for input
         Vector3 inputVec = Vector3.zero;
         inputVec.x = Input.GetAxis("Horizontal");
-        inputVec.z = Input.GetAxis("Vertical");
+        inputVec.z = Input.GetAxis("Vertical");dasd
 
         // Calculates the magnitude of the two input values we created
         float inputMagnitude = Vector3.Magnitude(inputVec);
@@ -37,15 +37,14 @@ public class Player_Movement : MonoBehaviour
         {
             transform.rotation = Quaternion.LookRotation(inputVec);
 
-            if(inputMagnitude > 1.2f)
+            if(inputVec.x > 0 && inputVec.z > 0)
             {
                 inputVec.x *= inputMagnitude * 0.5f;
                 inputVec.z *= inputMagnitude * 0.5f;
-                Debug.Log(inputVec.x);
             }
         }
-
+        
         // Moves the character with the CharacterController component
-        controller.SimpleMove(inputVec * moveSpeed * Time.deltaTime);
+        controller.Move(inputVec * moveSpeed * Time.deltaTime);
     }
 }
