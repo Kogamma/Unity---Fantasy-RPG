@@ -12,7 +12,7 @@ public class Player_Movement : MonoBehaviour
     public AudioClip grassStep;
 
     // How fast the player will be moving
-    [Range(1f, 15f)]
+    [Range(10f, 100f)]
     public float moveSpeed;
 
 	void Start ()
