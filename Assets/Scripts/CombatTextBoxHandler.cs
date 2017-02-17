@@ -73,18 +73,20 @@ public class CombatTextBoxHandler : MonoBehaviour
     // Call on this function to print a message of your choice
     public void PrintMessage(string[] textPages, GameObject methodHolder, string invokeMethod)
     {
-        _methodCaller = methodHolder;
-        _methodToInvoke = invokeMethod;
-
-        _textBoxStrings = textPages;
-        
-        // Makes the textbox visible
-        Border.enabled = true;
-        Background.enabled = true;
-
         // Checks if we're not already playing text
         if (!_textIsPlaying)
         {
+            PlayerSingleton.instance.canMove = false;
+
+            _methodCaller = methodHolder;
+            _methodToInvoke = invokeMethod;
+
+            _textBoxStrings = textPages;
+
+            // Makes the textbox visible
+            Border.enabled = true;
+            Background.enabled = true;
+
             _textIsPlaying = true;
             finishedText = false;
             // Starts a textbox
@@ -98,6 +100,8 @@ public class CombatTextBoxHandler : MonoBehaviour
 
         while (!finishedText)
             yield return null;
+
+        PlayerSingleton.instance.canMove = true;
 
         if (_methodCaller != null)
             if (_methodToInvoke != null)
@@ -143,6 +147,7 @@ public class CombatTextBoxHandler : MonoBehaviour
             {
                 yield return new WaitForSeconds(newPageInterval * 2f);
                 finishedText = true;
+
                 break;
             }
 

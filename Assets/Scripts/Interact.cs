@@ -14,7 +14,7 @@ public class Interact : MonoBehaviour
         RaycastHit hit;
 
         // If a raycast hits something infront of the player
-        if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.forward, out hit, 1f))
+        if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z), transform.forward, out hit, 1f))
         {
             // If the hit object is a interactable object
             if (hit.transform.gameObject.tag == "Interactable")

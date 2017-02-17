@@ -86,12 +86,16 @@ public class TextBoxHandler : MonoBehaviour
 
     public void StartMessage(string[] textPages, string messagerName, GameObject methodHolder, string invokeMethod)
     {
-        _methodCaller = methodHolder;
-        _methodToInvoke = invokeMethod;
+     
 
         // Checks if we're not already playing some text
         if (!_textIsPlaying)
         {
+            PlayerSingleton.instance.canMove = false;
+
+            _methodCaller = methodHolder;
+            _methodToInvoke = invokeMethod;
+
             // Makes the textbox visible
             Border.enabled = true;
             Background.enabled = true;
@@ -119,7 +123,11 @@ public class TextBoxHandler : MonoBehaviour
         StartCoroutine(StartTextBox());
 
         while (!finishedText)
+        {          
             yield return null;
+        }
+
+        PlayerSingleton.instance.canMove = true;
 
         if (_methodCaller != null)
             if (_methodToInvoke != null)
@@ -166,7 +174,7 @@ public class TextBoxHandler : MonoBehaviour
 
         // Clears textcomponent
         _textComponent.text = "";
-        print(_isEndOfText);
+
         // Loops through all characters of the string 
         while (currentCharIndex < stringLength)
         {
@@ -258,7 +266,8 @@ public class TextBoxHandler : MonoBehaviour
         {
             // We go to the next page when we press the textBoxInput
             if (Input.GetKeyDown(continueInput))
-            {              
+            {          
+                    
                 break;
             }
 
@@ -271,8 +280,11 @@ public class TextBoxHandler : MonoBehaviour
         _stringIsBeingRevealed = false;
 
         // Clears textcomponent
-        if(!_isEndOfText)
+        if (!_isEndOfText)
+        {
             _textComponent.text = "";
+            finishedText = true;
+        }
         else
         {
             // Makes the textbox invisible

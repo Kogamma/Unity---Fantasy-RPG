@@ -26,31 +26,39 @@ public class Player_Movement : MonoBehaviour
 	
 	void Update ()
     {
-        // Creates a vector for input
-        Vector3 inputVec = Vector3.zero;
-        inputVec.x = Input.GetAxis("Horizontal");
-        inputVec.z = Input.GetAxis("Vertical");
-
-        // Calculates the magnitude of the two input values we created
-        float inputMagnitude = Vector3.Magnitude(inputVec);
-
-        // Sets the parameter for the player's walk animation
-        _anim.SetFloat("Velocity", inputMagnitude);
-
-        // If the player is moving we change their rotation
-        if (inputMagnitude > 0)
+        if (PlayerSingleton.instance.canMove)
         {
-            transform.rotation = Quaternion.LookRotation(inputVec);
+            // Creates a vector for input
+            Vector3 inputVec = Vector3.zero;
+            inputVec.x = Input.GetAxis("Horizontal");
+            inputVec.z = Input.GetAxis("Vertical");
 
-            if(inputVec.x > 0 && inputVec.z > 0)
+            // Calculates the magnitude of the two input values we created
+            float inputMagnitude = Vector3.Magnitude(inputVec);
+
+            // Sets the parameter for the player's walk animation
+            _anim.SetFloat("Velocity", inputMagnitude);
+
+            // If the player is moving we change their rotation
+            if (inputMagnitude > 0)
             {
-                inputVec.x *= inputMagnitude * 0.5f;
-                inputVec.z *= inputMagnitude * 0.5f;
+                transform.rotation = Quaternion.LookRotation(inputVec);
+
+                if (inputVec.x != 0 && inputVec.z != 0)
+                {
+                    inputVec.x = inputVec.x * inputMagnitude * 0.5f;
+                    inputVec.z = inputVec.z * inputMagnitude * 0.5f;
+                }
             }
-        }
         
-        // Moves the character with the CharacterController component
-        controller.Move(inputVec * moveSpeed * Time.deltaTime);
+            // Moves the character with the CharacterController component
+            controller.Move(inputVec * moveSpeed * Time.deltaTime);
+        }
+        else
+        {
+            // Sets the parameter for the player's walk animation to make it stop whilst not moving
+            _anim.SetFloat("Velocity", 0);
+        }
     }
 
     void FootStep()
