@@ -29,7 +29,7 @@ public class Player_Movement : MonoBehaviour
         // Creates a vector for input
         Vector3 inputVec = Vector3.zero;
         inputVec.x = Input.GetAxis("Horizontal");
-        inputVec.z = Input.GetAxis("Vertical");dasd
+        inputVec.z = Input.GetAxis("Vertical");
 
         // Calculates the magnitude of the two input values we created
         float inputMagnitude = Vector3.Magnitude(inputVec);
