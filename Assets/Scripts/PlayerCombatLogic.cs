@@ -13,9 +13,10 @@ public class PlayerCombatLogic : MonoBehaviour {
     float interval;                                             //Using to set the interval for the notes on the diffrent attacks
     int critchance;                                             //Using to set the critchance for the diffrent attack
     float dmg;                                                  //Using to set the damge for the player
-    int meeleAttack = Animator.StringToHash("MeeleAttack");     //Using to get the attack animation
+    //int meeleAttack = Animator.StringToHash("MeeleAttack");     //Using to get the attack animation
     [SerializeField] GameObject comboSystem;                    //Using to call the combo system and activate it
     [SerializeField] GameObject textBox;
+    [SerializeField] UnityEngine.UI.Image healthBar;
 
     // Use this for initialization
     void Start()
@@ -27,7 +28,10 @@ public class PlayerCombatLogic : MonoBehaviour {
     void Update()
     {
         Debug.Log(PlayerSingleton.instance.playerHealth);
+        Debug.Log(comboIsDone);
         AttackIsDone();
+        healthBar.fillAmount = (float)((float)PlayerSingleton.instance.playerHealth / (float)PlayerSingleton.instance.playerMaxHealth);
+        
     }
     //The normal attack for the player
     public void MeeleAttack()
@@ -63,11 +67,11 @@ public class PlayerCombatLogic : MonoBehaviour {
         //Check if the combo is done
         if (comboIsDone)
         {
-            anim.SetTrigger(meeleAttack);   //Playing the attack animation
+            Debug.Log("heu");
+            anim.SetTrigger("MeeleAttack");   //Playing the attack animation
             dmg *= hitAccuracy;             //Multiplay the damge with the combo hit accuracy
 
             PlayerSingleton.instance.currentDmg = (int)dmg; //Setting the currentDmg to dmg
-
 
             string[] text = new string[1] {""};
             text[0] = "You did " + PlayerSingleton.instance.currentDmg + " damage to the enemy!";

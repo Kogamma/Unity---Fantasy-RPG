@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SlimeScript : EnemyClass {
 
-    public GameObject combatSystem;
     int attacked = Animator.StringToHash("Attacked");
 
     public int hp = 5;
@@ -23,7 +22,7 @@ public class SlimeScript : EnemyClass {
 	
 	void Update()
     {
-        Debug.Log("Enemy hp = " + enemyHp);
+
     }
 
     public override void AttackPattern()

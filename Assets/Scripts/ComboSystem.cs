@@ -204,6 +204,10 @@ public class ComboSystem : MonoBehaviour
                 // Tells the player that the combo is now finished
                 player.GetComponent<PlayerCombatLogic>().comboIsDone = true;
 
+
+                Debug.Log(player.GetComponent<PlayerCombatLogic>().comboIsDone);
+
+
                 // Deactivates the combo system
                 gameObject.SetActive(false);
             }
