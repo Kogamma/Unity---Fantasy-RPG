@@ -38,7 +38,6 @@ public class PlayerSingleton : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Debug.Log("Initialized UnitySingleton instance!");
     }
 
     // Update is called once per frame
