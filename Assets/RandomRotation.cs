@@ -6,15 +6,18 @@ public class RandomRotation : MonoBehaviour {
 
 	public void RotateSign()
     {
-        if(this.name == "RotatingTree")
+        if (name == "Player Character")
         {
-            int x = Random.Range(-30, 60);
-            int y = Random.Range(-30, 60);
-            int z = Random.Range(-30, 60);
-            Debug.Log("TRÄD");
-            transform.rotation = Quaternion.Euler(x, y, z);
+            transform.localScale *= 2;
+            StartCoroutine(ScaleBack());
         }
         else
-            transform.rotation = Quaternion.Euler(0, 90, 0);
+            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 4);
+    }
+
+    public IEnumerator ScaleBack()
+    {
+        yield return new WaitForSeconds(5f);
+        transform.localScale /= 2;
     }
 }

@@ -135,6 +135,7 @@ public class TextBoxHandler : MonoBehaviour
 
         _methodCaller = null;
         _methodToInvoke = null;
+        finishedText = false;
     }
 
     private IEnumerator StartTextBox()
@@ -283,7 +284,6 @@ public class TextBoxHandler : MonoBehaviour
         if (!_isEndOfText)
         {
             _textComponent.text = "";
-            finishedText = true;
         }
         else
         {
@@ -295,6 +295,8 @@ public class TextBoxHandler : MonoBehaviour
 
             _isEndOfText = false;
             _textIsPlaying = false;
+
+            finishedText = true;
         }
     }
 
