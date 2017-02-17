@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CombatScript : MonoBehaviour
 {
@@ -13,9 +15,12 @@ public class CombatScript : MonoBehaviour
     public enum cameraState {PLAYER , ENEMY , MAIN };
     public GameObject player;
     public GameObject playerMenu;
+    public GameObject restartButton;
+    public GameObject returnToWorldButton;
     public int currentState;
     public CombatTextBoxHandler textBox;
     public GameObject enemyHolder;
+    public GameObject playerHealth;
 
 	// Use this for initialization
 	void Start ()
@@ -23,12 +28,15 @@ public class CombatScript : MonoBehaviour
         player.GetComponent<Animator>();
         _playerCamera.enabled = false;
         _EnemyCamera.enabled = false;
+        restartButton.SetActive(false);
+        returnToWorldButton.SetActive(false);
         currentState = (int)cameraState.MAIN;
+        Debug.Log("Hey");
 	}
 
     void Update()
     {
-        
+
     }
 	
 	// Update is called once per frame
@@ -42,6 +50,7 @@ public class CombatScript : MonoBehaviour
             _EnemyCamera.enabled = false;
             _mainCamera.enabled = true;
             currentState = (int)cameraState.MAIN;
+            playerHealth.SetActive(true);
 
         }
 
@@ -51,6 +60,7 @@ public class CombatScript : MonoBehaviour
             _EnemyCamera.enabled = false;
             _mainCamera.enabled = false;
             currentState = (int)cameraState.PLAYER;
+            playerHealth.SetActive(false);
         }
 
         else if (viewState == cameraState.ENEMY)
@@ -59,6 +69,7 @@ public class CombatScript : MonoBehaviour
             _mainCamera.enabled = false;
             _EnemyCamera.enabled = true;
             currentState = (int)cameraState.ENEMY;
+            playerHealth.SetActive(false);
         }
     }
 
@@ -111,10 +122,15 @@ public class CombatScript : MonoBehaviour
     }
     public void ShowRestartMenu()
     {
-
+        restartButton.SetActive (true);
     }
     public void ShowVictoryMenu()
     {
+        returnToWorldButton.SetActive(true);
+    }
 
+    public void ReturnToTheWorld()
+    {
+        SceneManager.LoadScene("Abraham_Test_Scene");
     }
 }

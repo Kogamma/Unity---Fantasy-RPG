@@ -33,6 +33,8 @@ public class PlayerSingleton : MonoBehaviour
     public int playerLuck = 5;
     public int playerMana = 10;
 
+    public int playerMaxHealth = 10;
+
     public int currentDmg;
     public bool playerAttacked = false;
 
