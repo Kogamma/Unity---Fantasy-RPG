@@ -13,18 +13,16 @@ public class CombatSceneStart : MonoBehaviour {
     public string[] textPages;
     public GameObject textBox;
 
-    void Start()
-    {
-        
-        
-    }
-
     void LateUpdate()
     {
-            blackScreen.fillAmount -= 1.0f / waitTime * Time.deltaTime;
+        //When the battlescene has loaded
+        //the blackscreen starts to go back
+        blackScreen.fillAmount -= 1.0f / waitTime * Time.deltaTime;
 
         if (blackScreen.fillAmount <=0)
         {
+            //When the blackscreen is or less than 0
+            //it prints out a textbox
             textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(textPages, null, null);
         }
     }

@@ -34,6 +34,7 @@ public class PlayerSingleton : MonoBehaviour
     public int playerMana = 10;
     public int currentDmg;
     public bool playerAttacked = false;
+    public Transform overWorldTransform;
 
     // Use this for initialization
     void Start()
