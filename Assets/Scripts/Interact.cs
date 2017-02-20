@@ -6,6 +6,17 @@ public class Interact : MonoBehaviour
 {
     [SerializeField] private GameObject interactIcon;
     [SerializeField] private Transform cameraPos;
+    [SerializeField] private AudioClip pop;
+    private AudioSource source;
+    private bool doOnce = true;
+
+
+
+    void Start ()
+    {
+        source = GetComponent<AudioSource>();
+    }
+
 
     void Update ()
     {
@@ -22,6 +33,12 @@ public class Interact : MonoBehaviour
                 interactIcon.SetActive(true);
                 interactIcon.transform.LookAt(cameraPos);
 
+                if (doOnce)
+                {
+                    source.PlayOneShot(pop, 1f);
+                    doOnce = false;
+                }
+
                 // If the player presses the button for interaction
                 if (Input.GetButtonDown("Interact"))
                 {
@@ -31,6 +48,9 @@ public class Interact : MonoBehaviour
             }
         }
         else
+        {
             interactIcon.SetActive(false);
+            doOnce = true;
+        }
 	}
 }

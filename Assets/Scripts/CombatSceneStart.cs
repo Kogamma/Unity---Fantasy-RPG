@@ -4,14 +4,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class CombatSceneStart : MonoBehaviour {
-
+public class CombatSceneStart : MonoBehaviour
+{
     public Image blackScreen;
     bool fill = false;
     public float waitTime = 10.0f;
     [TextArea]
     public string[] textPages;
     public GameObject textBox;
+    [SerializeField] GameObject UIGroup;
 
     bool doOnce = true;
 
@@ -27,9 +28,15 @@ public class CombatSceneStart : MonoBehaviour {
 
             //When the blackscreen is or less than 0
             //it prints out a textbox
-            textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(textPages, null, null);
+            textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(textPages, this.gameObject, "ActivateUI");
 
             doOnce = false;
         }
+    }
+
+
+    public void ActivateUI()
+    {
+        UIGroup.SetActive(true);
     }
 }
