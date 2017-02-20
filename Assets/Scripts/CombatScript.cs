@@ -15,7 +15,6 @@ public class CombatScript : MonoBehaviour
     public enum cameraState {PLAYER , ENEMY , MAIN };
     public GameObject player;
     public GameObject playerMenu;
-    public GameObject restartButton;
     public GameObject returnToWorldButton;
     public int currentState;
     public CombatTextBoxHandler textBox;
@@ -28,10 +27,8 @@ public class CombatScript : MonoBehaviour
         player.GetComponent<Animator>();
         _playerCamera.enabled = false;
         _EnemyCamera.enabled = false;
-        restartButton.SetActive(false);
         returnToWorldButton.SetActive(false);
         currentState = (int)cameraState.MAIN;
-        Debug.Log("Hey");
 	}
 
     void Update()
@@ -81,9 +78,9 @@ public class CombatScript : MonoBehaviour
             case "Player":
                 if (PlayerSingleton.instance.playerHealth <= 0)
                 {
-                    string[] text = new string[1] { "OHH NOOO YOU DIED" };
+                    string[] text = new string[2] { "The enemy defeated you and you died!", "GAME OVER" };
                     player.GetComponent<Animator>().SetTrigger("Dead");
-                    textBox.PrintMessage(text,gameObject, "ShowRestartMenu");
+                    textBox.PrintMessage(text, gameObject, "LoadGameOver");
                 }
 
                 else
@@ -120,10 +117,6 @@ public class CombatScript : MonoBehaviour
         ChangeViewPort(cameraState.ENEMY);
         enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().AttackPattern();
     }
-    public void ShowRestartMenu()
-    {
-        restartButton.SetActive (true);
-    }
     public void ShowVictoryMenu()
     {
         returnToWorldButton.SetActive(true);
@@ -132,5 +125,11 @@ public class CombatScript : MonoBehaviour
     public void ReturnToTheWorld()
     {
         SceneManager.LoadScene("Abraham_Test_Scene");
+    }
+
+    public void LoadGameOver()
+    {
+        Debug.Log("adsadasdadasd");
+        SceneManager.LoadScene("DeathScene");
     }
 }

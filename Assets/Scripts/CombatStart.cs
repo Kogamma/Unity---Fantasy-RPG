@@ -10,6 +10,14 @@ public class CombatStart : MonoBehaviour {
     bool fill = false;
     public float waitTime = 1.0f;
 
+    void Start()
+    {
+        if(PlayerSingleton.instance.overWorldTransform == null)
+        {
+            PlayerSingleton.instance.overWorldTransform = this.transform;
+        }
+    }
+
     //When "fill" it true, a blackscreen starts to fill
     //the screen. When it's done it loads the battle scene
     void Update()

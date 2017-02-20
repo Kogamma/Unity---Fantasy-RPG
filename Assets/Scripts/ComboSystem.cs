@@ -192,21 +192,17 @@ public class ComboSystem : MonoBehaviour
                 hitAccuracy += (greatHit / nrOfNotes) / 1.5f;
                 hitAccuracy += (goodHit / nrOfNotes) / 2;
 
-                print("Hit Accuracy: " + hitAccuracy);
+                /*print("Hit Accuracy: " + hitAccuracy);
                 print("Crit hit: " + critHit);
                 print("Excellent hit: " + excellentHit);
                 print("Great hit: " + greatHit);
-                print("Good hit: " + goodHit);
+                print("Good hit: " + goodHit);*/
 
                 // Sets the calculated hit accuracy to the players hit accuracy
                 player.GetComponent<PlayerCombatLogic>().hitAccuracy = hitAccuracy;
 
                 // Tells the player that the combo is now finished
                 player.GetComponent<PlayerCombatLogic>().comboIsDone = true;
-
-
-                Debug.Log(player.GetComponent<PlayerCombatLogic>().comboIsDone);
-
 
                 // Deactivates the combo system
                 gameObject.SetActive(false);

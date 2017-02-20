@@ -27,8 +27,6 @@ public class PlayerCombatLogic : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(PlayerSingleton.instance.playerHealth);
-        Debug.Log(comboIsDone);
         AttackIsDone();
         healthBar.fillAmount = (float)((float)PlayerSingleton.instance.playerHealth / (float)PlayerSingleton.instance.playerMaxHealth);
         
@@ -67,7 +65,6 @@ public class PlayerCombatLogic : MonoBehaviour {
         //Check if the combo is done
         if (comboIsDone)
         {
-            Debug.Log("heu");
             anim.SetTrigger("MeeleAttack");   //Playing the attack animation
             dmg *= hitAccuracy;             //Multiplay the damge with the combo hit accuracy
 
@@ -95,7 +92,7 @@ public class PlayerCombatLogic : MonoBehaviour {
     }
     IEnumerator TurnDelay()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
         combatHandler.GetComponent<CombatScript>().UpdateTurn("Enemy");
     }
 

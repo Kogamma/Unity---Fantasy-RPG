@@ -9,7 +9,7 @@ public class Interact : MonoBehaviour
 
     void Update ()
     {
-        //Debug.DrawLine(new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z), new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z) + transform.forward / 2, Color.red);
+        //DrawLine(new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z), new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z) + transform.forward / 2, Color.red);
 
         RaycastHit hit;
 

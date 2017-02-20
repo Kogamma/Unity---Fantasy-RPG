@@ -39,7 +39,7 @@ public class EnemyClass : MonoBehaviour {
     void AttackIsDone()
     {
         string[] text = new string[1]{""};
-        text[0] = "You took " + enemyDmg + " damge!";
+        text[0] = "You took " + enemyDmg + " damage!";
         combatScript.ChangeViewPort(CombatScript.cameraState.PLAYER);
         combatScript.player.GetComponent<Animator>().SetTrigger("Attacked");
         combatTextbox.PrintMessage(text, gameObject, "ChangeViewToMain");

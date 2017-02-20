@@ -99,7 +99,7 @@ public class CombatTextBoxHandler : MonoBehaviour
         StartCoroutine(StartTextBox());
 
         while (!finishedText)
-            yield return null;
+            yield return 0;
 
         PlayerSingleton.instance.canMove = true;
 
@@ -109,6 +109,8 @@ public class CombatTextBoxHandler : MonoBehaviour
 
         _methodCaller = null;
         _methodToInvoke = null;
+
+        finishedText = false;
     }
 
     private IEnumerator StartTextBox()
