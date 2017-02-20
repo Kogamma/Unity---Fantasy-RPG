@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class PlayerCombatLogic : MonoBehaviour {
 
+    GameObject enemyHolder;
     public GameObject combatHandler;                            //Using this to set the diffrent camera states
     public float hitAccuracy;                                   //Using to see the accuarcy for the player
     public bool comboIsDone = false;                            //Using to check if the combo is done
+    public string whichAttack;
     Animator anim;                                              //Using the get the animator player
     int notes;                                                  //Using to set how many notes
-    float noteSpeed;                                              //Using to set the notespeed for the attacks
+    float noteSpeed;                                            //Using to set the notespeed for the attacks
     float interval;                                             //Using to set the interval for the notes on the diffrent attacks
     int critchance;                                             //Using to set the critchance for the diffrent attack
     float dmg;                                                  //Using to set the damge for the player
@@ -17,6 +19,8 @@ public class PlayerCombatLogic : MonoBehaviour {
     [SerializeField] GameObject comboSystem;                    //Using to call the combo system and activate it
     [SerializeField] GameObject textBox;
     [SerializeField] UnityEngine.UI.Image healthBar;
+    [SerializeField] GameObject iceParticle;
+    [SerializeField]GameObject iceBlock;
 
     // Use this for initialization
     void Start()
@@ -68,7 +72,28 @@ public class PlayerCombatLogic : MonoBehaviour {
             anim.SetTrigger("MeeleAttack");   //Playing the attack animation
             dmg *= hitAccuracy;             //Multiplay the damge with the combo hit accuracy
 
+            float rng = Random.Range(0f, 1f);
+
             PlayerSingleton.instance.currentDmg = (int)dmg; //Setting the currentDmg to dmg
+
+            switch(whichAttack)
+            {
+                case "IceAttack":
+                    Instantiate(iceParticle, combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
+                    if(combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().chanceToGetFreeze >=rng)
+                    {
+                        combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned = true;
+                        Instantiate(iceBlock, combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
+                    }
+                    break;
+
+                default:
+                    break;
+                   
+            }
+                
+        
+
 
             string[] text = new string[1] {""};
             text[0] = "You did " + PlayerSingleton.instance.currentDmg + " damage to the enemy!";
