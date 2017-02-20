@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class EnemyClass : MonoBehaviour {
 
+    public float chanceToGetFreeze;
     public int enemyHp;
     public int enemyExp;
     protected int enemyArmorClass;
     protected int enemyDmg;
-    protected bool isStunned;
+    public bool isStunned;
 
     protected Animator anim;
     CombatScript combatScript;
@@ -58,5 +59,10 @@ public class EnemyClass : MonoBehaviour {
     {
         combatScript.ChangeViewPort(CombatScript.cameraState.MAIN);
         combatScript.UpdateTurn("Player");
+    }
+
+    void OnParticleCollision(Collider obj)
+    {
+
     }
 }
