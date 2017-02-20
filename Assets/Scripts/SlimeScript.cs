@@ -14,6 +14,7 @@ public class SlimeScript : EnemyClass {
     // Use this for initialization
     void Awake ()
     {
+        //Setting the exp, hp, dmg and armorclass for the enemy
         enemyExp = exp;
         enemyHp = hp;
         enemyDmg = dmg;
