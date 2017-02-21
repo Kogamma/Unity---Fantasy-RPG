@@ -7,12 +7,21 @@ public class MenuManagment : MonoBehaviour
     [SerializeField] GameObject mainGroup;
     [SerializeField] GameObject attackGroup;
     [SerializeField] GameObject itemsGroup;
+    [SerializeField] AudioClip clickSound;
+    private AudioSource source;
+
+
+    void Start ()
+    {
+        source = GetComponent<AudioSource>();
+    }
 
 
     public void AttackSelect()
     {
         attackGroup.SetActive(true);
         mainGroup.SetActive(false);
+        source.PlayOneShot(clickSound, 1f);
     }
 
 
@@ -20,6 +29,7 @@ public class MenuManagment : MonoBehaviour
     {
         itemsGroup.SetActive(true);
         mainGroup.SetActive(false);
+        source.PlayOneShot(clickSound, 1f);
     }
 
 
@@ -28,5 +38,6 @@ public class MenuManagment : MonoBehaviour
         mainGroup.SetActive(true);
         itemsGroup.SetActive(false);
         attackGroup.SetActive(false);
+        source.PlayOneShot(clickSound, 1f);
     }
 }
