@@ -50,6 +50,8 @@ public class PlayerSingleton : MonoBehaviour
 
     // The inventory holding all of the player items
     public List<InventoryItem> playerInventory;
+    // The current maximum size of slots in the inventory
+    public int inventorySize = 15;
 
     /* In-game variables */
 
