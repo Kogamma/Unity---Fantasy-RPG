@@ -82,5 +82,8 @@ public class EnemyClass : MonoBehaviour
         combatScript.UpdateTurn("Player");
     }
 
-
+    void OnParticleCollision(GameObject otherObj)
+    {
+        Debug.Log("hit...");
+    }
 }
