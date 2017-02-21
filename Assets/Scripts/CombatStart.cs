@@ -41,8 +41,7 @@ public class CombatStart : MonoBehaviour {
     {
         if (enemy.tag == "enemyOverworld")
         {
-            if(Vector3.Distance(this.transform.position, enemy.transform.position) < 3)
-                fill = true;
+            fill = true;
         }
     }
 }
