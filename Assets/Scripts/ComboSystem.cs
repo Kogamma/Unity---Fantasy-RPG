@@ -240,88 +240,92 @@ public class ComboSystem : MonoBehaviour
         Vector3 targetAnchorPos = targets[targetIndex].GetComponent<RectTransform>().anchoredPosition;
 
 
-        // If a note exits on the first index of the target row
-        if (noteRows[targetIndex][0] != null)
+        try {
+            // If a note exits on the first index of the target row
+            if (noteRows[targetIndex][0] != null)
+            {
+                // Gets the position of the first note in the row
+                Vector3 notePos = noteRows[targetIndex][0].transform.position;
+                Vector3 noteAnchorPos = noteRows[targetIndex][0].GetComponent<RectTransform>().anchoredPosition;
+
+                // If the distance between the target and the note is greater than the minimum distance that gives a miss
+                if (Vector3.Distance(targetAnchorPos, noteAnchorPos) >= missDist)
+                {
+                    // Instantiates a miss-text to the left of the target
+                    Instantiate(missText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
+
+                    // Instantiates a cross on the left note showing it was missed
+                    Instantiate(redCross, notePos, transform.rotation, noteRows[targetIndex][0].transform);
+
+                    audioSource.PlayOneShot(missSound, 1f);
+
+                    // Removes the note
+                    StartCoroutine(RemoveNote(targetIndex));
+                }
+
+                // Distance check for normal notes
+                if (noteRows[targetIndex][0].tag != "Crit Note")
+                {
+                    // If the distance between the target and the note is greater than the minimum distance that gives a good hit and is less than the minimum miss distance
+                    if (Vector3.Distance(targetAnchorPos, noteAnchorPos) >= goodDist && Vector3.Distance(targetAnchorPos, noteAnchorPos) <= missDist)
+                    {
+                        // Instantiates a good-text to the left of the target
+                        Instantiate(goodText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
+
+                        audioSource.PlayOneShot(hitSound, 1f);
+
+                        // REmoves note
+                        StartCoroutine(RemoveNote(targetIndex));
+
+                        goodHit++;
+                    }
+                    // If the distance between the target and the note is greater than the minimum distance that gives a great hit and is less than the minimum good distance
+                    else if (Vector3.Distance(targetAnchorPos, noteAnchorPos) >= greatDist && Vector3.Distance(targetAnchorPos, noteAnchorPos) <= goodDist)
+                    {
+                        // Instantiates a great-text to the left of the target
+                        Instantiate(greatText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
+
+                        audioSource.PlayOneShot(hitSound, 1f);
+
+                        // Removes note
+                        StartCoroutine(RemoveNote(targetIndex));
+
+                        greatHit++;
+                    }
+                    // If the distance between the target and the note is greater than the minimum distance that gives an excellent hit and is less than the minimum great distance
+                    else if (Vector3.Distance(targetAnchorPos, noteAnchorPos) >= excellentDist && Vector3.Distance(targetAnchorPos, noteAnchorPos) <= greatDist)
+                    {
+                        // Instantiates an excellent-text to the left of the target
+                        Instantiate(excellentText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
+
+                        audioSource.PlayOneShot(hitSound, 1f);
+
+                        // Removes note
+                        StartCoroutine(RemoveNote(targetIndex));
+
+                        excellentHit++;
+                    }
+                }
+                // Distance check for crit-notes
+                else
+                {
+                    // If the crit-note is within the target
+                    if (Vector3.Distance(targetAnchorPos, noteAnchorPos) >= 0 && Vector3.Distance(targetAnchorPos, noteAnchorPos) <= missDist)
+                    {
+                        // Instantiates an excellent-text to the left of the target
+                        Instantiate(critText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
+
+                        audioSource.PlayOneShot(critHitSound, 1f);
+
+                        // Removes note
+                        StartCoroutine(RemoveNote(targetIndex));
+
+                        critHit++;
+                    }
+                }
+            }
+        } catch (System.ArgumentOutOfRangeException e)
         {
-            // Gets the position of the first note in the row
-            Vector3 notePos = noteRows[targetIndex][0].transform.position;
-            Vector3 noteAnchorPos = noteRows[targetIndex][0].GetComponent<RectTransform>().anchoredPosition;
-
-            // If the distance between the target and the note is greater than the minimum distance that gives a miss
-            if (Vector3.Distance(targetAnchorPos, noteAnchorPos) >= missDist)
-            {
-                // Instantiates a miss-text to the left of the target
-                Instantiate(missText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
-
-                // Instantiates a cross on the left note showing it was missed
-                Instantiate(redCross, notePos, transform.rotation, noteRows[targetIndex][0].transform);
-
-                audioSource.PlayOneShot(missSound, 1f);
-
-                // Removes the note
-                StartCoroutine(RemoveNote(targetIndex));
-            }
-
-            // Distance check for normal notes
-            if (noteRows[targetIndex][0].tag != "Crit Note")
-            {
-                // If the distance between the target and the note is greater than the minimum distance that gives a good hit and is less than the minimum miss distance
-                if (Vector3.Distance(targetAnchorPos, noteAnchorPos) >= goodDist && Vector3.Distance(targetAnchorPos, noteAnchorPos) <= missDist)
-                {
-                    // Instantiates a good-text to the left of the target
-                    Instantiate(goodText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
-
-                    audioSource.PlayOneShot(hitSound, 1f);
-
-                    // REmoves note
-                    StartCoroutine(RemoveNote(targetIndex));
-
-                    goodHit++;
-                }
-                // If the distance between the target and the note is greater than the minimum distance that gives a great hit and is less than the minimum good distance
-                else if (Vector3.Distance(targetAnchorPos, noteAnchorPos) >= greatDist && Vector3.Distance(targetAnchorPos, noteAnchorPos) <= goodDist)
-                {
-                    // Instantiates a great-text to the left of the target
-                    Instantiate(greatText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
-
-                    audioSource.PlayOneShot(hitSound, 1f);
-
-                    // Removes note
-                    StartCoroutine(RemoveNote(targetIndex));
-
-                    greatHit++;
-                }
-                // If the distance between the target and the note is greater than the minimum distance that gives an excellent hit and is less than the minimum great distance
-                else if (Vector3.Distance(targetAnchorPos, noteAnchorPos) >= excellentDist && Vector3.Distance(targetAnchorPos, noteAnchorPos) <= greatDist)
-                {
-                    // Instantiates an excellent-text to the left of the target
-                    Instantiate(excellentText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
-
-                    audioSource.PlayOneShot(hitSound, 1f);
-
-                    // Removes note
-                    StartCoroutine(RemoveNote(targetIndex));
-
-                    excellentHit++;
-                }
-            }
-            // Distance check for crit-notes
-            else
-            {
-                // If the crit-note is within the target
-                if (Vector3.Distance(targetAnchorPos, noteAnchorPos) >= 0 && Vector3.Distance(targetAnchorPos, noteAnchorPos) <= missDist)
-                {
-                    // Instantiates an excellent-text to the left of the target
-                    Instantiate(critText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
-
-                    audioSource.PlayOneShot(critHitSound, 1f);
-
-                    // Removes note
-                    StartCoroutine(RemoveNote(targetIndex));
-
-                    critHit++;
-                }
-            }
         }
     }
 
