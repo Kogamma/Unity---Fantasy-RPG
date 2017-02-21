@@ -17,9 +17,13 @@ public class EnemyClass : MonoBehaviour
     CombatScript combatScript;
     GameObject combatHandler;
     CombatTextBoxHandler combatTextbox;
+    
     public Material oldMat;
+
     public Color frozenColor;
     public Renderer rend;
+
+    [System.NonSerialized]
     public Material frozenMat;
 
     void Start ()
@@ -34,7 +38,12 @@ public class EnemyClass : MonoBehaviour
         combatTextbox = combatScript.textBox;
 
         frozenMat = new Material(Shader.Find("Standard"));
-        rend = (gameObject.transform.GetChild(0).GetComponent<Renderer>());
+
+        if(gameObject.transform.GetChild(0).GetComponent<Renderer>() != null)
+            rend = gameObject.transform.GetChild(0).GetComponent<Renderer>();
+        else if (gameObject.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>() != null)
+            rend = gameObject.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>();
+
         frozenMat.CopyPropertiesFromMaterial(oldMat);
 
         frozenMat.SetColor("_Color", frozenColor);
@@ -61,9 +70,25 @@ public class EnemyClass : MonoBehaviour
         PlayerSingleton.instance.playerHealth -= enemyDmgDealt;
 
         // Poisons the player
-        PlayerSingleton.instance.poison = true;
+        PlayerSingleton.instance.poisoned = true;
 
         //Playing the attack animation
+        anim.SetTrigger("Attack2");
+    }
+
+
+    public void ConfusionAttack()
+    {
+        // Calculates what damage to deal
+        enemyDmgDealt = Mathf.RoundToInt(enemyDmg * 0.75f);
+
+        // Decreases player health with damage dealt
+        PlayerSingleton.instance.playerHealth -= enemyDmgDealt;
+
+        // The player is now confused
+        PlayerSingleton.instance.confused = true;
+
+        // Plays second attack animation
         anim.SetTrigger("Attack2");
     }
 
