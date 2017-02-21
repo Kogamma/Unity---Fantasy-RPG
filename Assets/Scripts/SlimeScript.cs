@@ -33,6 +33,7 @@ public class SlimeScript : EnemyClass {
         base.NormalAttack();
     }
 
+
     void EndAttacked()
     {
         //combatSystem.GetComponent<CombatScript>().ChangeViewPort(CombatScript.cameraState.MAIN);

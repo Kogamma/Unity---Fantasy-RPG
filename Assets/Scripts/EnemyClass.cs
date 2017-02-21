@@ -61,8 +61,5 @@ public class EnemyClass : MonoBehaviour {
         combatScript.UpdateTurn("Player");
     }
 
-    void OnParticleCollision(Collider obj)
-    {
 
-    }
 }
