@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyClass : MonoBehaviour {
-
+public class EnemyClass : MonoBehaviour
+{
     public float chanceToGetFreeze;
     public int enemyHp;
     public int enemyExp;
     protected int enemyArmorClass;
     protected int enemyDmg;
+    protected int enemyDmgDealt;
+    public string displayName = "enemy";
     public bool isStunned;
 
     protected Animator anim;
@@ -30,17 +32,36 @@ public class EnemyClass : MonoBehaviour {
     //A normal attack for the enemy
     public void NormalAttack()
     {
+        enemyDmgDealt = enemyDmg;
+
         //PLayerHealth minus the enemydmg
         PlayerSingleton.instance.playerHealth -= enemyDmg;
         //Playing the attack animation
         anim.SetTrigger("Attack");
     }
+
+
+    public void PoisonAttack()
+    {
+        enemyDmgDealt = enemyDmg / 2;
+
+        //PLayerHealth minus the enemydmg
+        PlayerSingleton.instance.playerHealth -= enemyDmgDealt;
+
+        // Poisons the player
+        PlayerSingleton.instance.poison = true;
+
+        //Playing the attack animation
+        anim.SetTrigger("Attack2");
+    }
+
+
     //This function will play when the attack animation is done
     void AttackIsDone()
     {
         //Setting the textBox and write out how much damage the player takes
         string[] text = new string[1]{""};
-        text[0] = "You took " + enemyDmg + " damage!";
+        text[0] = "You took " + enemyDmgDealt + " damage!";
         //Setting the camerastate to player
         combatScript.ChangeViewPort(CombatScript.cameraState.PLAYER);
         //Playing the players attacked animation
