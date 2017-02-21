@@ -68,7 +68,10 @@ public class InventoryMenu : MonoBehaviour
             if(_eventSystem.currentSelectedGameObject == itemButtons[itemButtons.Length - 1])
             {
                 // Checks if we have any more items to show on the bottom
-                //if()
+                if(currentItems[currentItems.Length - 1] + 1 < PlayerSingleton.instance.playerInventory.Count)
+                {
+
+                }
             }
         }
 	}
