@@ -80,9 +80,12 @@ public class PlayerCombatLogic : MonoBehaviour {
             {
                 case "IceAttack":
                     Instantiate(iceParticle, combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
-                    if(combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().chanceToGetFreeze >=rng)
+                    Debug.Log("Alive: " + iceParticle.GetComponent<ParticleSystem>().IsAlive(true));
+
+                    if (combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().chanceToGetFreeze >=rng)
                     {
-                        combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<Animator>().speed = 0;
+                        StartCoroutine(WaitForParticle());
+                        
                         combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned = true;
                         Instantiate(iceBlock, combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
                     }
@@ -92,9 +95,6 @@ public class PlayerCombatLogic : MonoBehaviour {
                     break;
                    
             }
-                
-        
-
 
             string[] text = new string[1] {""};
             text[0] = "You did " + PlayerSingleton.instance.currentDmg + " damage to the enemy!";
@@ -121,5 +121,10 @@ public class PlayerCombatLogic : MonoBehaviour {
         yield return new WaitForSeconds(1);
         combatHandler.GetComponent<CombatScript>().UpdateTurn("Enemy");
     }
+    IEnumerator WaitForParticle()
+    {
+        yield return new WaitForSeconds(1f);
+        combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().rend.material = combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().frozenMat;
 
+    }
 }

@@ -17,6 +17,10 @@ public class EnemyClass : MonoBehaviour
     CombatScript combatScript;
     GameObject combatHandler;
     CombatTextBoxHandler combatTextbox;
+    public Material oldMat;
+    public Color frozenColor;
+    public Renderer rend;
+    public Material frozenMat;
 
     void Start ()
     {
@@ -28,6 +32,14 @@ public class EnemyClass : MonoBehaviour
         combatScript = combatHandler.GetComponent<CombatScript>();
         //combatTextbox will be equal to the combatsScript object textBox
         combatTextbox = combatScript.textBox;
+
+        frozenMat = new Material(Shader.Find("Standard"));
+        rend = (gameObject.transform.GetChild(0).GetComponent<Renderer>());
+        frozenMat.CopyPropertiesFromMaterial(oldMat);
+
+        frozenMat.SetColor("_Color", frozenColor);
+
+        rend.material = oldMat;
     }
     //A normal attack for the enemy
     public void NormalAttack()
