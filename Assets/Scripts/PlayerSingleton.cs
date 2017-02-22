@@ -62,7 +62,8 @@ public class PlayerSingleton : MonoBehaviour
     public int currentDmg;
     public bool playerAttacked = false;
 
-    public bool poison = false;
+    public bool poisoned = false;
+    public bool confused = false;
 
     // Saves the transform of the player when they go into battle to know where to spawn when we come out of battle
     public Transform overWorldTransform;

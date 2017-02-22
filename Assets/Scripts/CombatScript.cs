@@ -15,6 +15,7 @@ public class CombatScript : MonoBehaviour
     public enum cameraState {PLAYER , ENEMY , MAIN };
     public GameObject player;
     public GameObject playerMenu;
+    public GameObject menuManager;
     public GameObject returnToWorldButton;
     public int currentState;
     public CombatTextBoxHandler textBox;
@@ -91,9 +92,11 @@ public class CombatScript : MonoBehaviour
                 
                 else
                 {
+                    // Resets menu to the main combat menu
+                    menuManager.GetComponent<MenuManagment>().MainSelect();
                     //Setting the player menu to true
                     playerMenu.SetActive(true);
-
+                    
                     enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned = false;
                 }
                 break;

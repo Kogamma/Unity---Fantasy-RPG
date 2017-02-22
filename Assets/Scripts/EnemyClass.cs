@@ -12,13 +12,19 @@ public class EnemyClass : MonoBehaviour
     protected int enemyDmgDealt;
     public string displayName = "enemy";
     public bool isStunned;
-    public Vector3 enemyIceBlockMaxSize;
-
 
     protected Animator anim;
     CombatScript combatScript;
     GameObject combatHandler;
     CombatTextBoxHandler combatTextbox;
+    
+    public Material oldMat;
+
+    public Color frozenColor;
+    public Renderer rend;
+
+    [System.NonSerialized]
+    public Material frozenMat;
 
     void Start ()
     {
@@ -30,12 +36,25 @@ public class EnemyClass : MonoBehaviour
         combatScript = combatHandler.GetComponent<CombatScript>();
         //combatTextbox will be equal to the combatsScript object textBox
         combatTextbox = combatScript.textBox;
+
+        frozenMat = new Material(Shader.Find("Standard"));
+
+        if(gameObject.transform.GetChild(0).GetComponent<Renderer>() != null)
+            rend = gameObject.transform.GetChild(0).GetComponent<Renderer>();
+        else if (gameObject.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>() != null)
+            rend = gameObject.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>();
+
+        frozenMat.CopyPropertiesFromMaterial(oldMat);
+
+        frozenMat.SetColor("_Color", frozenColor);
+
+        rend.material = oldMat;
     }
     //A normal attack for the enemy
     public void NormalAttack()
     {
         enemyDmgDealt = enemyDmg;
-        
+
         //PLayerHealth minus the enemydmg
         PlayerSingleton.instance.playerHealth -= enemyDmg;
         //Playing the attack animation
@@ -51,9 +70,25 @@ public class EnemyClass : MonoBehaviour
         PlayerSingleton.instance.playerHealth -= enemyDmgDealt;
 
         // Poisons the player
-        PlayerSingleton.instance.poison = true;
+        PlayerSingleton.instance.poisoned = true;
 
         //Playing the attack animation
+        anim.SetTrigger("Attack2");
+    }
+
+
+    public void ConfusionAttack()
+    {
+        // Calculates what damage to deal
+        enemyDmgDealt = Mathf.RoundToInt(enemyDmg * 0.75f);
+
+        // Decreases player health with damage dealt
+        PlayerSingleton.instance.playerHealth -= enemyDmgDealt;
+
+        // The player is now confused
+        PlayerSingleton.instance.confused = true;
+
+        // Plays second attack animation
         anim.SetTrigger("Attack2");
     }
 
@@ -84,5 +119,8 @@ public class EnemyClass : MonoBehaviour
         combatScript.UpdateTurn("Player");
     }
 
-
+    void OnParticleCollision(GameObject otherObj)
+    {
+        Debug.Log("hit...");
+    }
 }
