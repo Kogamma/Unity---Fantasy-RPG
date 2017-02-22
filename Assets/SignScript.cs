@@ -7,6 +7,9 @@ public class SignScript : MonoBehaviour {
     // The textbox
     public TextBoxHandler textBox;
 
+    // Name of the thing you're talking to
+    public string messagerName;
+
     // The text that will be sent to the textbox
     [TextArea]
     public string[] textPages;
@@ -17,6 +20,6 @@ public class SignScript : MonoBehaviour {
 
 	public void OnInteract()
     {
-        textBox.StartMessage(textPages, "Notice Board", methodHolder, methodName);
+        textBox.StartMessage(textPages, messagerName, methodHolder, methodName);
     }
 }
