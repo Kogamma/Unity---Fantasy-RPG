@@ -18,14 +18,12 @@ public class InventoryHandler : MonoBehaviour
         inventory = PlayerSingleton.instance.playerInventory;
 
         // Loops through the inventory if we have atleast 1 item
-        if(inventory.Count > 0)
+        if(inventory.Count > 0 && itemToAdd.stackable)
             for (int i = 0; i < inventory.Count; i++)
             {
                 // Checks if there is already a item like the one we're adding
                 if (inventory[i].itemName == itemToAdd.itemName)
                 {
-                    print("Name to compare with: " + inventory[i].itemName);
-                    print("Name of current item: " + itemToAdd.itemName);
                     // If there is less than 99 of those items...
                     if (inventory[i].amountOfItem < 99)
                     {
@@ -36,7 +34,6 @@ public class InventoryHandler : MonoBehaviour
                 }
                 else 
                 {
-                    Debug.Log("new item: " + itemToAdd.itemName);
                     // If we're on the last iteration
                     if(i == inventory.Count - 1)
                     {
@@ -52,10 +49,10 @@ public class InventoryHandler : MonoBehaviour
             }
         // If we don't have a single item in our inventory, 
         // we don't have to check if we can add one
-        else if (inventory.Count <= 0)
+        else if (inventory.Count <= 0 || !itemToAdd.stackable)
         {
             inventory.Add(itemToAdd);
-            inventory[0].IncrementItem();            
+            inventory[inventory.Count - 1].IncrementItem();            
         }
 
     }

@@ -87,16 +87,17 @@ public class CombatScript : MonoBehaviour
                 {
                     //If it is a textbox will show, a death animation for the player will be played
                     player.GetComponent<Animator>().SetTrigger("Dead");
-                    string[] text = new string[2] { "The enemy defeated you and you died!", "GAME OVER" };
+                    List<string> text = new List<string>();
+                    text.Add("The enemy defeated you and you died!");
+                    text.Add("GAME OVER");
                     textBox.PrintMessage(text, gameObject, "LoadGameOver");
-                }
-                
+                }             
                 else
                 {
                     // Resets menu to the main combat menu
-                    //menuManager.GetComponent<MenuManagment>().MainSelect();
+                    menuManager.GetComponent<MenuManagment>().MainSelect();
                     //Setting the player menu to true
-                    //playerMenu.SetActive(true);
+                    playerMenu.SetActive(true);
                     enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned = false;
                 }
                 break;
@@ -107,7 +108,8 @@ public class CombatScript : MonoBehaviour
                 {
                     //If it is a textbox will show, a death animation for the enamy will be played and a return to the world button will be showed 
                     enemyHolder.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Dead");
-                    string[] text = new string[1] { "You defeated the enemy, you got " + enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().enemyExp + " exp!" };
+                    List<string> text = new List<string>();
+                    text.Add("You defeated the enemy, you got " + enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().enemyExp + " exp!");
                     textBox.PrintMessage(text, gameObject, "ShowVictoryMenu");
                     enemyIsDead = true;
                 }
@@ -116,13 +118,11 @@ public class CombatScript : MonoBehaviour
                     //Setting the player menu to false
                     playerMenu.SetActive(false);
                     //Calling the function EnemyAttack
-                    EnemyAttack();
-                    
+                    EnemyAttack();                    
                 }
                 else
                 {
-                    string[] text = new string[1] { "The enemy got frozen! It need to skip a turn!" };
-                    textBox.PrintMessage(text, menuManager, "MainSelect");
+                    Debug.Log("jag är frusen, snälla hjälp");
                     UpdateTurn("Player");
                 }
 

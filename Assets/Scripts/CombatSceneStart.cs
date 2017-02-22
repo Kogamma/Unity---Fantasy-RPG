@@ -10,7 +10,7 @@ public class CombatSceneStart : MonoBehaviour
     bool fill = false;
     public float waitTime = 10.0f;
     [TextArea]
-    private string[] textPages;
+    private List<string> textPages;
     public GameObject textBox;
     [SerializeField] GameObject enemyHolder;
     [SerializeField] GameObject UIGroup;
@@ -20,8 +20,8 @@ public class CombatSceneStart : MonoBehaviour
 
     void Start ()
     {
-        textPages = new string[1];
-        textPages[0] = "A wild " +  enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().displayName + " attacked you!";
+        textPages = new List<string>();
+        textPages.Add("A wild " +  enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().displayName + " attacked you!");
     }
 
 

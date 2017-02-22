@@ -88,8 +88,8 @@ public class EnemyClass : MonoBehaviour
     void AttackIsDone()
     {
         //Setting the textBox and write out how much damage the player takes
-        string[] text = new string[1]{""};
-        text[0] = "You took " + enemyDmgDealt + " damage!";
+        List<string> text = new List<string>();
+        text.Add("You took " + enemyDmgDealt + " damage!");
         //Setting the camerastate to player
         combatScript.ChangeViewPort(CombatScript.cameraState.PLAYER);
         //Playing the players attacked animation

@@ -96,10 +96,11 @@ public class PlayerCombatLogic : MonoBehaviour {
                    
             }
 
-            string[] text = new string[1] { "You did " + PlayerSingleton.instance.currentDmg + " damage to the enemy!" };
+            List<string> text = new List<string>();
+            text.Add("You did " + PlayerSingleton.instance.currentDmg + " damage to the enemy!");
             if (combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned)
             {
-                text[0] += "\nThe Enemy froze! It has to skip a turn!" ;
+                text.Add("The Enemy froze! It has to skip a turn!");
             }
             textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(text, gameObject, "ChangeViewToMain");
 
