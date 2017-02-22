@@ -38,7 +38,7 @@ public class InventoryMenu : MonoBehaviour
             iteratorLength = inv.Count;
 
         // Initializes and sets the length of the list of currentItems
-        currentItems = new int[iteratorLength];
+        currentItems = new int[itemButtons.Length];
 
         // Loops through them to give them all a default value of -1
         // -1 = no item
@@ -73,32 +73,16 @@ public class InventoryMenu : MonoBehaviour
             // Checks if we're on the bottom of the list
             if(_eventSystem.currentSelectedGameObject == itemButtons[itemButtons.Length - 1])
             {
-                // Checks if we have any more items to show on the bottom
-                if(currentItems[currentItems.Length - 1] + 1 < PlayerSingleton.instance.playerInventory.Count)
-                {
-                    // Increments all the values in the list 
-                    for (int i = 0; i < currentItems.Length; i++)
-                    {
-                        currentItems[i]++;
-                    }
-                }
+                GoDown();
             }
         }
         // Checks if we go up in the input module
         else if (Input.GetAxis(_inputModule.verticalAxis) > 0)
         {
-            // Checks if we're on the bottom of the list
-            if (_eventSystem.currentSelectedGameObject == itemButtons[0])
+            // Checks if we're on the top of the list
+            if (_eventSystem.currentSelectedGameObject == itemButtons[itemButtons.Length - 1])
             {
-                // Checks if we have any more items to show on the bottom
-                if (currentItems[0] > 0)
-                {
-                    // Increments all the values in the list 
-                    for (int i = 0; i < currentItems.Length; i++)
-                    {
-                        currentItems[i]--;
-                    }
-                }
+                GoUp();
             }
         }
     }
@@ -110,22 +94,69 @@ public class InventoryMenu : MonoBehaviour
 
         // How many buttons we will iterate
         iteratorLength = itemButtons.Length;
-        // If there are more buttons than there are items in the inventory,
-        // we iterate the amount of items in the inventory instead 
-        if (iteratorLength > inv.Count)
-            iteratorLength = inv.Count;
-
 
         for (int i = 0; i < iteratorLength; i++)
         {
-            // Adds the item's sprite to the item button
-            itemButtons[i].transform.GetChild(0).GetComponent<Image>().sprite = inv[i].itemImage;
+            // Checks if there is anything in that inventory slot
+            if (currentItems[i] != -1)
+            {
+                // Deactivates the button component on the empty slots
+                itemButtons[i].GetComponent<Button>().enabled = false;
 
-            // Adds the name of the item to the item button
-            itemButtons[i].transform.GetChild(1).GetComponent<Text>().text = inv[i].itemName;
+                // Adds the item's sprite to the item button
+                itemButtons[i].transform.GetChild(0).GetComponent<Image>().sprite = inv[currentItems[i]].itemImage;
+                itemButtons[i].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 1);
 
-            // Adds the amount of the item to the item button
-            itemButtons[i].transform.GetChild(2).GetComponent<Text>().text = "x" + inv[i].amountOfItem;
+                // Adds the name of the item to the item button
+                itemButtons[i].transform.GetChild(1).GetComponent<Text>().text = inv[currentItems[i]].itemName;
+
+                // Adds the amount of the item to the item button
+                itemButtons[i].transform.GetChild(2).GetComponent<Text>().text = "x" + inv[currentItems[i]].amountOfItem;
+            }
+            // If there is nothing in the inventory slot...
+            else
+            {
+                // Deactivates the button component on the empty slots
+                itemButtons[i].GetComponent<Button>().enabled = false;
+
+                // Clears the item button's sprite
+                itemButtons[i].transform.GetChild(0).GetComponent<Image>().sprite = null;
+                itemButtons[i].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+
+                // Sets the name to 'empty'
+                itemButtons[i].transform.GetChild(1).GetComponent<Text>().text = "Empty";
+
+                // Adds the amount of the item to the item button
+                itemButtons[i].transform.GetChild(2).GetComponent<Text>().text = "";
+            }
+        }
+    }
+
+    // Moves down in the item list if we can
+    public void GoDown()
+    {
+        // Checks if we have any more items to show on the bottom
+        if (currentItems[currentItems.Length - 1] + 1 < PlayerSingleton.instance.playerInventory.Count)
+        {
+            // Increments all the values in the list 
+            for (int i = 0; i < currentItems.Length; i++)
+            {
+                currentItems[i]++;
+            }
+        }
+    }
+
+    // Moves up in the item list if we can
+    public void GoUp()
+    {
+        // Checks if we have any more items to show on the bottom
+        if (currentItems[0] > 0)
+        {
+            // Increments all the values in the list 
+            for (int i = 0; i < currentItems.Length; i++)
+            {
+                currentItems[i]--;
+            }
         }
     }
 }

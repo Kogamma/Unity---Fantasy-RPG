@@ -13,7 +13,7 @@ public class CombatTextBoxHandler : MonoBehaviour
 
     // Here we can add text to the dialogue, each string element is a page of textbox/dialogue
     [TextArea]
-    private string[] _textBoxStrings;
+    private List<string> _textBoxStrings;
 
     // How much time between the print of each character of text
     [Range(0.01f, 0.1f, order = 0)]
@@ -71,7 +71,7 @@ public class CombatTextBoxHandler : MonoBehaviour
     }
 
     // Call on this function to print a message of your choice
-    public void PrintMessage(string[] textPages, GameObject methodHolder, string invokeMethod)
+    public void PrintMessage(List<string> textPages, GameObject methodHolder, string invokeMethod)
     {
         // Checks if we're not already playing text
         if (!_textIsPlaying)
@@ -116,7 +116,7 @@ public class CombatTextBoxHandler : MonoBehaviour
     private IEnumerator StartTextBox()
     {
         // Sets how many pages of text there are
-        int textBoxLength = _textBoxStrings.Length;
+        int textBoxLength = _textBoxStrings.Count;
         // Which page we're currently on
         int currentTextPage = 0;
 
