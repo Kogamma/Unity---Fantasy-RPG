@@ -8,7 +8,6 @@ public class MenuManagment : MonoBehaviour
     [SerializeField] GameObject mainGroup;
     [SerializeField] GameObject attackGroup;
     [SerializeField] GameObject itemsGroup;
-    [SerializeField] GameObject uiBox;
 
     public AttackButton[] attackButtons;
 
@@ -59,7 +58,6 @@ public class MenuManagment : MonoBehaviour
 
     public void MainSelect()
     {
-        uiBox.SetActive(true);
         mainGroup.SetActive(true);
         itemsGroup.SetActive(false);
         attackGroup.SetActive(false);
