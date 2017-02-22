@@ -6,6 +6,6 @@ public class LeaveTown_Script : MonoBehaviour
 {
     void OnTriggerEnter(Collider coll)
     {
-        Application.LoadLevel("Tim_Test");
+        Application.LoadLevel("");
     }
 }
