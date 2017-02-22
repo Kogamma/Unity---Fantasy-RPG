@@ -104,7 +104,6 @@ public class CombatScript : MonoBehaviour
             case "Enemy":
                 if (enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned == false)
                 {
-                    enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().rend.material = enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().oldMat;
                     //Check if the enemy health is less or equal to zero
                     if (enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().enemyHp <= 0)
                     {

@@ -11,6 +11,7 @@ public class SlimeScript : EnemyClass {
     public int armorClass = 1;
     public int exp = 30;
     public float freeze = 1f;
+    public Vector3 IceBlockMaxSize;
 
     // Use this for initialization
     void Awake ()
@@ -21,6 +22,7 @@ public class SlimeScript : EnemyClass {
         enemyDmg = dmg;
         enemyArmorClass = armorClass;
         chanceToGetFreeze = freeze;
+        enemyIceBlockMaxSize = IceBlockMaxSize;
     }
 	
 	void Update()
