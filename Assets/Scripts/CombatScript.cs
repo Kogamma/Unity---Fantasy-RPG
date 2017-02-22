@@ -94,9 +94,9 @@ public class CombatScript : MonoBehaviour
                 else
                 {
                     // Resets menu to the main combat menu
-                    menuManager.GetComponent<MenuManagment>().MainSelect();
+                    //menuManager.GetComponent<MenuManagment>().MainSelect();
                     //Setting the player menu to true
-                    playerMenu.SetActive(true);
+                    //playerMenu.SetActive(true);
                     enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned = false;
                 }
                 break;
@@ -121,8 +121,8 @@ public class CombatScript : MonoBehaviour
                 }
                 else
                 {
-                    string[] text = new string[1] { "The enemy got frozen! Its need to skip a trun" };
-                    textBox.PrintMessage(text, null, null);
+                    string[] text = new string[1] { "The enemy got frozen! It need to skip a turn!" };
+                    textBox.PrintMessage(text, menuManager, "MainSelect");
                     UpdateTurn("Player");
                 }
 
