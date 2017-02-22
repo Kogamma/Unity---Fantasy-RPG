@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerCombatLogic : MonoBehaviour {
 
-    GameObject enemyHolder;
+    //GameObject enemyHolder;
     public GameObject combatHandler;                            //Using this to set the diffrent camera states
     public float hitAccuracy;                                   //Using to see the accuarcy for the player
     public bool comboIsDone = false;                            //Using to check if the combo is done
@@ -20,7 +20,7 @@ public class PlayerCombatLogic : MonoBehaviour {
     [SerializeField] GameObject textBox;
     [SerializeField] UnityEngine.UI.Image healthBar;
     [SerializeField] GameObject iceParticle;
-    [SerializeField]GameObject iceBlock;
+    [SerializeField] GameObject iceBlock;
 
     // Use this for initialization
     void Start()
@@ -87,7 +87,7 @@ public class PlayerCombatLogic : MonoBehaviour {
                         StartCoroutine(WaitForParticle());
                         
                         combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned = true;
-                        Instantiate(iceBlock, combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
+                        //Instantiate(iceBlock, combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
                     }
                     break;
 
@@ -124,7 +124,7 @@ public class PlayerCombatLogic : MonoBehaviour {
     IEnumerator WaitForParticle()
     {
         yield return new WaitForSeconds(1f);
-        combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().rend.material = combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().frozenMat;
 
+        Instantiate(iceBlock, combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
     }
 }
