@@ -219,6 +219,7 @@ public class ComboSystem : MonoBehaviour
         // Resets variables
         shouldSpawn = true;
         hitAccuracy = 0;
+        player.GetComponent<PlayerCombatLogic>().hitAccuracy = 0;
         excellentHit = 0;
         greatHit = 0;
         goodHit = 0;

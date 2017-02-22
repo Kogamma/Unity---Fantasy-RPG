@@ -23,6 +23,10 @@ public class CombatScript : MonoBehaviour
     public GameObject playerHealth;
     public bool enemyIsDead = false;
 
+    private int playerPoisonedTurns = 0;
+    private int enemyPoisonedTurns = 0;
+    private int maxPoisonedTurns = 3;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -37,6 +41,7 @@ public class CombatScript : MonoBehaviour
         //Setting the currentstate to main       
         currentState = (int)cameraState.MAIN;       
 	}
+
 
     //This function will change which camera that will be active
 	public void ChangeViewPort (cameraState viewState)
@@ -73,6 +78,8 @@ public class CombatScript : MonoBehaviour
             playerHealth.SetActive(false);
         }
     }
+
+
     //This function will update the turns in the combat
     public void UpdateTurn(string turn)
     {
@@ -94,10 +101,30 @@ public class CombatScript : MonoBehaviour
                 }             
                 else
                 {
-                    // Resets menu to the main combat menu
-                    menuManager.GetComponent<MenuManagment>().MainSelect();
-                    //Setting the player menu to true
-                    playerMenu.SetActive(true);
+                    List<string> text = new List<string>();
+                    if (PlayerSingleton.instance.poisoned)
+                    {
+                        int rndDamage = Random.Range(1, 4);
+                        PlayerSingleton.instance.playerHealth -= rndDamage;
+                        playerPoisonedTurns++;
+
+                        text.Add("You are poisoned, you took " + rndDamage + " damage.");
+
+                        if (playerPoisonedTurns == maxPoisonedTurns)
+                        {
+                            text[0] += ("\n\nYou are no longer poisoned!");
+                            PlayerSingleton.instance.poisoned = false;
+                        }
+
+                        textBox.PrintMessage(text, menuManager, "MainSelect");
+                        Debug.Log("Past textBox print");
+                    }
+                    else
+                    {
+                        // Resets menu to the main combat menu
+                        menuManager.GetComponent<MenuManagment>().MainSelect();
+                    }
+
                     enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned = false;
                 }
                 break;
@@ -122,7 +149,6 @@ public class CombatScript : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("jag är frusen, snälla hjälp");
                     UpdateTurn("Player");
                 }
 
@@ -130,10 +156,10 @@ public class CombatScript : MonoBehaviour
         }
     }
 
+
     //This function will check which attack the player will use,
     public void PlayerAttack(string attack)
     {
-
         //Setting the player menu to false
         playerMenu.SetActive(false);
 
@@ -143,9 +169,9 @@ public class CombatScript : MonoBehaviour
         player.GetComponent<PlayerCombatLogic>().whichAttack = attack;
         //Calling a the attack function from playercombatlogic, it will take 0.5 sec for it to start. 
         player.GetComponent<PlayerCombatLogic>().StartCoroutine(attack, 0.5f);
-        
-
     }
+
+
     //This function wil call the enemy attack pattern
     public void EnemyAttack()
     {
@@ -155,15 +181,19 @@ public class CombatScript : MonoBehaviour
         //Calling the child to the enemyHolder and calling AttackPattern
         enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().AttackPattern();
     }
+
+
     public void ShowVictoryMenu()
     {
         returnToWorldButton.SetActive(true);
     }
 
+
     public void ReturnToTheWorld()
     {
         SceneManager.LoadScene("Abraham_Test_Scene");
     }
+
 
     public void LoadGameOver()
     {

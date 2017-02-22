@@ -105,8 +105,9 @@ public class CombatTextBoxHandler : MonoBehaviour
 
         if (_methodCaller != null)
             if (_methodToInvoke != null)
+            {
                 _methodCaller.SendMessage(_methodToInvoke);
-
+            }
         _methodCaller = null;
         _methodToInvoke = null;
 
