@@ -33,6 +33,8 @@ public class PlayerSingleton : MonoBehaviour
     public int playerMaxHealth = 10;
     public int playerHealth = 10;
 
+    public int level = 1;
+
     // How much experience points the player has in total
     public int playerExp = 0;
     
@@ -59,6 +61,9 @@ public class PlayerSingleton : MonoBehaviour
     // and if the player has attacked this round or not
     public int currentDmg;
     public bool playerAttacked = false;
+
+    public bool poisoned = false;
+    public bool confused = false;
 
     // Saves the transform of the player when they go into battle to know where to spawn when we come out of battle
     public Transform overWorldTransform;

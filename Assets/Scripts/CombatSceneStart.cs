@@ -10,11 +10,20 @@ public class CombatSceneStart : MonoBehaviour
     bool fill = false;
     public float waitTime = 10.0f;
     [TextArea]
-    public string[] textPages;
+    private string[] textPages;
     public GameObject textBox;
+    [SerializeField] GameObject enemyHolder;
     [SerializeField] GameObject UIGroup;
 
     bool doOnce = true;
+
+
+    void Start ()
+    {
+        textPages = new string[1];
+        textPages[0] = "A wild " +  enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().displayName + " attacked you!";
+    }
+
 
     void LateUpdate()
     {

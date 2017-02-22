@@ -15,6 +15,7 @@ public class CombatScript : MonoBehaviour
     public enum cameraState {PLAYER , ENEMY , MAIN };
     public GameObject player;
     public GameObject playerMenu;
+    public GameObject menuManager;
     public GameObject returnToWorldButton;
     public int currentState;
     public CombatTextBoxHandler textBox;
@@ -91,9 +92,11 @@ public class CombatScript : MonoBehaviour
                 
                 else
                 {
+                    // Resets menu to the main combat menu
+                    menuManager.GetComponent<MenuManagment>().MainSelect();
                     //Setting the player menu to true
                     playerMenu.SetActive(true);
-
+                    
                     enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned = false;
                 }
                 break;
@@ -101,6 +104,7 @@ public class CombatScript : MonoBehaviour
             case "Enemy":
                 if (enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned == false)
                 {
+                    enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().rend.material = enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().oldMat;
                     //Check if the enemy health is less or equal to zero
                     if (enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().enemyHp <= 0)
                     {
@@ -120,6 +124,8 @@ public class CombatScript : MonoBehaviour
                 }
                 else
                 {
+                    string[] text = new string[1] { "The enemy got frozen! Its need to skip a trun" };
+                    textBox.PrintMessage(text, null, null);
                     UpdateTurn("Player");
                 }
 

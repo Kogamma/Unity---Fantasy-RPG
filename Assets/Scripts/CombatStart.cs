@@ -37,9 +37,9 @@ public class CombatStart : MonoBehaviour {
 
     //When an object has the tag "Player" and touch an enemy
     //with the "enemyOverworld" tag, "fill" is true
-	void OnTriggerEnter(Collider Player)
+	void OnTriggerEnter(Collider enemy)
     {
-        if (Player.tag == "enemyOverworld")
+        if (enemy.tag == "enemyOverworld")
         {
             fill = true;
         }

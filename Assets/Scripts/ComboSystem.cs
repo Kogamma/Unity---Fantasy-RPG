@@ -324,7 +324,7 @@ public class ComboSystem : MonoBehaviour
                     }
                 }
             }
-        } catch (System.ArgumentOutOfRangeException e)
+        } catch (System.ArgumentOutOfRangeException)
         {
         }
     }
