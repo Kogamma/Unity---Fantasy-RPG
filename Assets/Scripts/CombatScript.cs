@@ -15,11 +15,13 @@ public class CombatScript : MonoBehaviour
     public enum cameraState {PLAYER , ENEMY , MAIN };
     public GameObject player;
     public GameObject playerMenu;
+    public GameObject menuManager;
     public GameObject returnToWorldButton;
     public int currentState;
     public CombatTextBoxHandler textBox;
     public GameObject enemyHolder;
     public GameObject playerHealth;
+    public bool enemyIsDead = false;
 
 	// Use this for initialization
 	void Start ()
@@ -91,38 +93,36 @@ public class CombatScript : MonoBehaviour
                 
                 else
                 {
+                    // Resets menu to the main combat menu
+                    //menuManager.GetComponent<MenuManagment>().MainSelect();
                     //Setting the player menu to true
-                    playerMenu.SetActive(true);
-
+                    //playerMenu.SetActive(true);
                     enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned = false;
                 }
                 break;
             //Check if currentTurn is equal to Enemy
             case "Enemy":
+                //Check if the enemy health is less or equal to zero
+                if (enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().enemyHp <= 0)
+                {
+                    //If it is a textbox will show, a death animation for the enamy will be played and a return to the world button will be showed 
+                    enemyHolder.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Dead");
+                    string[] text = new string[1] { "You defeated the enemy, you got " + enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().enemyExp + " exp!" };
+                    textBox.PrintMessage(text, gameObject, "ShowVictoryMenu");
+                    enemyIsDead = true;
+                }
                 if (enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned == false)
                 {
-                    enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().rend.material = enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().oldMat;
-                    //Check if the enemy health is less or equal to zero
-                    if (enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().enemyHp <= 0)
-                    {
-                        //If it is a textbox will show, a death animation for the enamy will be played and a return to the world button will be showed 
-                        enemyHolder.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Dead");
-                        string[] text = new string[1] { "You defeated the enemy, you got " + enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().enemyExp + " exp!" };
-                        textBox.PrintMessage(text, gameObject, "ShowVictoryMenu");
-                    }
-
-                    else
-                    {
-                        //Setting the player menu to false
-                        playerMenu.SetActive(false);
-                        //Calling the function EnemyAttack
-                        EnemyAttack();
-                    }
+                    //Setting the player menu to false
+                    playerMenu.SetActive(false);
+                    //Calling the function EnemyAttack
+                    EnemyAttack();
+                    
                 }
                 else
                 {
-                    string[] text = new string[1] { "The enemy got frozen! Its need to skip a trun" };
-                    textBox.PrintMessage(text, null, null);
+                    string[] text = new string[1] { "The enemy got frozen! It need to skip a turn!" };
+                    textBox.PrintMessage(text, menuManager, "MainSelect");
                     UpdateTurn("Player");
                 }
 
@@ -133,17 +133,23 @@ public class CombatScript : MonoBehaviour
     //This function will check which attack the player will use,
     public void PlayerAttack(string attack)
     {
+
         //Setting the player menu to false
         playerMenu.SetActive(false);
+
+        
         //Changin the viewport to player
         ChangeViewPort(cameraState.PLAYER);
         player.GetComponent<PlayerCombatLogic>().whichAttack = attack;
         //Calling a the attack function from playercombatlogic, it will take 0.5 sec for it to start. 
-        player.GetComponent<PlayerCombatLogic>().StartCoroutine(attack, 0.5f); 
+        player.GetComponent<PlayerCombatLogic>().StartCoroutine(attack, 0.5f);
+        
+
     }
     //This function wil call the enemy attack pattern
     public void EnemyAttack()
     {
+        
         //Change the viewport to ENEMY
         ChangeViewPort(cameraState.ENEMY);
         //Calling the child to the enemyHolder and calling AttackPattern

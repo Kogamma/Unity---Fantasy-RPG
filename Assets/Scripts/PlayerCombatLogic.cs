@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerCombatLogic : MonoBehaviour {
 
-    GameObject enemyHolder;
+    //GameObject enemyHolder;
     public GameObject combatHandler;                            //Using this to set the diffrent camera states
     public float hitAccuracy;                                   //Using to see the accuarcy for the player
     public bool comboIsDone = false;                            //Using to check if the combo is done
@@ -20,7 +20,7 @@ public class PlayerCombatLogic : MonoBehaviour {
     [SerializeField] GameObject textBox;
     [SerializeField] UnityEngine.UI.Image healthBar;
     [SerializeField] GameObject iceParticle;
-    [SerializeField]GameObject iceBlock;
+    [SerializeField] GameObject iceBlock;
 
     // Use this for initialization
     void Start()
@@ -61,7 +61,7 @@ public class PlayerCombatLogic : MonoBehaviour {
         dmg = PlayerSingleton.instance.playerDmg + ((2.5f * (float)PlayerSingleton.instance.playerInt));    //Setting the damage for the player
         comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval, critchance);      //Calling the funtion Activatecombo, and placing the parameters in
 
-        PlayerSingleton.instance.playerMana -= 2;
+        PlayerSingleton.instance.playerMana -= 5;
     }
 
     public void AttackIsDone()
@@ -87,7 +87,7 @@ public class PlayerCombatLogic : MonoBehaviour {
                         StartCoroutine(WaitForParticle());
                         
                         combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned = true;
-                        Instantiate(iceBlock, combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
+                        //Instantiate(iceBlock, combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
                     }
                     break;
 
@@ -96,8 +96,11 @@ public class PlayerCombatLogic : MonoBehaviour {
                    
             }
 
-            string[] text = new string[1] {""};
-            text[0] = "You did " + PlayerSingleton.instance.currentDmg + " damage to the enemy!";
+            string[] text = new string[1] { "You did " + PlayerSingleton.instance.currentDmg + " damage to the enemy!" };
+            if (combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned)
+            {
+                text[0] += "\nThe Enemy froze! It has to skip a turn!" ;
+            }
             textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(text, gameObject, "ChangeViewToMain");
 
             comboIsDone = false;                            //Setting combo is done to false;
@@ -108,7 +111,8 @@ public class PlayerCombatLogic : MonoBehaviour {
     {
         combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().enemyHp -= (int)dmg;
         combatHandler.GetComponent<CombatScript>().ChangeViewPort(CombatScript.cameraState.ENEMY); //Chaning the camerstate to Enemy!
-        combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Attacked");
+        if(!combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned)
+            combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Attacked");
     }
     void ChangeViewToMain()
     {
@@ -124,7 +128,8 @@ public class PlayerCombatLogic : MonoBehaviour {
     IEnumerator WaitForParticle()
     {
         yield return new WaitForSeconds(1f);
-        combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().rend.material = combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().frozenMat;
-
+        //if(!combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned)
+            Instantiate(iceBlock, combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
+        combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<Animator>().speed = 0;
     }
 }
