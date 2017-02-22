@@ -17,7 +17,8 @@ public class EnemyClass : MonoBehaviour
     CombatScript combatScript;
     GameObject combatHandler;
     CombatTextBoxHandler combatTextbox;
-    
+    public Vector3 enemyIceBlockMaxSize;
+
     public Material oldMat;
 
     public Color frozenColor;
@@ -39,16 +40,6 @@ public class EnemyClass : MonoBehaviour
 
         frozenMat = new Material(Shader.Find("Standard"));
 
-        if(gameObject.transform.GetChild(0).GetComponent<Renderer>() != null)
-            rend = gameObject.transform.GetChild(0).GetComponent<Renderer>();
-        else if (gameObject.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>() != null)
-            rend = gameObject.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>();
-
-        frozenMat.CopyPropertiesFromMaterial(oldMat);
-
-        frozenMat.SetColor("_Color", frozenColor);
-
-        rend.material = oldMat;
     }
     //A normal attack for the enemy
     public void NormalAttack()

@@ -61,7 +61,7 @@ public class PlayerCombatLogic : MonoBehaviour {
         dmg = PlayerSingleton.instance.playerDmg + ((2.5f * (float)PlayerSingleton.instance.playerInt));    //Setting the damage for the player
         comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval, critchance);      //Calling the funtion Activatecombo, and placing the parameters in
 
-        PlayerSingleton.instance.playerMana -= 2;
+        PlayerSingleton.instance.playerMana -= 5;
     }
 
     public void AttackIsDone()
@@ -108,7 +108,8 @@ public class PlayerCombatLogic : MonoBehaviour {
     {
         combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().enemyHp -= (int)dmg;
         combatHandler.GetComponent<CombatScript>().ChangeViewPort(CombatScript.cameraState.ENEMY); //Chaning the camerstate to Enemy!
-        combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Attacked");
+        if(!combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned)
+            combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Attacked");
     }
     void ChangeViewToMain()
     {
@@ -124,7 +125,8 @@ public class PlayerCombatLogic : MonoBehaviour {
     IEnumerator WaitForParticle()
     {
         yield return new WaitForSeconds(1f);
-
-        Instantiate(iceBlock, combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
+        //if(!combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned)
+            Instantiate(iceBlock, combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
+        combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<Animator>().speed = 0;
     }
 }
