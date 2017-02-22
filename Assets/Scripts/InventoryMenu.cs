@@ -9,6 +9,8 @@ public class InventoryMenu : MonoBehaviour
     private StandaloneInputModule _inputModule;
     private EventSystem _eventSystem;
 
+    List<InventoryItem> inv;
+
     // The buttons that represent items in the inventory menu
     public GameObject[] itemButtons;
 
@@ -17,6 +19,8 @@ public class InventoryMenu : MonoBehaviour
     // The current items in the inventory that are shown in the menu
     int[] currentItems;
 
+    int iteratorLength;
+
 	void Start ()
     {
         // Sets both components to be those that the EventSystem object in the scene has
@@ -24,10 +28,10 @@ public class InventoryMenu : MonoBehaviour
         _eventSystem = eventObj.GetComponent<EventSystem>();
 
         // Gets the inventory from our PlayerSingleton
-        List<InventoryItem> inv = PlayerSingleton.instance.playerInventory;
-        
+        inv = PlayerSingleton.instance.playerInventory;
+
         // How many buttons we will iterate
-        int iteratorLength = itemButtons.Length;
+        iteratorLength = itemButtons.Length;
         // If there are more buttons than there are items in the inventory,
         // we iterate the amount of items in the inventory instead 
         if (iteratorLength > inv.Count)
@@ -61,6 +65,8 @@ public class InventoryMenu : MonoBehaviour
 	
 	void Update ()
     {
+        UpdateButtons();
+
         // Checks if we go down in the input module
 		if(Input.GetAxis(_inputModule.verticalAxis) < 0)
         {
@@ -70,9 +76,56 @@ public class InventoryMenu : MonoBehaviour
                 // Checks if we have any more items to show on the bottom
                 if(currentItems[currentItems.Length - 1] + 1 < PlayerSingleton.instance.playerInventory.Count)
                 {
-
+                    // Increments all the values in the list 
+                    for (int i = 0; i < currentItems.Length; i++)
+                    {
+                        currentItems[i]++;
+                    }
                 }
             }
         }
-	}
+        // Checks if we go up in the input module
+        else if (Input.GetAxis(_inputModule.verticalAxis) > 0)
+        {
+            // Checks if we're on the bottom of the list
+            if (_eventSystem.currentSelectedGameObject == itemButtons[0])
+            {
+                // Checks if we have any more items to show on the bottom
+                if (currentItems[0] > 0)
+                {
+                    // Increments all the values in the list 
+                    for (int i = 0; i < currentItems.Length; i++)
+                    {
+                        currentItems[i]--;
+                    }
+                }
+            }
+        }
+    }
+
+    public void UpdateButtons()
+    {
+        // Gets the inventory from our PlayerSingleton
+        inv = PlayerSingleton.instance.playerInventory;
+
+        // How many buttons we will iterate
+        iteratorLength = itemButtons.Length;
+        // If there are more buttons than there are items in the inventory,
+        // we iterate the amount of items in the inventory instead 
+        if (iteratorLength > inv.Count)
+            iteratorLength = inv.Count;
+
+
+        for (int i = 0; i < iteratorLength; i++)
+        {
+            // Adds the item's sprite to the item button
+            itemButtons[i].transform.GetChild(0).GetComponent<Image>().sprite = inv[i].itemImage;
+
+            // Adds the name of the item to the item button
+            itemButtons[i].transform.GetChild(1).GetComponent<Text>().text = inv[i].itemName;
+
+            // Adds the amount of the item to the item button
+            itemButtons[i].transform.GetChild(2).GetComponent<Text>().text = "x" + inv[i].amountOfItem;
+        }
+    }
 }

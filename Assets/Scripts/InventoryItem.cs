@@ -8,8 +8,8 @@ public class InventoryItem : MonoBehaviour
     // The name of the item
     public string itemName = "default";
 
-    // The type of item if it is a 'consumable' or 'equippable' item
-    public string itemType = "none";
+    // If the item is stackable, as in a consumable such as a potion or other heal items
+    public bool stackable = false;
 
     // The image that will represent the item in menu's and such
     public Sprite itemImage;
@@ -21,26 +21,26 @@ public class InventoryItem : MonoBehaviour
     public int amountOfItem = 0;
 
     // Constructor
-    public InventoryItem(string name, string type, Sprite img, int val)
+    public InventoryItem(string name, bool stack, Sprite img, int val)
     {
         itemName = name;
 
-        type = itemType;
+        stackable = stack;
 
         itemImage = img;
 
         value = val;
 
-        amountOfItem = 1;
+        amountOfItem = 0;
     }
 
     // Adds another item to the count of items
-    public void AddItem()
+    public void IncrementItem()
     {
         // Only the consumable items are stackable so only they can get more than 1
-        if(itemType == "consumable")
+        if (stackable)
             amountOfItem++;
-        else if(itemType == "equippable")
+        else
         {
             Debug.Log("Can't add another equippable of the same type in the same slot!");
             amountOfItem = 1;
