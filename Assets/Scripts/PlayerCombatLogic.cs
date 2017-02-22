@@ -96,8 +96,11 @@ public class PlayerCombatLogic : MonoBehaviour {
                    
             }
 
-            string[] text = new string[1] {""};
-            text[0] = "You did " + PlayerSingleton.instance.currentDmg + " damage to the enemy!";
+            string[] text = new string[1] { "You did " + PlayerSingleton.instance.currentDmg + " damage to the enemy!" };
+            if (combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned)
+            {
+                text[0] += "\nThe Enemy froze! It has to skip a turn!" ;
+            }
             textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(text, gameObject, "ChangeViewToMain");
 
             comboIsDone = false;                            //Setting combo is done to false;
