@@ -4,17 +4,19 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class CombatStart : MonoBehaviour {
-
+public class CombatStart : MonoBehaviour
+{
     public Image blackScreen;
     bool fill = false;
     public float waitTime = 1.0f;
 
     void Start()
     {
-        if(PlayerSingleton.instance.overWorldTransform == null)
+        if(PlayerSingleton.instance.overWorldPos != Vector3.zero)
         {
-            PlayerSingleton.instance.overWorldTransform = this.transform;
+            Debug.Log("HELLO");
+            transform.position = PlayerSingleton.instance.overWorldPos;
+            transform.rotation = PlayerSingleton.instance.overWorldRot;
         }
     }
 
@@ -30,7 +32,6 @@ public class CombatStart : MonoBehaviour {
                 //When the blackscreen is done
                 //the battle scene loads
                 SceneManager.LoadScene("Battle_scene");
-                PlayerSingleton.instance.overWorldTransform = this.transform;
             }
         }
     }
@@ -39,9 +40,13 @@ public class CombatStart : MonoBehaviour {
     //with the "enemyOverworld" tag, "fill" is true
 	void OnTriggerEnter(Collider enemy)
     {
-        if (enemy.tag == "enemyOverworld")
+        if (enemy.gameObject.layer == 8)
         {
             fill = true;
+            PlayerSingleton.instance.attackingEnemy = enemy.tag;
+            PlayerSingleton.instance.overWorldPos = this.transform.position;
+            PlayerSingleton.instance.overWorldRot = this.transform.rotation;
+            OverworldEnemySingleton.instance.currentEnemy = enemy.gameObject;
         }
     }
 }

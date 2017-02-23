@@ -144,8 +144,9 @@ public class CombatScript : MonoBehaviour
                     enemyHolder.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Dead");
                     List<string> text = new List<string>();
                     text.Add("You defeated the enemy, you got " + enemyClass.enemyExp + " exp!");
-                    textBox.PrintMessage(text, gameObject, "ShowVictoryMenu");
+                    textBox.PrintMessage(text, menuManager, "ReturnToWorldSelect");
                     enemyIsDead = true;
+                    OverworldEnemySingleton.instance.shouldDestroy = true;
                     enemyClass.source.PlayOneShot(enemyClass.death, 1f);
                 }
                 else if (enemyClass.isStunned == false)
@@ -192,6 +193,7 @@ public class CombatScript : MonoBehaviour
 
     public void ShowVictoryMenu()
     {
+        
         returnToWorldButton.SetActive(true);
     }
 

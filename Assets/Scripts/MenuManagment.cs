@@ -9,6 +9,7 @@ public class MenuManagment : MonoBehaviour
     [SerializeField] GameObject attackGroup;
     [SerializeField] GameObject itemsGroup;
     [SerializeField] GameObject uiBox;
+    [SerializeField] GameObject returnButton;
 
     public AttackButton[] attackButtons;
 
@@ -64,6 +65,14 @@ public class MenuManagment : MonoBehaviour
         itemsGroup.SetActive(false);
         attackGroup.SetActive(false);
         source.PlayOneShot(clickSound, 1f);
+    }
+
+
+    public void ReturnToWorldSelect()
+    {
+        uiBox.SetActive(true);
+        returnButton.SetActive(true);
+        attackGroup.SetActive(false);
     }
 }
 [System.Serializable]
