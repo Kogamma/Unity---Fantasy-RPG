@@ -14,6 +14,9 @@ public class InventoryMenu : MonoBehaviour
     // The buttons that represent items in the inventory menu
     public GameObject[] itemButtons;
 
+    // This is the window that pops up when we press an item
+    public GameObject itemOptions;
+
     public GameObject eventObj;
 
     // Counts how many slots that are filled in the inventory
@@ -33,6 +36,9 @@ public class InventoryMenu : MonoBehaviour
         // Sets both components to be those that the EventSystem object in the scene has
         _inputModule = eventObj.GetComponent<StandaloneInputModule>();
         _eventSystem = eventObj.GetComponent<EventSystem>();
+
+        // Selects the top item button as the first item selected
+        _eventSystem.firstSelectedGameObject = itemButtons[0];
 
         // Gets the inventory from our PlayerSingleton
         inv = PlayerSingleton.instance.playerInventory;
@@ -78,7 +84,6 @@ public class InventoryMenu : MonoBehaviour
         {
             ListNavigation(listInput);
         }
-
     }
 
     public void UpdateButtons()
@@ -232,5 +237,11 @@ public class InventoryMenu : MonoBehaviour
                 currentItemIndexes[i] = -1;
             }
         }
+    }
+
+    public void ItemOptions(int index)
+    {
+        itemOptions.transform.position = itemButtons[index].transform.position;
+        itemOptions.SetActive(true);
     }
 }
