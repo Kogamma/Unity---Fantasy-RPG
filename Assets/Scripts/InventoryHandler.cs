@@ -17,32 +17,33 @@ public class InventoryHandler : MonoBehaviour
     {
         inventory = PlayerSingleton.instance.playerInventory;
 
+        // If the stack is full or if there are no items we have to add a new one
+        bool addItemOnNewSlot = false;
+
         // Loops through the inventory if we have atleast 1 item
-        if(inventory.Count > 0 && itemToAdd.stackable)
+        if (inventory.Count > 0 && itemToAdd.stackable)
             for (int i = 0; i < inventory.Count; i++)
             {
                 // Checks if there is already a item like the one we're adding
                 if (inventory[i].itemName == itemToAdd.itemName)
                 {
-                    // If there is less than 99 of those items...
                     if (inventory[i].amountOfItem < 99)
                     {
                         // ... we can just add to that amount
                         inventory[i].IncrementItem();
+
+                        break;
                     }
-                    break;
                 }
-                else 
+
+                // If we're on the last iteration
+                if (i == inventory.Count - 1)
                 {
-                    // If we're on the last iteration
-                    if(i == inventory.Count - 1)
+                    // If we have a full stack or if this is a new item                    
+                    if (inventory[i].amountOfItem >= 99 || inventory[i].itemName != itemToAdd.itemName)
                     {
-                        // Checks if there are any slots that are vacant in the inventory
-                        if(inventory.Count < PlayerSingleton.instance.inventorySize)
-                        {
-                            inventory.Add(itemToAdd);
-                            inventory[i + 1].IncrementItem();
-                        }
+                        addItemOnNewSlot = true;
+
                         break;
                     }
                 }
@@ -50,11 +51,23 @@ public class InventoryHandler : MonoBehaviour
         // If we don't have a single item in our inventory, 
         // we don't have to check if we can add one
         else if (inventory.Count <= 0 || !itemToAdd.stackable)
+            addItemOnNewSlot = true;
+
+        if (addItemOnNewSlot)
         {
-            inventory.Add(itemToAdd);
-            inventory[inventory.Count - 1].IncrementItem();            
+            if (inventory.Count < PlayerSingleton.instance.inventorySize)
+            {
+                addItemOnNewSlot = false;
+                inventory.Add(itemToAdd);
+                inventory[inventory.Count - 1].IncrementItem();
+            }
+            else
+            {
+                Debug.Log("You can't add any more items to the inventory!");
+            }
         }
 
+        GetComponent<InventoryMenu>().UpdateItems();
     }
 
     public void RemoveItem(int index)

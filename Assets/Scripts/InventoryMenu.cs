@@ -16,10 +16,17 @@ public class InventoryMenu : MonoBehaviour
 
     public GameObject eventObj;
 
+    // Counts how many slots that are filled in the inventory
+    public Text invCountText;
+
     // The current items in the inventory that are shown in the menu
     int[] currentItems;
+    int[] currentItemIndexes;
 
     int iteratorLength;
+
+    // Used for timing input
+    float startTime;
 
 	void Start ()
     {
@@ -40,26 +47,20 @@ public class InventoryMenu : MonoBehaviour
         // Initializes and sets the length of the list of currentItems
         currentItems = new int[itemButtons.Length];
 
+
         // Loops through them to give them all a default value of -1
         // -1 = no item
         for (int i = 0; i < currentItems.Length; i++)
         {
-            currentItems[i] = -1;
+            currentItems[i] = i;
         }
 
-        for (int i = 0; i < iteratorLength; i++)
+        // What the current items shown has in their slots
+        currentItemIndexes = new int[100];
+
+        for (int i = 0; i < currentItemIndexes.Length; i++)
         {
-            // Adds the item's sprite to the item button
-            itemButtons[i].transform.GetChild(0).GetComponent<Image>().sprite = inv[i].itemImage;
-
-            // Adds the name of the item to the item button
-            itemButtons[i].transform.GetChild(1).GetComponent<Text>().text = inv[i].itemName;
-
-            // Adds the amount of the item to the item button
-            itemButtons[i].transform.GetChild(2).GetComponent<Text>().text = "x" + inv[i].amountOfItem;
-
-            // Sets the first values of the current items shown
-            currentItems[i] = i;
+            currentItemIndexes[i] = -1;
         }
     }
 	
@@ -67,24 +68,17 @@ public class InventoryMenu : MonoBehaviour
     {
         UpdateButtons();
 
-        // Checks if we go down in the input module
-		if(Input.GetAxis(_inputModule.verticalAxis) < 0)
+        invCountText.text = PlayerSingleton.instance.playerInventory.Count + "/" + PlayerSingleton.instance.inventorySize;
+
+        // Vertical input for navigating the list of items
+        float listInput = Input.GetAxis(_inputModule.verticalAxis);
+
+        // Checks if we press up or down in the input module
+        if (listInput != 0 )
         {
-            // Checks if we're on the bottom of the list
-            if(_eventSystem.currentSelectedGameObject == itemButtons[itemButtons.Length - 1])
-            {
-                GoDown();
-            }
+            ListNavigation(listInput);
         }
-        // Checks if we go up in the input module
-        else if (Input.GetAxis(_inputModule.verticalAxis) > 0)
-        {
-            // Checks if we're on the top of the list
-            if (_eventSystem.currentSelectedGameObject == itemButtons[itemButtons.Length - 1])
-            {
-                GoUp();
-            }
-        }
+
     }
 
     public void UpdateButtons()
@@ -98,20 +92,20 @@ public class InventoryMenu : MonoBehaviour
         for (int i = 0; i < iteratorLength; i++)
         {
             // Checks if there is anything in that inventory slot
-            if (currentItems[i] != -1)
+            if (currentItemIndexes[currentItems[i]] != -1)
             {
                 // Deactivates the button component on the empty slots
-                itemButtons[i].GetComponent<Button>().enabled = false;
+                itemButtons[i].GetComponent<Button>().enabled = true;
 
                 // Adds the item's sprite to the item button
-                itemButtons[i].transform.GetChild(0).GetComponent<Image>().sprite = inv[currentItems[i]].itemImage;
+                itemButtons[i].transform.GetChild(0).GetComponent<Image>().sprite = inv[currentItemIndexes[currentItems[i]]].itemImage;
                 itemButtons[i].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 1);
 
                 // Adds the name of the item to the item button
-                itemButtons[i].transform.GetChild(1).GetComponent<Text>().text = inv[currentItems[i]].itemName;
+                itemButtons[i].transform.GetChild(1).GetComponent<Text>().text = inv[currentItemIndexes[currentItems[i]]].itemName;
 
                 // Adds the amount of the item to the item button
-                itemButtons[i].transform.GetChild(2).GetComponent<Text>().text = "x" + inv[currentItems[i]].amountOfItem;
+                itemButtons[i].transform.GetChild(2).GetComponent<Text>().text = "x" + inv[currentItemIndexes[currentItems[i]]].amountOfItem;
             }
             // If there is nothing in the inventory slot...
             else
@@ -133,29 +127,109 @@ public class InventoryMenu : MonoBehaviour
     }
 
     // Moves down in the item list if we can
-    public void GoDown()
+    public void ListNavigation(float direction)
     {
-        // Checks if we have any more items to show on the bottom
-        if (currentItems[currentItems.Length - 1] + 1 < PlayerSingleton.instance.playerInventory.Count)
+        int incrementer = 0;
+
+        List<InventoryItem> inv = PlayerSingleton.instance.playerInventory;
+
+        // Checks what direction of input we made
+        if (direction < 0)
         {
-            // Increments all the values in the list 
-            for (int i = 0; i < currentItems.Length; i++)
+            // Checks if we're on the bottom of the list and that we have more items to show below
+            if (_eventSystem.currentSelectedGameObject == itemButtons[itemButtons.Length - 1]
+                && currentItems[currentItems.Length - 1] + 1 < inv.Count)
             {
-                currentItems[i]++;
+                // Times the up and down input with the input modules repeat delay variable
+                if (Time.time - startTime >= _inputModule.repeatDelay / 2)
+                {
+                    // Says that we should go down in the list
+                    incrementer = 1;
+
+                    // Restarts the timer
+                    startTime = Time.time;
+                }
             }
+        }
+        else if (direction > 0)
+        { 
+            // Checks if we're on the top of the list
+            if (_eventSystem.currentSelectedGameObject == itemButtons[0] && currentItems[0] > 0)
+            {
+                // Times the up and down input with the input modules repeat delay variable
+                if (Time.time - startTime >= _inputModule.repeatDelay)
+                {
+                    // Says that we should go up in the list
+                    incrementer = -1;
+
+                    // Restarts the timer
+                    startTime = Time.time;
+                }
+            }
+        }
+
+        // Changes the values of the list accordingly
+        for (int i = 0; i < currentItems.Length; i++)
+        {
+            currentItems[i] += incrementer;
         }
     }
 
-    // Moves up in the item list if we can
-    public void GoUp()
+    public void ButtonListNavigation(int direction)
     {
-        // Checks if we have any more items to show on the bottom
-        if (currentItems[0] > 0)
+        int incrementer = 0;
+
+        List<InventoryItem> inv = PlayerSingleton.instance.playerInventory;
+
+        // Checks what direction of input we made
+        if (direction < 0)
         {
-            // Increments all the values in the list 
-            for (int i = 0; i < currentItems.Length; i++)
+            // Checks if we have more items to show below
+            if (currentItems[currentItems.Length - 1] + 1 < inv.Count)
             {
-                currentItems[i]--;
+                // Says that we should go down in the list
+                incrementer = 1;
+            }
+        }
+        else if (direction > 0)
+        {
+            // Checks if we're not on the first item
+            if (currentItems[0] > 0)
+            {
+                // Says that we should go up in the list
+                incrementer = -1;
+            }
+        }
+
+        // Changes the values of the list accordingly
+        for (int i = 0; i < currentItems.Length; i++)
+        {
+            currentItems[i] += incrementer;
+        }
+        for (int i = 0; i < currentItems.Length; i++)
+        {
+            Debug.Log(currentItems[i]);
+        }
+    }
+
+    public void UpdateItems()
+    {
+        List<InventoryItem> inv = PlayerSingleton.instance.playerInventory;
+
+        iteratorLength = itemButtons.Length;
+
+        for (int i = 0; i < currentItemIndexes.Length; i++)
+        {
+            // If we're on a slot that has an item
+            if (i <= inv.Count - 1)
+            {
+                // Sets the value of the current items
+                currentItemIndexes[i] = i;
+            }
+            else
+            {
+                // If there is no item on this slot in the inventory, it will be set to -1
+                currentItemIndexes[i] = -1;
             }
         }
     }

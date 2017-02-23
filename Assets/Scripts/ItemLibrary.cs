@@ -54,8 +54,8 @@ public class ItemLibrary : MonoBehaviour
         int value = 10;
 
         // Creates a new inventoryitem
+        
         InventoryItem item = new InventoryItem(itemName, stackable, itemImage, value);
-
         // Returns the item we just created
         return item;
     }
