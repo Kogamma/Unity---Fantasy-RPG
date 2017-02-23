@@ -15,6 +15,9 @@ public class PlayerCombatLogic : MonoBehaviour {
     float interval;                                             //Using to set the interval for the notes on the diffrent attacks
     int critchance;                                             //Using to set the critchance for the diffrent attack
     float dmg;                                                  //Using to set the damge for the player
+
+    private CombatScript combatScript;
+
     //int meeleAttack = Animator.StringToHash("MeeleAttack");     //Using to get the attack animation
     [SerializeField] GameObject comboSystem;                    //Using to call the combo system and activate it
     [SerializeField] GameObject textBox;
@@ -26,6 +29,8 @@ public class PlayerCombatLogic : MonoBehaviour {
     void Start()
     {
         anim = GetComponent<Animator>();
+
+        combatScript = combatHandler.GetComponent<CombatScript>();
     }
 
     // Update is called once per frame
@@ -58,7 +63,7 @@ public class PlayerCombatLogic : MonoBehaviour {
         critchance = 10;    //The player will have 10% critchance
 
         comboSystem.SetActive(true);                                                                        //Setting the combo system ui to true
-        dmg = PlayerSingleton.instance.playerDmg + ((2.5f * (float)PlayerSingleton.instance.playerInt));    //Setting the damage for the player
+        dmg = PlayerSingleton.instance.playerDmg + ((0.7f * (float)PlayerSingleton.instance.playerInt));    //Setting the damage for the player
         comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval, critchance);      //Calling the funtion Activatecombo, and placing the parameters in
 
         PlayerSingleton.instance.playerMana -= 5;
@@ -74,19 +79,20 @@ public class PlayerCombatLogic : MonoBehaviour {
 
             float rng = Random.Range(0f, 1f);
 
-            PlayerSingleton.instance.currentDmg = (int)dmg; //Setting the currentDmg to dmg
+            //PlayerSingleton.instance.currentDmg = (int)dmg; //Setting the currentDmg to dmg
 
             switch(whichAttack)
             {
                 case "IceAttack":
-                    Instantiate(iceParticle, combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
+                    Instantiate(iceParticle, combatScript.enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
                     Debug.Log("Alive: " + iceParticle.GetComponent<ParticleSystem>().IsAlive(true));
 
-                    if (combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().chanceToGetFreeze >=rng)
+                    if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().chanceToGetFreeze >=rng)
                     {
                         StartCoroutine(WaitForParticle());
-                        
-                        combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned = true;
+
+                        combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned = true;
+                        combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isFrozen = true;
                         //Instantiate(iceBlock, combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
                     }
                     break;
@@ -97,8 +103,8 @@ public class PlayerCombatLogic : MonoBehaviour {
             }
 
             List<string> text = new List<string>();
-            text.Add("You did " + PlayerSingleton.instance.currentDmg + " damage to the enemy!");
-            if (combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned)
+            text.Add("You did " + (int)dmg + " damage to the enemy!");
+            if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned)
             {
                 text.Add("The Enemy froze! It has to skip a turn!");
             }
@@ -110,10 +116,15 @@ public class PlayerCombatLogic : MonoBehaviour {
 
     void OnAttackFinished()
     {
-        combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().enemyHp -= (int)dmg;
-        combatHandler.GetComponent<CombatScript>().ChangeViewPort(CombatScript.cameraState.ENEMY); //Chaning the camerstate to Enemy!
-        if(!combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned)
-            combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Attacked");
+        combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().enemyHp -= (int)dmg;
+        dmg = 0;
+
+        combatScript.ChangeViewPort(CombatScript.cameraState.ENEMY); //Chaning the camerstate to Enemy!
+        if (!combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isFrozen)
+        {
+            combatScript.enemyHolder.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Attacked");
+            combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().source.PlayOneShot(combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().damage, 1f);
+        }
     }
     void ChangeViewToMain()
     {
