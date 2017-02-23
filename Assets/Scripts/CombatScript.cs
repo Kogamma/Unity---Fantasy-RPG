@@ -27,6 +27,8 @@ public class CombatScript : MonoBehaviour
     private int enemyPoisonedTurns = 0;
     private int maxPoisonedTurns = 3;
 
+    private EnemyClass enemyClass;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -39,8 +41,10 @@ public class CombatScript : MonoBehaviour
         //Setting the return button to false               
         returnToWorldButton.SetActive(false);
         //Setting the currentstate to main       
-        currentState = (int)cameraState.MAIN;       
-	}
+        currentState = (int)cameraState.MAIN;
+
+        enemyClass = enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>();
+    }
 
 
     //This function will change which camera that will be active
@@ -104,6 +108,9 @@ public class CombatScript : MonoBehaviour
                     List<string> text = new List<string>();
                     if (PlayerSingleton.instance.poisoned)
                     {
+                        player.GetComponentInChildren<ParticleSystem>().Play();
+                        player.GetComponentInChildren<ParticleSystem>().loop = true;
+
                         int rndDamage = Random.Range(1, 4);
                         PlayerSingleton.instance.playerHealth -= rndDamage;
                         playerPoisonedTurns++;
@@ -112,12 +119,12 @@ public class CombatScript : MonoBehaviour
 
                         if (playerPoisonedTurns == maxPoisonedTurns)
                         {
+                            player.GetComponentInChildren<ParticleSystem>().loop = false;
                             text[0] += ("\n\nYou are no longer poisoned!");
                             PlayerSingleton.instance.poisoned = false;
                         }
 
                         textBox.PrintMessage(text, menuManager, "MainSelect");
-                        Debug.Log("Past textBox print");
                     }
                     else
                     {
@@ -136,11 +143,12 @@ public class CombatScript : MonoBehaviour
                     //If it is a textbox will show, a death animation for the enamy will be played and a return to the world button will be showed 
                     enemyHolder.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Dead");
                     List<string> text = new List<string>();
-                    text.Add("You defeated the enemy, you got " + enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().enemyExp + " exp!");
+                    text.Add("You defeated the enemy, you got " + enemyClass.enemyExp + " exp!");
                     textBox.PrintMessage(text, gameObject, "ShowVictoryMenu");
                     enemyIsDead = true;
+                    enemyClass.source.PlayOneShot(enemyClass.death, 1f);
                 }
-                if (enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned == false)
+                else if (enemyClass.isStunned == false)
                 {
                     //Setting the player menu to false
                     playerMenu.SetActive(false);
@@ -162,7 +170,6 @@ public class CombatScript : MonoBehaviour
     {
         //Setting the player menu to false
         playerMenu.SetActive(false);
-
         
         //Changin the viewport to player
         ChangeViewPort(cameraState.PLAYER);
@@ -179,7 +186,7 @@ public class CombatScript : MonoBehaviour
         //Change the viewport to ENEMY
         ChangeViewPort(cameraState.ENEMY);
         //Calling the child to the enemyHolder and calling AttackPattern
-        enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().AttackPattern();
+        enemyClass.AttackPattern();
     }
 
 
