@@ -22,11 +22,16 @@ public class OverworldEnemySingleton : MonoBehaviour
 
     private static OverworldEnemySingleton m_instance;
 
-    public List<GameObject> enemies;
+    // List of enemies
+    [System.NonSerialized] public List<GameObject> enemies;
 
-    [System.NonSerialized] public List<bool> shouldDestroy;
-
+    // List of bools telling if an enemy should be dead
+    // Since the enemy list will be sorted, these bools will share the index with the enemies
+    [System.NonSerialized] public List<bool> shouldDestroy; 
+    
+    // The index of the enemy that is encountered in combat
     public int currentEnemyIndex;
 
+    // Has the player returned from combat?
     public bool backFromCombat = false;
 }

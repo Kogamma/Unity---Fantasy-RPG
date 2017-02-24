@@ -45,6 +45,8 @@ public class CombatStart : MonoBehaviour
             PlayerSingleton.instance.attackingEnemy = enemy.tag;
             PlayerSingleton.instance.overWorldPos = this.transform.position;
             PlayerSingleton.instance.overWorldRot = this.transform.rotation;
+
+            // Saves the index of the enemy encountered so that we know which to deactivate if it is defeated in combat
             OverworldEnemySingleton.instance.currentEnemyIndex = OverworldEnemySingleton.instance.enemies.IndexOf(enemy.transform.parent.parent.gameObject);
         }
     }
