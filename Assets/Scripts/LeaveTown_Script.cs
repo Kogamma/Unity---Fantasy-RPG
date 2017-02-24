@@ -6,6 +6,6 @@ public class LeaveTown_Script : MonoBehaviour
 {
     void OnTriggerEnter(Collider coll)
     {
-        Application.LoadLevel("");
+        Application.LoadLevel("Forest_Scene_1");
     }
 }
