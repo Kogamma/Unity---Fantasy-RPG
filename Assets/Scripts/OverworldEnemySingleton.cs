@@ -24,7 +24,9 @@ public class OverworldEnemySingleton : MonoBehaviour
 
     public List<GameObject> enemies;
 
-    public GameObject currentEnemy;
+    [System.NonSerialized] public List<bool> shouldDestroy;
 
-    public bool shouldDestroy = false;
+    public int currentEnemyIndex;
+
+    public bool backFromCombat = false;
 }
