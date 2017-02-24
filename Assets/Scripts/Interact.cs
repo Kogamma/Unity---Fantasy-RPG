@@ -5,7 +5,7 @@ using UnityEngine;
 public class Interact : MonoBehaviour
 {
     [SerializeField] private GameObject interactIcon;
-    [SerializeField] private Transform cameraPos;
+    private Camera camera;
     [SerializeField] private AudioClip pop;
     private AudioSource source;
     private bool doOnce = true;
@@ -15,6 +15,8 @@ public class Interact : MonoBehaviour
     void Start ()
     {
         source = GetComponent<AudioSource>();
+
+        camera = Camera.main; 
     }
 
 
@@ -31,7 +33,7 @@ public class Interact : MonoBehaviour
             if (hit.transform.gameObject.tag == "Interactable")
             {
                 interactIcon.SetActive(true);
-                interactIcon.transform.LookAt(cameraPos);
+                interactIcon.transform.LookAt(camera.transform.position);
 
                 if (doOnce)
                 {
