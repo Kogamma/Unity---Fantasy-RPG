@@ -1,20 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class OverworldManager : MonoBehaviour {
-
-    public GameObject playerCharacter;
-
+public class OverworldManager : MonoBehaviour
+{
 	void Start ()
     {
-        playerCharacter.transform.position = PlayerSingleton.instance.overWorldTransform.position;
-        playerCharacter.transform.rotation = PlayerSingleton.instance.overWorldTransform.rotation;
-        playerCharacter.transform.localScale = PlayerSingleton.instance.overWorldTransform.localScale;
+        OverworldEnemySingleton.instance.enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList<GameObject>();
+
+        if (OverworldEnemySingleton.instance.shouldDestroy && OverworldEnemySingleton.instance.currentEnemy != null)
+        {
+            int index = OverworldEnemySingleton.instance.enemies.IndexOf(OverworldEnemySingleton.instance.currentEnemy);
+            OverworldEnemySingleton.instance.enemies[index].SetActive(false);
+            OverworldEnemySingleton.instance.shouldDestroy = false;
+        }
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    GameObject CheckObj (GameObject obj)
+    {
+        return obj;
+    }
 }

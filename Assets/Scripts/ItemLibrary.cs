@@ -54,8 +54,8 @@ public class ItemLibrary : MonoBehaviour
         int value = 10;
 
         // Creates a new inventoryitem
+        
         InventoryItem item = new InventoryItem(itemName, stackable, itemImage, value);
-
         // Returns the item we just created
         return item;
     }
@@ -92,7 +92,7 @@ public class ItemLibrary : MonoBehaviour
         bool stackable = false;
 
         // The image that will represent the item in menu's and such
-        Sprite itemImage = sprites.ointmentSprite;
+        Sprite itemImage = sprites.antidoteSprite;
 
         // How much the item is worth in a shop
         int value = 15;
@@ -141,5 +141,5 @@ public class ItemSprites
 
     public Sprite manaPotionSprite;
 
-    public Sprite ointmentSprite;
+    public Sprite antidoteSprite;
 }

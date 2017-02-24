@@ -42,7 +42,6 @@ public class InventoryItem : MonoBehaviour
             amountOfItem++;
         else
         {
-            Debug.Log("Can't add another equippable of the same type in the same slot!");
             amountOfItem = 1;
         }
     }

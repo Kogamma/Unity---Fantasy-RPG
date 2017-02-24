@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerSingleton : MonoBehaviour
 {
-
     public static PlayerSingleton instance
     {
         get
@@ -59,15 +58,19 @@ public class PlayerSingleton : MonoBehaviour
 
     // Variables used for in-combat purposes to see what the current damage of the player is,
     // and if the player has attacked this round or not
-    public int currentDmg;
+    //public int currentDmg;
     public bool playerAttacked = false;
 
     public bool poisoned = false;
     public bool confused = false;
 
-    // Saves the transform of the player when they go into battle to know where to spawn when we come out of battle
-    public Transform overWorldTransform;
+    // Saves the position and rotation of the player when they go into battle to know where to spawn when we come out of battle
+    public Vector3 overWorldPos;
+    public Quaternion overWorldRot;
+
     // This is a variable you can use if you want to know if the player should be able to move
     public bool canMove = true;
+
+    public string attackingEnemy;
 
 }

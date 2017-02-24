@@ -56,29 +56,14 @@ public class WaterFlowFREEDemo : MonoBehaviour
 
 	#region MonoBehaviour
 
-	// Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
-	// http://docs.unity3d.com/ScriptReference/MonoBehaviour.Start.html
+
 	void Start()
 	{
 
-		// Get information from Simple water's material.
-		m_WaterSimpleOriginal_Color = m_SimpleWater.GetComponent<Renderer>().material.GetColor("_Color");
-		m_WaterSimpleOriginal_UMoveSpeed = m_SimpleWater.GetComponent<Renderer>().material.GetFloat("_MoveSpeedU");
-		m_WaterSimpleOriginal_VMoveSpeed = m_SimpleWater.GetComponent<Renderer>().material.GetFloat("_MoveSpeedV");
-		m_WaterSimple_Color = m_WaterSimpleOriginal_Color;
-		m_WaterSimple_UMoveSpeed = m_WaterSimpleOriginal_UMoveSpeed;
-		m_WaterSimple_VMoveSpeed = m_WaterSimpleOriginal_VMoveSpeed;
 
-		// Setup Simple water sliders
-		m_SimpleR.minValue = 0.0f; m_SimpleR.maxValue = 1.0f; m_SimpleR.value = m_WaterSimpleOriginal_Color.r; m_SimpleR.onValueChanged.AddListener(delegate { OnSlider_SimpleR(m_SimpleR.value); });
-		m_SimpleG.minValue = 0.0f; m_SimpleG.maxValue = 1.0f; m_SimpleG.value = m_WaterSimpleOriginal_Color.g; m_SimpleG.onValueChanged.AddListener(delegate { OnSlider_SimpleG(m_SimpleG.value); });
-		m_SimpleB.minValue = 0.0f; m_SimpleB.maxValue = 1.0f; m_SimpleB.value = m_WaterSimpleOriginal_Color.b; m_SimpleB.onValueChanged.AddListener(delegate { OnSlider_SimpleB(m_SimpleB.value); });
-		m_SimpleUSpeed.minValue = -6.0f; m_SimpleUSpeed.maxValue = 6.0f; m_SimpleUSpeed.value = m_WaterSimpleOriginal_UMoveSpeed; m_SimpleUSpeed.onValueChanged.AddListener(delegate { OnSlider_SimpleUSpeed(m_SimpleUSpeed.value); });
-		m_SimpleVSpeed.minValue = -6.0f; m_SimpleVSpeed.maxValue = 6.0f; m_SimpleVSpeed.value = m_WaterSimpleOriginal_VMoveSpeed; m_SimpleVSpeed.onValueChanged.AddListener(delegate { OnSlider_SimpleVSpeed(m_SimpleVSpeed.value); });
 	}
 
-	// Update is called every frame, if the MonoBehaviour is enabled.
-	// http://docs.unity3d.com/ScriptReference/MonoBehaviour.Update.html
+
 	void Update()
 	{
 	}
