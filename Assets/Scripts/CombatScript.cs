@@ -146,7 +146,7 @@ public class CombatScript : MonoBehaviour
                     text.Add("You defeated the enemy, you got " + enemyClass.enemyExp + " exp!");
                     textBox.PrintMessage(text, menuManager, "ReturnToWorldSelect");
                     enemyIsDead = true;
-                    OverworldEnemySingleton.instance.shouldDestroy = true;
+                    OverworldEnemySingleton.instance.shouldDestroy[OverworldEnemySingleton.instance.currentEnemyIndex] = true;
                     enemyClass.source.PlayOneShot(enemyClass.death, 1f);
                 }
                 else if (enemyClass.isStunned == false)
@@ -200,6 +200,7 @@ public class CombatScript : MonoBehaviour
 
     public void ReturnToTheWorld()
     {
+        OverworldEnemySingleton.instance.backFromCombat = true;
         SceneManager.LoadScene("Abraham_Test_Scene");
     }
 

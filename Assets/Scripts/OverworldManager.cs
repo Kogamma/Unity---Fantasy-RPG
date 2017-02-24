@@ -8,17 +8,17 @@ public class OverworldManager : MonoBehaviour
 	void Start ()
     {
         OverworldEnemySingleton.instance.enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList<GameObject>();
+        OverworldEnemySingleton.instance.enemies.OrderBy(enemy => enemy.name);
 
-        if (OverworldEnemySingleton.instance.shouldDestroy && OverworldEnemySingleton.instance.currentEnemy != null)
+        if (!OverworldEnemySingleton.instance.backFromCombat)
+            OverworldEnemySingleton.instance.shouldDestroy = new List<bool>(new bool[OverworldEnemySingleton.instance.enemies.Count]);
+
+        for (int i = 0; i < OverworldEnemySingleton.instance.enemies.Count; i++)
         {
-            int index = OverworldEnemySingleton.instance.enemies.IndexOf(OverworldEnemySingleton.instance.currentEnemy);
-            OverworldEnemySingleton.instance.enemies[index].SetActive(false);
-            OverworldEnemySingleton.instance.shouldDestroy = false;
+            if (OverworldEnemySingleton.instance.shouldDestroy[i])
+            {
+                OverworldEnemySingleton.instance.enemies[i].SetActive(false);
+            }
         }
-    }
-
-    GameObject CheckObj (GameObject obj)
-    {
-        return obj;
     }
 }

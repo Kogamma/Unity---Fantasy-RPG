@@ -14,7 +14,6 @@ public class CombatStart : MonoBehaviour
     {
         if(PlayerSingleton.instance.overWorldPos != Vector3.zero)
         {
-            Debug.Log("HELLO");
             transform.position = PlayerSingleton.instance.overWorldPos;
             transform.rotation = PlayerSingleton.instance.overWorldRot;
         }
@@ -46,7 +45,7 @@ public class CombatStart : MonoBehaviour
             PlayerSingleton.instance.attackingEnemy = enemy.tag;
             PlayerSingleton.instance.overWorldPos = this.transform.position;
             PlayerSingleton.instance.overWorldRot = this.transform.rotation;
-            OverworldEnemySingleton.instance.currentEnemy = enemy.gameObject;
+            OverworldEnemySingleton.instance.currentEnemyIndex = OverworldEnemySingleton.instance.enemies.IndexOf(enemy.transform.root.gameObject);
         }
     }
 }
