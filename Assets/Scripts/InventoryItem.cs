@@ -20,8 +20,13 @@ public class InventoryItem : MonoBehaviour
     // How many there are of this item currently
     public int amountOfItem = 0;
 
+    // Info about this item that will show in a info box
+    public string infoText = "";
+
+    public string methodName = "";
+
     // Constructor
-    public InventoryItem(string name, bool stack, Sprite img, int val)
+    public InventoryItem(string name, bool stack, Sprite img, int val, string info, string method)
     {
         itemName = name;
 
@@ -32,6 +37,10 @@ public class InventoryItem : MonoBehaviour
         value = val;
 
         amountOfItem = 0;
+
+        infoText = info;
+
+        methodName = method;
     }
 
     // Adds another item to the count of items
@@ -44,5 +53,57 @@ public class InventoryItem : MonoBehaviour
         {
             amountOfItem = 1;
         }
+    }
+
+    // This method checks what method the item will call so it will do an effect
+    public List<string> UseItem()
+    {
+        // Textpages will return to the caller so they can print a message to the textbox
+        List<string> textPages = new List<string>();
+
+        // Checks which method that should be called
+        if (methodName == "HealingPotion")
+            textPages = HealingPotion();
+        else if (methodName == "ManaPotion")
+            textPages = ManaPotion();
+        else if (methodName == "Antidote")
+            textPages = Antidote();
+
+        // Returns the text to the call
+        return textPages;
+    }
+
+    public List<string> HealingPotion()
+    {
+        // Heals the player for 5 HP
+        PlayerSingleton.instance.playerHealth += 5;
+
+        PlayerSingleton.instance.playerHealth = Mathf.Clamp(PlayerSingleton.instance.playerHealth, 0, PlayerSingleton.instance.playerMaxHealth);
+
+        List<string> textPages = new List<string>();
+        textPages.Add("You were healed! You got 5 HP back!");
+
+        return textPages;
+    }
+
+    public List<string> ManaPotion()
+    {
+        // Gives the player 5 mana back
+        PlayerSingleton.instance.playerMana += 5;
+
+        PlayerSingleton.instance.playerMana = Mathf.Clamp(PlayerSingleton.instance.playerMana, 0, 10);
+
+        List<string> textPages = new List<string>();
+        textPages.Add("You're mana was restored! You got 5 mana back!");
+
+        return textPages;
+    }
+
+    public List<string> Antidote()
+    {
+        List<string> textPages = new List<string>();
+        textPages.Add("You used the antidote and your poison effect was cured!");
+
+        return textPages;
     }
 }

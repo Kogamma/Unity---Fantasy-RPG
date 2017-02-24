@@ -25,7 +25,7 @@ public class ItemLibrary : MonoBehaviour
         else if (item == "Mana")
             newItem = NewManaPotion();
         else if (item == "Ointment")
-            newItem = NewOintment();
+            newItem = NewAntidote();
 
         invHandler.AddItem(newItem);
     }
@@ -53,9 +53,15 @@ public class ItemLibrary : MonoBehaviour
         // How much the item is worth in a shop
         int value = 10;
 
-        // Creates a new inventoryitem
+        // Info text about the item
+        string infoText = "This potion will heal you when it's used. It restores 5 HP";
+
+        // The method to invoke when you use the item
+        string method = "HealingPotion";
+
+        // Creates a new inventoryitem     
+        InventoryItem item = new InventoryItem(itemName, stackable, itemImage, value, infoText, method);
         
-        InventoryItem item = new InventoryItem(itemName, stackable, itemImage, value);
         // Returns the item we just created
         return item;
     }
@@ -75,18 +81,24 @@ public class ItemLibrary : MonoBehaviour
         // How much the item is worth in a shop
         int value = 10;
 
+        // Info text about the item
+        string infoText = "This potion will give back mana when used. It restores 5 mana";
+
+        // The method to invoke when you use the item
+        string method = "ManaPotion";
+
         // Creates a new inventoryitem
-        InventoryItem item = new InventoryItem(itemName, stackable, itemImage, value);
+        InventoryItem item = new InventoryItem(itemName, stackable, itemImage, value, infoText, method);
 
         // Returns the item we just created
         return item;
     }
 
-    // Ointment/Burn Heal
-    public InventoryItem NewOintment()
+    // Antidote/Poison Heal
+    public InventoryItem NewAntidote()
     {
         // Name of the item we're creating
-        string itemName = "Ointment";
+        string itemName = "Antidote";
 
         // If this item is stackable or if we can only have one in each slot
         bool stackable = false;
@@ -97,8 +109,14 @@ public class ItemLibrary : MonoBehaviour
         // How much the item is worth in a shop
         int value = 15;
 
+        // Info text about the item
+        string infoText = "When you use this antidote it will remove a poison effect";
+
+        // The method to invoke when you use the item
+        string method = "Antidote";
+
         // Creates a new inventoryitem
-        InventoryItem item = new InventoryItem(itemName, stackable, itemImage, value);
+        InventoryItem item = new InventoryItem(itemName, stackable, itemImage, value, infoText, method);
 
         // Returns the item we just created
         return item;

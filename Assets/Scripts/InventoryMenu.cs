@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class InventoryMenu : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class InventoryMenu : MonoBehaviour
     // The buttons that represent items in the inventory menu
     public GameObject[] itemButtons;
 
+    // The arrow buttons in the menu
+    public Button[] arrowButtons;
+
     // This is the window that pops up when we press an item
     public GameObject itemOptions;
 
@@ -21,6 +25,9 @@ public class InventoryMenu : MonoBehaviour
 
     // Counts how many slots that are filled in the inventory
     public Text invCountText;
+
+    // Info text about the item currently chosen
+    public Text itemInfoText;
 
     // The current items in the inventory that are shown in the menu
     int[] currentItems;
@@ -34,6 +41,12 @@ public class InventoryMenu : MonoBehaviour
 
     // Used for timing input
     float startTime;
+
+    // The textbox that will write what we want
+    public CombatTextBoxHandler textBox;
+
+    // If we can click on the item buttons
+    bool canClick = true;
 
 	void Start ()
     {
@@ -78,8 +91,6 @@ public class InventoryMenu : MonoBehaviour
     {
         UpdateButtons();
 
-        
-
         // Shows how full the inventory is
         invCountText.text = PlayerSingleton.instance.playerInventory.Count + "/" + PlayerSingleton.instance.inventorySize;
 
@@ -106,8 +117,16 @@ public class InventoryMenu : MonoBehaviour
             // Checks if there is anything in that inventory slot
             if (currentItemIndexes[currentItems[i]] != -1)
             {
-                // Deactivates the button component on the empty slots
-                itemButtons[i].GetComponent<Button>().enabled = true;
+                if (canClick)
+                {
+                    // Activates the button component on slots that aren't empty
+                    itemButtons[i].GetComponent<Button>().enabled = true;
+                }
+                else
+                {
+                    // Deactivates the button component on slots when we have the item options menu open
+                    itemButtons[i].GetComponent<Button>().enabled = false;
+                }
 
                 // Adds the item's sprite to the item button
                 itemButtons[i].transform.GetChild(0).GetComponent<Image>().sprite = inv[currentItemIndexes[currentItems[i]]].itemImage;
@@ -135,6 +154,17 @@ public class InventoryMenu : MonoBehaviour
                 // Adds the amount of the item to the item button
                 itemButtons[i].transform.GetChild(2).GetComponent<Text>().text = "";
             }
+        }
+
+        // Updates the info text
+        if (itemOptions.activeSelf)
+        {
+            if (currentItem != -1)
+            {
+                itemInfoText.text = inv[currentItemIndexes[currentItems[currentItem]]].infoText;
+            }
+            else
+                itemInfoText.text = "Choose an item to see info about it.";
         }
     }
 
@@ -259,14 +289,36 @@ public class InventoryMenu : MonoBehaviour
             itemButtons[i].GetComponent<Button>().enabled = false;
         }
 
+        // Deactivates the arrow buttons
+        for (int i = 0; i < arrowButtons.Length; i++)
+        {
+            arrowButtons[i].GetComponent<Button>().enabled = false;
+        }
+
         // Sets that the current item selected is the button we just pressed
         currentItem = index;
+
+        canClick = false;
     }
 
     // Uses the effect of the item selected
     public void UseItem()
     {
+        List<string> textPages = new List<string>();
 
+        // Calls the method to use the item and we will also get a message back to print
+        textPages = PlayerSingleton.instance.playerInventory[currentItemIndexes[currentItems[currentItem]]].UseItem();
+
+        itemInfoText.transform.parent.gameObject.SetActive(false);
+
+        itemOptions.SetActive(false);
+
+        GetComponent<InventoryHandler>().RemoveItem(currentItem);
+
+        canClick = false;
+
+        // Prints the message the item usage makes
+        textBox.PrintMessage(textPages, this.gameObject, "ActivateInfoBox");
     }
 
     // Throws away the item selected
@@ -290,7 +342,22 @@ public class InventoryMenu : MonoBehaviour
         {
             itemButtons[i].GetComponent<Button>().enabled = true;
         }
+        // Activates the arrow buttons
+        for (int i = 0; i < arrowButtons.Length; i++)
+        {
+            arrowButtons[i].GetComponent<Button>().enabled = true;
+        }
 
         currentItem = -1;
+
+        canClick = true;
+    }
+    
+    // Activates the info text box
+    public void ActivateInfoBox()
+    {
+        itemInfoText.transform.parent.gameObject.SetActive(true);
+
+        CancelButton();
     }
 }
