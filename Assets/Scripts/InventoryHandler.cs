@@ -70,10 +70,10 @@ public class InventoryHandler : MonoBehaviour
         GetComponent<InventoryMenu>().UpdateItems();
     }
 
-    public void RemoveItem(int index)
+    public bool RemoveItem(int index)
     {
-        // Creates a variable for the item that will be destroyed
-        //ItemLibrary itemToDestroy = inventory[index];
+        // If we should close the window where we remove items 
+        bool closeWindowOnReturn = false;
 
         // If we have more than one of the item we just subtract the amount of it
         if (inventory[index].amountOfItem > 1)
@@ -85,9 +85,12 @@ public class InventoryHandler : MonoBehaviour
         {
             // Removes the specified item from the list
             inventory.RemoveAt(index);
+            closeWindowOnReturn = true;
         }
 
-        // Destroys the item also
-        //Destroy(itemToDestroy);
+        // Updates the list of items in the inventory menu
+        GetComponent<InventoryMenu>().UpdateItems();
+
+        return closeWindowOnReturn;
     }
 }

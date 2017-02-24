@@ -24,7 +24,11 @@ public class InventoryMenu : MonoBehaviour
 
     // The current items in the inventory that are shown in the menu
     int[] currentItems;
+    // The index for all the items in the player's inventory
     int[] currentItemIndexes;
+
+    // This is the item currently selected by the player
+    int currentItem = -1;
 
     int iteratorLength;
 
@@ -74,6 +78,9 @@ public class InventoryMenu : MonoBehaviour
     {
         UpdateButtons();
 
+        
+
+        // Shows how full the inventory is
         invCountText.text = PlayerSingleton.instance.playerInventory.Count + "/" + PlayerSingleton.instance.inventorySize;
 
         // Vertical input for navigating the list of items
@@ -241,7 +248,49 @@ public class InventoryMenu : MonoBehaviour
 
     public void ItemOptions(int index)
     {
+        // Sets the position of the item options menu
         itemOptions.transform.position = itemButtons[index].transform.position;
+        // Activates the item options
         itemOptions.SetActive(true);
+
+        // Deactivates all the buttons in the item list
+        for (int i = 0; i < itemButtons.Length; i++)
+        {
+            itemButtons[i].GetComponent<Button>().enabled = false;
+        }
+
+        // Sets that the current item selected is the button we just pressed
+        currentItem = index;
+    }
+
+    // Uses the effect of the item selected
+    public void UseItem()
+    {
+
+    }
+
+    // Throws away the item selected
+    public void ThrowAwayItem()
+    {
+        // Calls the function to remove the item, if there is no items left then in this stack we close the window also
+        if(GetComponent<InventoryHandler>().RemoveItem(currentItemIndexes[currentItems[currentItem]]))
+        {
+            CancelButton();
+        }
+    }
+
+    // Cancels to take away the item options menu
+    public void CancelButton()
+    {
+        // Deactivates the item option menu
+        itemOptions.SetActive(false);
+
+        // Reactivates all the buttons in the item list
+        for (int i = 0; i < itemButtons.Length; i++)
+        {
+            itemButtons[i].GetComponent<Button>().enabled = true;
+        }
+
+        currentItem = -1;
     }
 }

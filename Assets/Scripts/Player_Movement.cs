@@ -5,20 +5,14 @@ using UnityEngine;
 public class Player_Movement : MonoBehaviour
 {
     // The characters player controller and animator components
-    private CharacterController controller;
+    private Rigidbody rb;
     private Animator _anim;
 
     // How fast the player will be moving
-    [Range(1f, 10f)]
+    [Range(1f, 50f)]
     public float moveSpeed = 0f;
     // Modifier to adjust animation speed
-    const float speedMod = 0.4375f;
-
-    // Determines how fast the character falls
-    [Range(1f, 10f)]
-    public float weight = 1;
-    // Gravity constant
-    const float gravity = 9.8f;
+    public float speedMod = 0.3f;
 
     // Vector for movement input
     Vector3 inputVec = Vector3.zero;
@@ -27,12 +21,12 @@ public class Player_Movement : MonoBehaviour
 
     void Start ()
     {
-        controller = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
 
         _anim = GetComponent<Animator>();
 	}
 	
-	void Update ()
+	void FixedUpdate ()
     {
         if (PlayerSingleton.instance.canMove)
         {
@@ -52,23 +46,11 @@ public class Player_Movement : MonoBehaviour
             if (inputMagnitude > 0)
             {
                 transform.rotation = Quaternion.LookRotation(new Vector3(inputVec.x, 0, inputVec.z));
-
-                if (inputVec.x != 0 && inputVec.z != 0)
-                {
-                    inputVec.x = inputVec.x * inputMagnitude / 2;
-                    inputVec.z = inputVec.z * inputMagnitude / 2;
-                }
             }
 
-            // If the character is already grounded we set their y speed to zero
-            if (controller.isGrounded)
-                m_ySpeed = 0;
-
-            m_ySpeed = -gravity * weight * Time.deltaTime;
-            inputVec.y = m_ySpeed;
-
-            // Moves the character with the CharacterController component
-            controller.Move(inputVec * moveSpeed * Time.deltaTime);
+            // Moves the character by lerping the velocity variable in rigidbody
+            rb.velocity = new Vector3(Mathf.Lerp(0, inputVec.x * moveSpeed, 0.8f), 0, 
+                Mathf.Lerp(0, inputVec.z * moveSpeed, 0.8f));
         }
         else
         {
