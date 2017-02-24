@@ -56,6 +56,8 @@ public class Player_Movement : MonoBehaviour
         {
             // Sets the parameter for the player's walk animation to make it stop whilst not moving
             _anim.SetFloat("Velocity", 0);
+
+            rb.velocity = Vector3.zero;
         }
     }
 
