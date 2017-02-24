@@ -45,7 +45,7 @@ public class CombatStart : MonoBehaviour
             PlayerSingleton.instance.attackingEnemy = enemy.tag;
             PlayerSingleton.instance.overWorldPos = this.transform.position;
             PlayerSingleton.instance.overWorldRot = this.transform.rotation;
-            OverworldEnemySingleton.instance.currentEnemyIndex = OverworldEnemySingleton.instance.enemies.IndexOf(enemy.transform.root.gameObject);
+            OverworldEnemySingleton.instance.currentEnemyIndex = OverworldEnemySingleton.instance.enemies.IndexOf(enemy.transform.parent.parent.gameObject);
         }
     }
 }

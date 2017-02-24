@@ -220,6 +220,7 @@ public class ComboSystem : MonoBehaviour
         shouldSpawn = true;
         hitAccuracy = 0;
         player.GetComponent<PlayerCombatLogic>().hitAccuracy = 0;
+        critHit = 0;
         excellentHit = 0;
         greatHit = 0;
         goodHit = 0;
