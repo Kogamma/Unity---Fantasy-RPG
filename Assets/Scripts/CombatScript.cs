@@ -166,14 +166,14 @@ public class CombatScript : MonoBehaviour
                 break;
             //Check if currentTurn is equal to Enemy
             case "Enemy":
+                List<string> text2 = new List<string>();
                 //Check if the enemy health is less or equal to zero
                 if (enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().enemyHp <= 0)
                 {
                     //If it is a textbox will show, a death animation for the enamy will be played and a return to the world button will be showed 
                     enemyHolder.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Dead");
-                    List<string> text = new List<string>();
-                    text.Add("You defeated the enemy, you got " + enemyClass.enemyExp + " exp!");
-                    textBox.PrintMessage(text, menuManager, "ReturnToWorldSelect");
+                    text2.Add("You defeated the enemy, you got " + enemyClass.enemyExp + " exp!");
+                    textBox.PrintMessage(text2, menuManager, "ReturnToWorldSelect");
                     enemyIsDead = true;
 
                     // Marks this enemy for deactivation when the player returns to the last scene
@@ -183,10 +183,26 @@ public class CombatScript : MonoBehaviour
                 }
                 else if (enemyClass.isStunned == false)
                 {
+                    if (enemyClass.isConfused)
+                    {
+                        enemyConfusedTurns++;
+
+                        if(enemyConfusedTurns == maxConfusedTurns)
+                        {
+                            enemyHolder.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().loop = false;
+                            enemyConfusedTurns = 0;
+                            enemyClass.isConfused = false;
+                            text2.Add("The Enemy is no longer confused!");
+                            textBox.PrintMessage(text2, gameObject, "EnemyAttack");
+                        }
+                        else
+                            EnemyAttack();
+                    }
+                    else
+                        //Calling the function EnemyAttack
+                        EnemyAttack();
                     //Setting the player menu to false
-                    playerMenu.SetActive(false);
-                    //Calling the function EnemyAttack
-                    EnemyAttack();                    
+                    playerMenu.SetActive(false);             
                 }
                 else
                 {
@@ -215,7 +231,6 @@ public class CombatScript : MonoBehaviour
     //This function wil call the enemy attack pattern
     public void EnemyAttack()
     {
-        
         //Change the viewport to ENEMY
         ChangeViewPort(cameraState.ENEMY);
         //Calling the child to the enemyHolder and calling AttackPattern

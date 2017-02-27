@@ -69,6 +69,21 @@ public class PlayerCombatLogic : MonoBehaviour {
 
         PlayerSingleton.instance.playerMana -= 5;
     }
+
+    public void ConfusionAttack()
+    {
+        notes = 6;          //The combo will have 6 notes
+        noteSpeed = 0.4f * noteSpeedMultiplicator;    //The speed for the notes will be 200
+        interval = 0.3f;    //They will come 0.3sec after each other
+        critchance = 15;    //The player will have 15% critchance
+
+        comboSystem.SetActive(true);                                                                        //Setting the combo system ui to true
+        dmg = PlayerSingleton.instance.playerDmg + ((0.9f * (float)PlayerSingleton.instance.playerInt));    //Setting the damage for the player
+        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval, critchance);      //Calling the funtion Activatecombo, and placing the parameters in
+
+        PlayerSingleton.instance.playerMana -= 10;
+    }
+
     public void Flee()
     {
         notes = 6;
@@ -97,7 +112,6 @@ public class PlayerCombatLogic : MonoBehaviour {
             {
                 case "IceAttack":
                     Instantiate(iceParticle, combatScript.enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
-                    Debug.Log("Alive: " + iceParticle.GetComponent<ParticleSystem>().IsAlive(true));
 
                     if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().chanceToGetFreeze >=rng)
                     {
@@ -108,6 +122,15 @@ public class PlayerCombatLogic : MonoBehaviour {
                         //Instantiate(iceBlock, combatHandler.GetComponent<CombatScript>().enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
                     }
                     break;
+
+                case "ConfusionAttack":
+                    combatScript.enemyHolder.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().Play();
+                    combatScript.enemyHolder.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().loop = true;
+
+                    if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().chanceToGetConfused >= rng)
+                        combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isConfused = true;
+                    break;
+
                 case "Flee":
                     List<string> text2 = new List<string>();
                     if (hitAccuracy >= 0.7)
@@ -131,9 +154,9 @@ public class PlayerCombatLogic : MonoBehaviour {
                 List<string> text = new List<string>();
                 text.Add("You did " + (int)dmg + " damage to the enemy!");
                 if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned)
-                {
                     text.Add("The Enemy froze! It has to skip a turn!");
-                }
+                else if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isConfused && whichAttack == "ConfusionAttack")
+                    text.Add("The Enemy is confused! Its attacks are now weaker!");
                 textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(text, gameObject, "ChangeViewToMain");
             }
 
