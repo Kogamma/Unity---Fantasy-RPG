@@ -27,6 +27,10 @@ public class CombatScript : MonoBehaviour
     private int enemyPoisonedTurns = 0;
     private int maxPoisonedTurns = 3;
 
+    private int playerConfusedTurns;
+    private int enemyConfusedTurns;
+    private int maxConfusedTurns = 3;
+
     private EnemyClass enemyClass;
 
 	// Use this for initialization
@@ -108,8 +112,8 @@ public class CombatScript : MonoBehaviour
                     List<string> text = new List<string>();
                     if (PlayerSingleton.instance.poisoned)
                     {
-                        player.GetComponentInChildren<ParticleSystem>().Play();
-                        player.GetComponentInChildren<ParticleSystem>().loop = true;
+                        player.transform.GetChild(4).GetComponent<ParticleSystem>().Play();
+                        player.transform.GetChild(4).GetComponent<ParticleSystem>().loop = true;
 
                         int rndDamage = Random.Range(1, 4);
                         PlayerSingleton.instance.playerHealth -= rndDamage;
@@ -119,18 +123,43 @@ public class CombatScript : MonoBehaviour
 
                         if (playerPoisonedTurns == maxPoisonedTurns)
                         {
-                            player.GetComponentInChildren<ParticleSystem>().loop = false;
+                            player.transform.GetChild(4).GetComponent<ParticleSystem>().loop = false;
                             text[0] += ("\n\nYou are no longer poisoned!");
                             PlayerSingleton.instance.poisoned = false;
+                            playerPoisonedTurns = 0;
                         }
 
                         textBox.PrintMessage(text, menuManager, "MainSelect");
                     }
+
+                    else if (PlayerSingleton.instance.confused)
+                    {
+                        player.transform.GetChild(5).GetComponent<ParticleSystem>().Play();
+                        player.transform.GetChild(5).GetComponent<ParticleSystem>().loop = true;
+
+                        player.GetComponent<PlayerCombatLogic>().noteSpeedMultiplicator = 2;
+                        playerConfusedTurns++;
+                        if (playerConfusedTurns == maxConfusedTurns)
+                        {
+                            player.transform.GetChild(5).GetComponent<ParticleSystem>().loop = false;
+                            PlayerSingleton.instance.confused = false;
+                            playerConfusedTurns = 0;
+                            player.GetComponent<PlayerCombatLogic>().noteSpeedMultiplicator = 1;
+                            text.Add("You are no longer confused!");
+                        }
+                        else
+                        {
+                            text.Add("You are confused!");
+                        }
+                        textBox.PrintMessage(text, menuManager, "MainSelect");
+                    }
+
                     else
                     {
                         // Resets menu to the main combat menu
                         menuManager.GetComponent<MenuManagment>().MainSelect();
                     }
+
 
                     enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned = false;
                 }

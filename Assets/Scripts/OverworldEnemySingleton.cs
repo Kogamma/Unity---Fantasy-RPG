@@ -23,7 +23,7 @@ public class OverworldEnemySingleton : MonoBehaviour
     private static OverworldEnemySingleton m_instance;
 
     // List of enemies
-    [System.NonSerialized] public List<GameObject> enemies;
+    public List<GameObject> enemies;
 
     // List of bools telling if an enemy should be dead
     // Since the enemy list will be sorted, these bools will share the index with the enemies
@@ -34,4 +34,7 @@ public class OverworldEnemySingleton : MonoBehaviour
 
     // Has the player returned from combat?
     public bool backFromCombat = false;
+
+    // Has the player fled from combat?
+    public bool fled = false;
 }

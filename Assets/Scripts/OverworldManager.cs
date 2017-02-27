@@ -23,5 +23,10 @@ public class OverworldManager : MonoBehaviour
             if (OverworldEnemySingleton.instance.shouldDestroy[i])
                 OverworldEnemySingleton.instance.enemies[i].SetActive(false);
         }
+
+        if(OverworldEnemySingleton.instance.fled)
+        {
+            OverworldEnemySingleton.instance.enemies[OverworldEnemySingleton.instance.currentEnemyIndex].GetComponentInChildren<EnemyAiMovement>().isFrozen = true;
+        }
     }
 }
