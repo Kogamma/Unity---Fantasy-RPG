@@ -70,6 +70,10 @@ public class PlayerSingleton : MonoBehaviour
     public Vector3 overWorldPos;
     public Quaternion overWorldRot;
 
+    // Saves position of entry point to know where to spawn when entering or restarting scenes
+    public Vector3 entryPos;
+    public Vector3 entryRot;
+
     // This is a variable you can use if you want to know if the player should be able to move
     public bool canMove = true;
 
