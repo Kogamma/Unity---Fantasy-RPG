@@ -15,7 +15,10 @@ public class OverworldManager : MonoBehaviour
         // If the player hasn't returned from combat, the list with bools will have the same amount of items as the enemy-list
         // This makes sure that the list isn't reset and that the amount of enemies can vary from scene to scene
         if (!OverworldEnemySingleton.instance.backFromCombat)
+        {
             OverworldEnemySingleton.instance.shouldDestroy = new List<bool>(new bool[OverworldEnemySingleton.instance.enemies.Count]);
+            OverworldEnemySingleton.instance.backFromCombat = false;
+        }
 
         for (int i = 0; i < OverworldEnemySingleton.instance.enemies.Count; i++)
         {
@@ -27,6 +30,7 @@ public class OverworldManager : MonoBehaviour
         if(OverworldEnemySingleton.instance.fled)
         {
             OverworldEnemySingleton.instance.enemies[OverworldEnemySingleton.instance.currentEnemyIndex].GetComponentInChildren<EnemyAiMovement>().isFrozen = true;
+            OverworldEnemySingleton.instance.fled = false;
         }
     }
 }

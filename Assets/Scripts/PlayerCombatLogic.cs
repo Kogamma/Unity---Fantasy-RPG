@@ -152,9 +152,10 @@ public class PlayerCombatLogic : MonoBehaviour {
                 case "FireAttack":
                     if (!combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isFrozen)
                     {
+                        combatScript.enemyHolder.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>().Play();
+                        combatScript.enemyHolder.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>().loop = true;
                         if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().chanceToGetOnFire >= rng)
                             combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().onFire = true;
-                        
                     }
                     break;
                 case "Flee":

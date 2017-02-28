@@ -209,10 +209,10 @@ public class InventoryMenu : MonoBehaviour
         for (int i = 0; i < PlayerSingleton.instance.equippedItems.Length; i++)
         {
             // Checks if we have any equipment on that slot
-            if(PlayerSingleton.instance.equippedItems[i].itemName != null)
+            if(PlayerSingleton.instance.equippedItems[i].itemName != "-1")
             {
                 // Disables the text that shows what item will go in this slot
-                equipmentSlots[i].GetComponentInChildren<Text>().enabled = true;
+                equipmentSlots[i].GetComponentInChildren<Text>().enabled = false;
 
                 // Sets what image to display in the equipment slot
                 equipmentSlots[i].transform.GetChild(0).GetComponent<Image>().sprite = PlayerSingleton.instance.equippedItems[i].itemImage;
