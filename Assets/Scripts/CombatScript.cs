@@ -201,19 +201,20 @@ public class CombatScript : MonoBehaviour
                     {
                         enemyFireTurns++;
                         int rndDamage = Random.Range(1, 4) * (PlayerSingleton.instance.playerInt / 5);
-                        PlayerSingleton.instance.playerHealth -= rndDamage;
+                        enemyClass.enemyHp -= rndDamage;
 
                         text2.Add("The enemy took " + rndDamage + " fire damage!");
 
                         if (enemyFireTurns == maxFireTurns)
                         {
+                            enemyHolder.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>().loop = false;
                             enemyFireTurns = 0;
                             enemyClass.onFire = false;
                             text2.Add("The enemy is no longer on fire!");
                         }
                     }
 
-                    if (text2[0] != null)
+                    if (text2.Count > 0)
                         textBox.PrintMessage(text2, gameObject, "EnemyAttack");
 
                     else
