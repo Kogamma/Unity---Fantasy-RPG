@@ -57,7 +57,7 @@ public class Player_Movement : MonoBehaviour
             }
 
             // Moves the character by lerping the velocity variable in rigidbody
-            rb.velocity = new Vector3(Mathf.Lerp(0, inputVec.x * moveSpeed, 0.8f), 0, 
+            rb.velocity = new Vector3(Mathf.Lerp(0, inputVec.x * moveSpeed, 0.8f), rb.velocity.y, 
                 Mathf.Lerp(0, inputVec.z * moveSpeed, 0.8f));
         }
         else
