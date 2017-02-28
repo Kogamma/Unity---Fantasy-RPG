@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class MenuManagment : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class MenuManagment : MonoBehaviour
     [SerializeField] GameObject itemsGroup;
     [SerializeField] GameObject uiBox;
     [SerializeField] GameObject returnButton;
+    [SerializeField] GameObject descriptionBox;
 
     public AttackButton[] attackButtons;
 
@@ -28,16 +30,19 @@ public class MenuManagment : MonoBehaviour
     {
         for(int i = 0; i < attackButtons.Length; i++)
         {
-            attackButtons[i].button.transform.GetChild(1).GetComponent<Text>().text ="(" + attackButtons[i].manaCost + " MP)";
-            if (attackButtons[i].manaCost > PlayerSingleton.instance.playerMana)
+            if (attackButtons[i].manaCost != 0)
             {
-                attackButtons[i].button.transform.GetChild(1).GetComponent<Text>().color = redColor;
-                attackButtons[i].button.interactable = false;
-            }
-            else if (attackButtons[i].manaCost <= PlayerSingleton.instance.playerMana)
-            {
-                attackButtons[i].button.transform.GetChild(1).GetComponent<Text>().color = blueColor;
-                attackButtons[i].button.interactable = true;
+                attackButtons[i].button.transform.GetChild(1).GetComponent<Text>().text = "(" + attackButtons[i].manaCost + " MP)";
+                if (attackButtons[i].manaCost > PlayerSingleton.instance.playerMana)
+                {
+                    attackButtons[i].button.transform.GetChild(1).GetComponent<Text>().color = redColor;
+                    attackButtons[i].button.interactable = false;
+                }
+                else if (attackButtons[i].manaCost <= PlayerSingleton.instance.playerMana)
+                {
+                    attackButtons[i].button.transform.GetChild(1).GetComponent<Text>().color = blueColor;
+                    attackButtons[i].button.interactable = true;
+                }
             }
         }
     }
@@ -74,10 +79,27 @@ public class MenuManagment : MonoBehaviour
         returnButton.SetActive(true);
         attackGroup.SetActive(false);
     }
+
+
+    public void DisplayDescription(int buttonIndex)
+    {
+        descriptionBox.GetComponentInChildren<Text>().text = attackButtons[buttonIndex].description;
+        descriptionBox.SetActive(true);
+    }
+
+
+    public void RemoveDescription()
+    {
+        descriptionBox.SetActive(false);
+    }
 }
+
+
 [System.Serializable]
 public class AttackButton
 {
     public Button button;
     public int manaCost;
+    [TextArea]
+    public string description;
 } 
