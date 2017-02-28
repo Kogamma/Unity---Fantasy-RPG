@@ -9,6 +9,9 @@ public class EnemyAiMovement : MonoBehaviour {
     private Transform ultimateGoal;
     public Transform[]goals;
     private int currentGoal = 0;
+    public bool isFrozen;
+    float timer = 0;
+    float cd = 3f;
 
     private Transform playerTransform;
 
@@ -25,26 +28,42 @@ public class EnemyAiMovement : MonoBehaviour {
 
     private void Update()
     {
-        if (isChasing == true)
+        if (!isFrozen)
         {
-            agent.SetDestination(playerTransform.position);    //  Set Destination to Player
+            if (isChasing == true)
+            {
+                agent.SetDestination(playerTransform.position);    //  Set Destination to Player
+            }
+            else
+            {
+                agent.SetDestination(ultimateGoal.position);
+            }
+
+            if (Vector3.Distance(transform.position, ultimateGoal.position) < 1.0f) // Goes to path to the next
+            {
+                if (ultimateGoal.transform == goals[currentGoal])
+                {
+                    if (currentGoal == goals.Length - 1)
+                        currentGoal = 0;
+                    else
+                        currentGoal++;
+                    ultimateGoal = goals[currentGoal];
+
+                }
+            }
         }
         else
         {
-            agent.SetDestination(ultimateGoal.position);
-        }
-
-        if(Vector3.Distance(transform.position, ultimateGoal.position) < 1.0f ) // Goes to path to the next
-        {
-            if(ultimateGoal.transform == goals[currentGoal])
+            GetComponentInChildren<BoxCollider>().enabled = false;
+            timer += Time.deltaTime;
+            if (timer >= cd)
             {
-                if (currentGoal == goals.Length - 1)
-                    currentGoal = 0;
-                else
-                    currentGoal++;
-                ultimateGoal = goals[currentGoal];
-
+                timer = 0;
+                GetComponentInChildren<BoxCollider>().enabled = true;
+                isFrozen = false;
             }
+
+
         }
     }
 

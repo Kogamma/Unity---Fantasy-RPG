@@ -12,6 +12,7 @@ public class PlayerCombatLogic : MonoBehaviour {
     Animator anim;                                              //Using the get the animator player
     int notes;                                                  //Using to set how many notes
     float noteSpeed;                                            //Using to set the notespeed for the attacks
+    public float noteSpeedMultiplicator = 1;
     float interval;                                             //Using to set the interval for the notes on the diffrent attacks
     int critchance;                                             //Using to set the critchance for the diffrent attack
     float dmg;                                                  //Using to set the damge for the player
@@ -44,7 +45,7 @@ public class PlayerCombatLogic : MonoBehaviour {
     public void MeeleAttack()
     {
         notes = 4;          //The combo will have 4 notes
-        noteSpeed = 0.3f;    //The speed for the notes will be 150
+        noteSpeed = 0.3f * noteSpeedMultiplicator;    //The speed for the notes will be 150
         interval = 0.5f;    //They will come 0.5 sec after each other
         critchance = 10;    // The player will have 10% critchance
 
@@ -58,7 +59,7 @@ public class PlayerCombatLogic : MonoBehaviour {
     public void IceAttack()
     {
         notes = 6;          //The combo will have 6 notes
-        noteSpeed = 0.6f;    //The speed for the notes will be 200
+        noteSpeed = 0.6f * noteSpeedMultiplicator;    //The speed for the notes will be 200
         interval = 0.5f;    //They will come 0.5sec after each other
         critchance = 10;    //The player will have 10% critchance
 
@@ -69,12 +70,38 @@ public class PlayerCombatLogic : MonoBehaviour {
         PlayerSingleton.instance.playerMana -= 5;
     }
 
+    public void ConfusionAttack()
+    {
+        notes = 6;          //The combo will have 6 notes
+        noteSpeed = 0.4f * noteSpeedMultiplicator;    //The speed for the notes will be 200
+        interval = 0.3f;    //They will come 0.3sec after each other
+        critchance = 15;    //The player will have 15% critchance
+
+        comboSystem.SetActive(true);                                                                        //Setting the combo system ui to true
+        dmg = PlayerSingleton.instance.playerDmg + ((0.9f * (float)PlayerSingleton.instance.playerInt));    //Setting the damage for the player
+        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval, critchance);      //Calling the funtion Activatecombo, and placing the parameters in
+
+        PlayerSingleton.instance.playerMana -= 10;
+    }
+
+    public void Flee()
+    {
+        notes = 6;
+        noteSpeed = 0.4f * noteSpeedMultiplicator;
+        interval = 0.5f;
+        critchance = 10;
+
+        comboSystem.SetActive(true);
+        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval, critchance);
+    }
+
     public void AttackIsDone()
     {
         //Check if the combo is done
         if (comboIsDone)
         {
-            anim.SetTrigger("MeeleAttack");   //Playing the attack animation
+            if(whichAttack != "Flee")
+                anim.SetTrigger("MeeleAttack");   //Playing the attack animation
             dmg *= hitAccuracy;             //Multiplay the damge with the combo hit accuracy
 
             float rng = Random.Range(0f, 1f);
@@ -85,7 +112,6 @@ public class PlayerCombatLogic : MonoBehaviour {
             {
                 case "IceAttack":
                     Instantiate(iceParticle, combatScript.enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
-                    Debug.Log("Alive: " + iceParticle.GetComponent<ParticleSystem>().IsAlive(true));
 
                     if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().chanceToGetFreeze >=rng)
                     {
@@ -97,18 +123,42 @@ public class PlayerCombatLogic : MonoBehaviour {
                     }
                     break;
 
+                case "ConfusionAttack":
+                    combatScript.enemyHolder.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().Play();
+                    combatScript.enemyHolder.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().loop = true;
+
+                    if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().chanceToGetConfused >= rng)
+                        combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isConfused = true;
+                    break;
+
+                case "Flee":
+                    List<string> text2 = new List<string>();
+                    if (hitAccuracy >= 0.7)
+                    {
+                        text2.Add("You succeed to flee!");
+                        OverworldEnemySingleton.instance.fled = true;
+                        textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(text2,gameObject,"FleeToScene");
+                    }
+                     if(hitAccuracy < 0.7)
+                    {
+                        text2.Add("You failed to flee!");
+                        textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(text2, gameObject, "ChangeViewToMain");
+                    }
+                    break;
                 default:
                     break;
                    
             }
-
-            List<string> text = new List<string>();
-            text.Add("You did " + (int)dmg + " damage to the enemy!");
-            if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned)
+            if (whichAttack != "Flee")
             {
-                text.Add("The Enemy froze! It has to skip a turn!");
+                List<string> text = new List<string>();
+                text.Add("You did " + (int)dmg + " damage to the enemy!");
+                if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned)
+                    text.Add("The Enemy froze! It has to skip a turn!");
+                else if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isConfused && whichAttack == "ConfusionAttack")
+                    text.Add("The Enemy is confused! Its attacks are now weaker!");
+                textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(text, gameObject, "ChangeViewToMain");
             }
-            textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(text, gameObject, "ChangeViewToMain");
 
             comboIsDone = false;                            //Setting combo is done to false;
         }
@@ -132,6 +182,12 @@ public class PlayerCombatLogic : MonoBehaviour {
         StartCoroutine(TurnDelay());
 
     }
+
+    void FleeToScene()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Forest_Scene_1");
+    }
+
     IEnumerator TurnDelay()
     {
         yield return new WaitForSeconds(1);

@@ -23,14 +23,19 @@ public class CombatSceneStart : MonoBehaviour
     {
         if (PlayerSingleton.instance.attackingEnemy == "Slime")
             enemy = Instantiate(enemies[0], enemies[0].transform.position, enemies[0].transform.rotation, enemyHolder.transform);
+
         else if (PlayerSingleton.instance.attackingEnemy == "Zombie")
             enemy = Instantiate(enemies[1], enemies[1].transform.position, enemies[1].transform.rotation, enemyHolder.transform);
+
         else if (PlayerSingleton.instance.attackingEnemy == "Bat")
             enemy = Instantiate(enemies[2], enemies[2].transform.position, enemies[2].transform.rotation, enemyHolder.transform);
+
         else if (PlayerSingleton.instance.attackingEnemy == "Ghost")
             enemy = Instantiate(enemies[3], enemies[3].transform.position, enemies[3].transform.rotation, enemyHolder.transform);
+
         else if (PlayerSingleton.instance.attackingEnemy == "Troll")
             enemy = Instantiate(enemies[4], enemies[4].transform.position, enemies[4].transform.rotation, enemyHolder.transform);
+
         else if (PlayerSingleton.instance.attackingEnemy == "Boss")
             enemy = Instantiate(enemies[5], enemies[5].transform.position, enemies[5].transform.rotation, enemyHolder.transform);
 

@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyClass : MonoBehaviour
 {
     public float chanceToGetFreeze;
+    public float chanceToGetConfused;
     public int enemyHp;
     protected int maxHP;
     public int enemyExp;
@@ -14,6 +15,7 @@ public class EnemyClass : MonoBehaviour
     public string displayName = "enemy";
     public bool isStunned;
     public bool isFrozen = false;
+    public bool isConfused = false;
 
     protected Animator anim;
     CombatScript combatScript;
@@ -48,6 +50,9 @@ public class EnemyClass : MonoBehaviour
     {
         enemyDmgDealt = enemyDmg;
 
+        if (isConfused)
+            enemyDmgDealt = Mathf.RoundToInt(enemyDmgDealt * 0.67f);
+
         //PLayerHealth minus the enemydmg
         PlayerSingleton.instance.playerHealth -= enemyDmgDealt;
         //Playing the attack animation
@@ -60,6 +65,9 @@ public class EnemyClass : MonoBehaviour
     public void PoisonAttack()
     {
         enemyDmgDealt = enemyDmg / 2;
+
+        if (isConfused)
+            enemyDmgDealt = Mathf.RoundToInt(enemyDmgDealt * 0.67f);
 
         //PLayerHealth minus the enemydmg
         PlayerSingleton.instance.playerHealth -= enemyDmgDealt;
@@ -78,6 +86,9 @@ public class EnemyClass : MonoBehaviour
     {
         // Calculates what damage to deal
         enemyDmgDealt = Mathf.RoundToInt(enemyDmg * 0.75f);
+
+        if (isConfused)
+            enemyDmgDealt = Mathf.RoundToInt(enemyDmgDealt * 0.67f);
 
         // Decreases player health with damage dealt
         PlayerSingleton.instance.playerHealth -= enemyDmgDealt;
@@ -104,7 +115,6 @@ public class EnemyClass : MonoBehaviour
         combatScript.player.GetComponent<Animator>().SetTrigger("Attacked");
         //Check when the textbox is done and change the camerstate to main
         combatTextbox.PrintMessage(text, gameObject, "ChangeViewToMain");
-        
     }
 
     public virtual void AttackPattern()
