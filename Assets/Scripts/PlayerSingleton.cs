@@ -70,6 +70,8 @@ public class PlayerSingleton : MonoBehaviour
     public Vector3 overWorldPos;
     public Quaternion overWorldRot;
 
+    public int currentScene;
+
     // Saves position of entry point to know where to spawn when entering or restarting scenes
     public Vector3 entryPos;
     public Vector3 entryRot;
