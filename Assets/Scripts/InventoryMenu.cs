@@ -10,8 +10,6 @@ public class InventoryMenu : MonoBehaviour
     private StandaloneInputModule _inputModule;
     private EventSystem _eventSystem;
 
-    List<InventoryItem> inv;
-
     // The buttons that represent items in the inventory menu
     public GameObject[] itemButtons;
 
@@ -20,6 +18,10 @@ public class InventoryMenu : MonoBehaviour
 
     // This is the window that pops up when we press an item
     public GameObject itemOptions;
+    // This is the window that pops up when we press an equippable item
+    public GameObject equipOptions;
+    // This is the window that pops up when we have to choose if we want to switch equipment
+    public GameObject switchEquipOptions;
 
     public GameObject eventObj;
 
@@ -80,15 +82,12 @@ public class InventoryMenu : MonoBehaviour
 
         _eventSystem.SetSelectedGameObject(inventoryHolder);
 
-        // Gets the inventory from our PlayerSingleton
-        inv = PlayerSingleton.instance.playerInventory;
-
         // How many buttons we will iterate
         iteratorLength = itemButtons.Length;
         // If there are more buttons than there are items in the inventory,
         // we iterate the amount of items in the inventory instead 
-        if (iteratorLength > inv.Count)
-            iteratorLength = inv.Count;
+        if (iteratorLength > PlayerSingleton.instance.playerInventory.Count)
+            iteratorLength = PlayerSingleton.instance.playerInventory.Count;
 
         // Initializes and sets the length of the list of currentItems
         currentItems = new int[itemButtons.Length];
@@ -109,6 +108,8 @@ public class InventoryMenu : MonoBehaviour
             currentItemIndexes[i] = -1;
         }
 
+        // Initializes the equipmentslots array
+        equipmentSlots = new GameObject[6];
         // Puts the equipment slots in the array
         equipmentSlots[0] = headSlot;
         equipmentSlots[1] = chestSlot;
@@ -121,6 +122,8 @@ public class InventoryMenu : MonoBehaviour
 	void Update ()
     {
         UpdateButtons();
+
+        UpdateEquipment();
 
         // Shows how full the inventory is
         invCountText.text = PlayerSingleton.instance.playerInventory.Count + "/" + PlayerSingleton.instance.inventorySize;
@@ -138,8 +141,6 @@ public class InventoryMenu : MonoBehaviour
     public void UpdateButtons()
     {
         #region Inventory
-        // Gets the inventory from our PlayerSingleton
-        inv = PlayerSingleton.instance.playerInventory;
 
         // How many buttons we will iterate
         iteratorLength = itemButtons.Length;
@@ -161,14 +162,14 @@ public class InventoryMenu : MonoBehaviour
                 }
 
                 // Adds the item's sprite to the item button
-                itemButtons[i].transform.GetChild(0).GetComponent<Image>().sprite = inv[currentItemIndexes[currentItems[i]]].itemImage;
+                itemButtons[i].transform.GetChild(0).GetComponent<Image>().sprite = PlayerSingleton.instance.playerInventory[currentItemIndexes[currentItems[i]]].itemImage;
                 itemButtons[i].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 1);
 
                 // Adds the name of the item to the item button
-                itemButtons[i].transform.GetChild(1).GetComponent<Text>().text = inv[currentItemIndexes[currentItems[i]]].itemName;
+                itemButtons[i].transform.GetChild(1).GetComponent<Text>().text = PlayerSingleton.instance.playerInventory[currentItemIndexes[currentItems[i]]].itemName;
 
                 // Adds the amount of the item to the item button
-                itemButtons[i].transform.GetChild(2).GetComponent<Text>().text = "x" + inv[currentItemIndexes[currentItems[i]]].amountOfItem;
+                itemButtons[i].transform.GetChild(2).GetComponent<Text>().text = "x" + PlayerSingleton.instance.playerInventory[currentItemIndexes[currentItems[i]]].amountOfItem;
             }
             // If there is nothing in the inventory slot...
             else
@@ -193,7 +194,7 @@ public class InventoryMenu : MonoBehaviour
         {
             if (currentItem != -1)
             {
-                itemInfoText.text = inv[currentItemIndexes[currentItems[currentItem]]].infoText;
+                itemInfoText.text = PlayerSingleton.instance.playerInventory[currentItemIndexes[currentItems[currentItem]]].infoText;
             }
             else
                 itemInfoText.text = "Choose an item to see info about it.";
@@ -204,11 +205,30 @@ public class InventoryMenu : MonoBehaviour
 
     public void UpdateEquipment()
     {
-        InventoryItem[] equipment = PlayerSingleton.instance.equippedItems;
-
-        for (int i = 0; i < equipment.Length; i++)
+        // Loops through all the equipment slots on the player
+        for (int i = 0; i < PlayerSingleton.instance.equippedItems.Length; i++)
         {
-            // START FROM HERE
+            // Checks if we have any equipment on that slot
+            if(PlayerSingleton.instance.equippedItems[i].itemName != null)
+            {
+                // Disables the text that shows what item will go in this slot
+                equipmentSlots[i].GetComponentInChildren<Text>().enabled = true;
+
+                // Sets what image to display in the equipment slot
+                equipmentSlots[i].transform.GetChild(0).GetComponent<Image>().sprite = PlayerSingleton.instance.equippedItems[i].itemImage;
+
+                // Enables the preview image for the equipment
+                equipmentSlots[i].transform.GetChild(0).GetComponent<Image>().enabled = true;
+            }
+            // If we don't have any equipment in that slot
+            else
+            {
+                // Enables the text that shows what item will go in this slot
+                equipmentSlots[i].GetComponentInChildren<Text>().enabled = true;
+
+                // Disables the preview image for the equipment
+                equipmentSlots[i].transform.GetChild(0).GetComponent<Image>().enabled = false;
+            }
         }
     }
 
@@ -217,14 +237,12 @@ public class InventoryMenu : MonoBehaviour
     {
         int incrementer = 0;
 
-        List<InventoryItem> inv = PlayerSingleton.instance.playerInventory;
-
         // Checks what direction of input we made
         if (direction < 0)
         {
             // Checks if we're on the bottom of the list and that we have more items to show below
             if (_eventSystem.currentSelectedGameObject == itemButtons[itemButtons.Length - 1]
-                && currentItems[currentItems.Length - 1] + 1 < inv.Count)
+                && currentItems[currentItems.Length - 1] + 1 < PlayerSingleton.instance.playerInventory.Count)
             {
                 // Times the up and down input with the input modules repeat delay variable
                 if (Time.time - startTime >= _inputModule.repeatDelay / 2)
@@ -265,13 +283,11 @@ public class InventoryMenu : MonoBehaviour
     {
         int incrementer = 0;
 
-        List<InventoryItem> inv = PlayerSingleton.instance.playerInventory;
-
         // Checks what direction of input we made
         if (direction < 0)
         {
             // Checks if we have more items to show below
-            if (currentItems[currentItems.Length - 1] + 1 < inv.Count)
+            if (currentItems[currentItems.Length - 1] + 1 < PlayerSingleton.instance.playerInventory.Count)
             {
                 // Says that we should go down in the list
                 incrementer = 1;
@@ -292,22 +308,16 @@ public class InventoryMenu : MonoBehaviour
         {
             currentItems[i] += incrementer;
         }
-        for (int i = 0; i < currentItems.Length; i++)
-        {
-            Debug.Log(currentItems[i]);
-        }
     }
 
     public void UpdateItems()
     {
-        List<InventoryItem> inv = PlayerSingleton.instance.playerInventory;
-
         iteratorLength = itemButtons.Length;
 
         for (int i = 0; i < currentItemIndexes.Length; i++)
         {
             // If we're on a slot that has an item
-            if (i <= inv.Count - 1)
+            if (i <= PlayerSingleton.instance.playerInventory.Count - 1)
             {
                 // Sets the value of the current items
                 currentItemIndexes[i] = i;
@@ -318,14 +328,33 @@ public class InventoryMenu : MonoBehaviour
                 currentItemIndexes[i] = -1;
             }
         }
-    }
 
-    public void ItemOptions(int index)
+        /*for (int i = 0; i < PlayerSingleton.instance.playerInventory.Count; i++)
+        {
+            Debug.Log(PlayerSingleton.instance.playerInventory[i].itemName);
+        }*/
+    }
+    // All the methods for when we are pressing the item buttons in the inventory list
+    #region Item Button Press
+
+    // Checks what kind of item we are pressing
+    public void ItemButtonPress(int index)
     {
-        // Sets the position of the item options menu
-        itemOptions.transform.position = itemButtons[index].transform.position;
-        // Activates the item options
-        itemOptions.SetActive(true);
+        // Checks if the item is equippable
+        if (PlayerSingleton.instance.playerInventory[currentItemIndexes[currentItems[index]]].equippable)
+        {
+            // Sets the position of the item options menu
+            equipOptions.transform.position = itemButtons[index].transform.position;
+            // Activates the item options
+            equipOptions.SetActive(true);
+        }
+        else
+        {
+            // Sets the position of the item options menu
+            itemOptions.transform.position = itemButtons[index].transform.position;
+            // Activates the item options
+            itemOptions.SetActive(true);
+        }
 
         // Deactivates all the buttons in the item list
         for (int i = 0; i < itemButtons.Length; i++)
@@ -338,6 +367,9 @@ public class InventoryMenu : MonoBehaviour
         {
             arrowButtons[i].GetComponent<Button>().enabled = false;
         }
+
+        // Deactivates the cross button
+        crossButton.GetComponent<Button>().enabled = false;
 
         // Sets that the current item selected is the button we just pressed
         currentItem = index;
@@ -360,7 +392,7 @@ public class InventoryMenu : MonoBehaviour
         itemOptions.SetActive(false);
 
         // Removes the item when we use it
-        GetComponent<InventoryHandler>().RemoveItem(currentItem);
+        GetComponent<InventoryHandler>().RemoveItem(currentItemIndexes[currentItems[currentItem]]);
 
         // Sets it so we can't click on anything while the message is printing
         canClick = false;
@@ -380,11 +412,34 @@ public class InventoryMenu : MonoBehaviour
         }
     }
 
+    // Equips the current item we have selected
+    public void EquipItem()
+    {
+        // Tries to equip the item and returns if we succeded or not
+        if (GetComponent<InventoryHandler>().EquipItem(currentItemIndexes[currentItems[currentItem]]))
+        {
+            // If we succeded we just close the window and do nothing more
+            CancelButton();
+        }
+        else
+        {
+            // If we couldn't equip the item we bring forth the switchequipment window
+            switchEquipOptions.SetActive(true);
+
+            // We also hide the equipment window
+            equipOptions.SetActive(false);
+        }
+
+        UpdateItems();
+    }
+
     // Cancels to take away the item options menu
     public void CancelButton()
     {
-        // Deactivates the item option menu
+        // Deactivates the item options menu, the equip options menu and the switchequip menu
         itemOptions.SetActive(false);
+        equipOptions.SetActive(false);
+        switchEquipOptions.SetActive(false);
 
         // Reactivates all the buttons in the item list
         for (int i = 0; i < itemButtons.Length; i++)
@@ -396,6 +451,9 @@ public class InventoryMenu : MonoBehaviour
         {
             arrowButtons[i].GetComponent<Button>().enabled = true;
         }
+
+        // Activates the cross button
+        crossButton.GetComponent<Button>().enabled = true;
 
         // Sets the current item to none chosen
         currentItem = -1;
@@ -413,13 +471,16 @@ public class InventoryMenu : MonoBehaviour
         // Closes the item options window
         CancelButton();
     }
+    #endregion
 
+    #region Choose Menu Methods
     // Activates the inventory so the player can use it
     public void ActivateInventory()
     {
         // Activates the 'x' button and place it in the inventory menu
         crossButton.SetActive(true);
-        crossButton.transform.parent = inventoryHolder.transform;
+        crossButton.transform.SetParent(inventoryHolder.transform);
+        crossButton.transform.SetSiblingIndex(1);
         crossButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(40, -40);
 
         // Gets all the buttons in the inventory menu
@@ -450,7 +511,8 @@ public class InventoryMenu : MonoBehaviour
     {
         // Activates the 'x' button and place it in the equipment menu
         crossButton.SetActive(true);
-        crossButton.transform.parent = equipmentHolder.transform;
+        crossButton.transform.SetParent(equipmentHolder.transform);
+        crossButton.transform.SetSiblingIndex(1);
         crossButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(40, -40);
 
         // Gets all the buttons in the equipment menu
@@ -461,7 +523,6 @@ public class InventoryMenu : MonoBehaviour
 
         for (int i = 0; i < equipButtons.Count; i++)
         {
-            Debug.Log(equipButtons[i].gameObject);
             equipButtons[i].enabled = true;
         }
 
@@ -509,4 +570,5 @@ public class InventoryMenu : MonoBehaviour
 
         currentMenu = "Select";
     }
+#endregion
 }

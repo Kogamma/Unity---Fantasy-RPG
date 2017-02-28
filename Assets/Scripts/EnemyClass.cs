@@ -6,6 +6,7 @@ public class EnemyClass : MonoBehaviour
 {
     public float chanceToGetFreeze;
     public float chanceToGetConfused;
+    public float chanceToGetOnFire;
     public int enemyHp;
     protected int maxHP;
     public int enemyExp;
@@ -16,6 +17,7 @@ public class EnemyClass : MonoBehaviour
     public bool isStunned;
     public bool isFrozen = false;
     public bool isConfused = false;
+    public bool onFire = false;
 
     protected Animator anim;
     CombatScript combatScript;
