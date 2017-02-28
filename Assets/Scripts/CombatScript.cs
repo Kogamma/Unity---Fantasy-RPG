@@ -27,6 +27,10 @@ public class CombatScript : MonoBehaviour
     private int enemyPoisonedTurns = 0;
     private int maxPoisonedTurns = 3;
 
+    private int playerConfusedTurns;
+    private int enemyConfusedTurns;
+    private int maxConfusedTurns = 3;
+
     private EnemyClass enemyClass;
 
 	// Use this for initialization
@@ -108,8 +112,8 @@ public class CombatScript : MonoBehaviour
                     List<string> text = new List<string>();
                     if (PlayerSingleton.instance.poisoned)
                     {
-                        player.GetComponentInChildren<ParticleSystem>().Play();
-                        player.GetComponentInChildren<ParticleSystem>().loop = true;
+                        player.transform.GetChild(4).GetComponent<ParticleSystem>().Play();
+                        player.transform.GetChild(4).GetComponent<ParticleSystem>().loop = true;
 
                         int rndDamage = Random.Range(1, 4);
                         PlayerSingleton.instance.playerHealth -= rndDamage;
@@ -119,32 +123,57 @@ public class CombatScript : MonoBehaviour
 
                         if (playerPoisonedTurns == maxPoisonedTurns)
                         {
-                            player.GetComponentInChildren<ParticleSystem>().loop = false;
+                            player.transform.GetChild(4).GetComponent<ParticleSystem>().loop = false;
                             text[0] += ("\n\nYou are no longer poisoned!");
                             PlayerSingleton.instance.poisoned = false;
+                            playerPoisonedTurns = 0;
                         }
 
                         textBox.PrintMessage(text, menuManager, "MainSelect");
                     }
+
+                    else if (PlayerSingleton.instance.confused)
+                    {
+                        player.transform.GetChild(5).GetComponent<ParticleSystem>().Play();
+                        player.transform.GetChild(5).GetComponent<ParticleSystem>().loop = true;
+
+                        player.GetComponent<PlayerCombatLogic>().noteSpeedMultiplicator = 2;
+                        playerConfusedTurns++;
+                        if (playerConfusedTurns == maxConfusedTurns)
+                        {
+                            player.transform.GetChild(5).GetComponent<ParticleSystem>().loop = false;
+                            PlayerSingleton.instance.confused = false;
+                            playerConfusedTurns = 0;
+                            player.GetComponent<PlayerCombatLogic>().noteSpeedMultiplicator = 1;
+                            text.Add("You are no longer confused!");
+                        }
+                        else
+                        {
+                            text.Add("You are confused!");
+                        }
+                        textBox.PrintMessage(text, menuManager, "MainSelect");
+                    }
+
                     else
                     {
                         // Resets menu to the main combat menu
                         menuManager.GetComponent<MenuManagment>().MainSelect();
                     }
 
+
                     enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isStunned = false;
                 }
                 break;
             //Check if currentTurn is equal to Enemy
             case "Enemy":
+                List<string> text2 = new List<string>();
                 //Check if the enemy health is less or equal to zero
                 if (enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().enemyHp <= 0)
                 {
                     //If it is a textbox will show, a death animation for the enamy will be played and a return to the world button will be showed 
                     enemyHolder.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Dead");
-                    List<string> text = new List<string>();
-                    text.Add("You defeated the enemy, you got " + enemyClass.enemyExp + " exp!");
-                    textBox.PrintMessage(text, menuManager, "ReturnToWorldSelect");
+                    text2.Add("You defeated the enemy, you got " + enemyClass.enemyExp + " exp!");
+                    textBox.PrintMessage(text2, menuManager, "ReturnToWorldSelect");
                     enemyIsDead = true;
 
                     // Marks this enemy for deactivation when the player returns to the last scene
@@ -154,10 +183,26 @@ public class CombatScript : MonoBehaviour
                 }
                 else if (enemyClass.isStunned == false)
                 {
+                    if (enemyClass.isConfused)
+                    {
+                        enemyConfusedTurns++;
+
+                        if(enemyConfusedTurns == maxConfusedTurns)
+                        {
+                            enemyHolder.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().loop = false;
+                            enemyConfusedTurns = 0;
+                            enemyClass.isConfused = false;
+                            text2.Add("The Enemy is no longer confused!");
+                            textBox.PrintMessage(text2, gameObject, "EnemyAttack");
+                        }
+                        else
+                            EnemyAttack();
+                    }
+                    else
+                        //Calling the function EnemyAttack
+                        EnemyAttack();
                     //Setting the player menu to false
-                    playerMenu.SetActive(false);
-                    //Calling the function EnemyAttack
-                    EnemyAttack();                    
+                    playerMenu.SetActive(false);             
                 }
                 else
                 {
@@ -186,7 +231,6 @@ public class CombatScript : MonoBehaviour
     //This function wil call the enemy attack pattern
     public void EnemyAttack()
     {
-        
         //Change the viewport to ENEMY
         ChangeViewPort(cameraState.ENEMY);
         //Calling the child to the enemyHolder and calling AttackPattern

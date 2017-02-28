@@ -54,6 +54,8 @@ public class PlayerSingleton : MonoBehaviour
     // The current maximum size of slots in the inventory
     public int inventorySize = 15;
 
+    public InventoryItem[] equippedItems = new InventoryItem[6];
+
     /* In-game variables */
 
     // Variables used for in-combat purposes to see what the current damage of the player is,

@@ -158,7 +158,7 @@ ModelImporter:
     4300000: TrollObj
     4300002: Leggins
     4300004: Club
-    7400000: Scene
+    7400000: move
     9500000: //RootNode
     13700000: Leggins
     13700002: TrollObj
@@ -169,7 +169,7 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleRotations: 1
+    resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
     animationImportErrors: 
@@ -182,7 +182,183 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: move
+      takeName: Scene
+      firstFrame: 1
+      lastFrame: 45
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Club
+        weight: 1
+      - path: Leggins
+        weight: 1
+      - path: Troll
+        weight: 1
+      - path: Troll/Stomach
+        weight: 1
+      - path: Troll/Stomach/Chest
+        weight: 1
+      - path: Troll/Stomach/Chest/L_Shoulder
+        weight: 1
+      - path: Troll/Stomach/Chest/L_Shoulder/L_Shoulder_2
+        weight: 1
+      - path: Troll/Stomach/Chest/L_Shoulder/L_Shoulder_2/L_Arm
+        weight: 1
+      - path: Troll/Stomach/Chest/L_Shoulder/L_Shoulder_2/L_Arm/L_Elbow
+        weight: 1
+      - path: Troll/Stomach/Chest/L_Shoulder/L_Shoulder_2/L_Arm/L_Elbow/L_Hand_1
+        weight: 1
+      - path: Troll/Stomach/Chest/L_Shoulder/L_Shoulder_2/L_Arm/L_Elbow/L_Hand_1/L_Index_1
+        weight: 1
+      - path: Troll/Stomach/Chest/L_Shoulder/L_Shoulder_2/L_Arm/L_Elbow/L_Hand_1/L_Index_1/L_Index_2
+        weight: 1
+      - path: Troll/Stomach/Chest/L_Shoulder/L_Shoulder_2/L_Arm/L_Elbow/L_Hand_1/L_Index_1/L_Index_2/L_Index_2_end
+        weight: 1
+      - path: Troll/Stomach/Chest/L_Shoulder/L_Shoulder_2/L_Arm/L_Elbow/L_Hand_2
+        weight: 1
+      - path: Troll/Stomach/Chest/L_Shoulder/L_Shoulder_2/L_Arm/L_Elbow/L_Hand_2/L_Pinky_1
+        weight: 1
+      - path: Troll/Stomach/Chest/L_Shoulder/L_Shoulder_2/L_Arm/L_Elbow/L_Hand_2/L_Pinky_1/L_Pinky_2
+        weight: 1
+      - path: Troll/Stomach/Chest/L_Shoulder/L_Shoulder_2/L_Arm/L_Elbow/L_Hand_2/L_Pinky_1/L_Pinky_2/L_Pinky_2_end
+        weight: 1
+      - path: Troll/Stomach/Chest/L_Shoulder/L_Shoulder_2/L_Arm/L_Elbow/L_Thumb_1
+        weight: 1
+      - path: Troll/Stomach/Chest/L_Shoulder/L_Shoulder_2/L_Arm/L_Elbow/L_Thumb_1/L_Thumb_2
+        weight: 1
+      - path: Troll/Stomach/Chest/L_Shoulder/L_Shoulder_2/L_Arm/L_Elbow/L_Thumb_1/L_Thumb_2/L_Thumb_2_end
+        weight: 1
+      - path: Troll/Stomach/Chest/Neck
+        weight: 1
+      - path: Troll/Stomach/Chest/Neck/Head
+        weight: 1
+      - path: Troll/Stomach/Chest/Neck/Head/Head_end
+        weight: 1
+      - path: Troll/Stomach/Chest/R_Shoulder
+        weight: 1
+      - path: Troll/Stomach/Chest/R_Shoulder/R_Shoulder_2
+        weight: 1
+      - path: Troll/Stomach/Chest/R_Shoulder/R_Shoulder_2/R_Arm
+        weight: 1
+      - path: Troll/Stomach/Chest/R_Shoulder/R_Shoulder_2/R_Arm/R_Elbow
+        weight: 1
+      - path: Troll/Stomach/Chest/R_Shoulder/R_Shoulder_2/R_Arm/R_Elbow/R_Hand_1
+        weight: 1
+      - path: Troll/Stomach/Chest/R_Shoulder/R_Shoulder_2/R_Arm/R_Elbow/R_Hand_1/R_Index_1
+        weight: 1
+      - path: Troll/Stomach/Chest/R_Shoulder/R_Shoulder_2/R_Arm/R_Elbow/R_Hand_1/R_Index_1/R_Index_2
+        weight: 1
+      - path: Troll/Stomach/Chest/R_Shoulder/R_Shoulder_2/R_Arm/R_Elbow/R_Hand_1/R_Index_1/R_Index_2/R_Index_2_end
+        weight: 1
+      - path: Troll/Stomach/Chest/R_Shoulder/R_Shoulder_2/R_Arm/R_Elbow/R_Hand_2
+        weight: 1
+      - path: Troll/Stomach/Chest/R_Shoulder/R_Shoulder_2/R_Arm/R_Elbow/R_Hand_2/R_Pinky_1
+        weight: 1
+      - path: Troll/Stomach/Chest/R_Shoulder/R_Shoulder_2/R_Arm/R_Elbow/R_Hand_2/R_Pinky_1/R_Pinky_2
+        weight: 1
+      - path: Troll/Stomach/Chest/R_Shoulder/R_Shoulder_2/R_Arm/R_Elbow/R_Hand_2/R_Pinky_1/R_Pinky_2/R_Pinky_2_end
+        weight: 1
+      - path: Troll/Stomach/Chest/R_Shoulder/R_Shoulder_2/R_Arm/R_Elbow/R_Thumb_1
+        weight: 1
+      - path: Troll/Stomach/Chest/R_Shoulder/R_Shoulder_2/R_Arm/R_Elbow/R_Thumb_1/R_Thumb_2
+        weight: 1
+      - path: Troll/Stomach/Chest/R_Shoulder/R_Shoulder_2/R_Arm/R_Elbow/R_Thumb_1/R_Thumb_2/R_Thumb_2_end
+        weight: 1
+      - path: Troll/Stomach/L_Hip
+        weight: 1
+      - path: Troll/Stomach/L_Hip/L_Leg
+        weight: 1
+      - path: Troll/Stomach/L_Hip/L_Leg/L_Knee
+        weight: 1
+      - path: Troll/Stomach/L_Hip/L_Leg/L_Knee/L_Foot
+        weight: 1
+      - path: Troll/Stomach/L_Hip/L_Leg/L_Knee/L_Foot/L_Foot_end
+        weight: 1
+      - path: Troll/Stomach/R_Hip
+        weight: 1
+      - path: Troll/Stomach/R_Hip/R_Leg
+        weight: 1
+      - path: Troll/Stomach/R_Hip/R_Leg/R_Knee
+        weight: 1
+      - path: Troll/Stomach/R_Hip/R_Leg/R_Knee/R_Foot
+        weight: 1
+      - path: Troll/Stomach/R_Hip/R_Leg/R_Knee/R_Foot/R_Foot_end
+        weight: 1
+      - path: Troll/Stomach/Stomach_manipulator_bone
+        weight: 1
+      - path: Troll/Stomach/Stomach_manipulator_bone/Stomach_manipulator_bone_end
+        weight: 1
+      - path: TrollObj
+        weight: 1
+      - path: TrollRig
+        weight: 1
+      - path: TrollRig/Bone
+        weight: 1
+      - path: TrollRig/Bone/ChestManipulator
+        weight: 1
+      - path: TrollRig/Bone/ChestManipulator/ChestManipulator_end
+        weight: 1
+      - path: TrollRig/Bone/HeadManipulator
+        weight: 1
+      - path: TrollRig/Bone/HeadManipulator/HeadManipulator_end
+        weight: 1
+      - path: TrollRig/Bone/LeftHandManipulator
+        weight: 1
+      - path: TrollRig/Bone/LeftHandManipulator/LeftHandManipulator_end
+        weight: 1
+      - path: TrollRig/Bone/LeftHandPoll
+        weight: 1
+      - path: TrollRig/Bone/LeftHandPoll/LeftHandPoll_end
+        weight: 1
+      - path: TrollRig/Bone/LeftLegManipulator
+        weight: 1
+      - path: TrollRig/Bone/LeftLegManipulator/LeftLegManipulator_end
+        weight: 1
+      - path: TrollRig/Bone/MainManipulator
+        weight: 1
+      - path: TrollRig/Bone/MainManipulator/MainManipulator_end
+        weight: 1
+      - path: TrollRig/Bone/PuzoManipulator
+        weight: 1
+      - path: TrollRig/Bone/PuzoManipulator/PuzoManipulator_end
+        weight: 1
+      - path: TrollRig/Bone/RightHandManipulator
+        weight: 1
+      - path: TrollRig/Bone/RightHandManipulator/RightHandManipulator_end
+        weight: 1
+      - path: TrollRig/Bone/RightHandPoll
+        weight: 1
+      - path: TrollRig/Bone/RightHandPoll/RightHandPoll_end
+        weight: 1
+      - path: TrollRig/Bone/RightLegManipulator
+        weight: 1
+      - path: TrollRig/Bone/RightLegManipulator/RightLegManipulator_end
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -208,6 +384,7 @@ ModelImporter:
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
+    serializedVersion: 2
     human: []
     skeleton: []
     armTwist: 0.5
@@ -218,7 +395,10 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
   humanoidOversampling: 1
