@@ -5,6 +5,15 @@ using UnityEngine;
 public class InventoryHandler : MonoBehaviour
 {
 
+    void Start()
+    {
+        // Sets the equipment slots to have the default item from the start, which means that it's empty
+        for (int i = 0; i < PlayerSingleton.instance.equippedItems.Length; i++)
+        {
+            PlayerSingleton.instance.equippedItems[i] = new InventoryItem("-1", false, true, -1, null, 0, "-1", null);
+        }
+    }
+
     public void AddItem(InventoryItem itemToAdd)
     {
         // If the stack is full or if there are no items we have to add a new one
@@ -89,12 +98,11 @@ public class InventoryHandler : MonoBehaviour
     // Equips the specified item
     public bool EquipItem(int invIndex)
     {
-
         // Gets the item we want to equip
         InventoryItem itemToEquip = PlayerSingleton.instance.playerInventory[invIndex];
  
         // If we don't have an item equipped in that slot
-        if(PlayerSingleton.instance.equippedItems[itemToEquip.equipSlot] == null)
+        if(PlayerSingleton.instance.equippedItems[itemToEquip.equipSlot].itemName == "-1")
         {
             // We put the item in the list of equipped items
             PlayerSingleton.instance.equippedItems[itemToEquip.equipSlot] = itemToEquip;
@@ -113,6 +121,11 @@ public class InventoryHandler : MonoBehaviour
 
     // Deequips the specified item
     public void DeequipItem()
+    {
+
+    }
+
+    public void SwitchEquipItem()
     {
 
     }
