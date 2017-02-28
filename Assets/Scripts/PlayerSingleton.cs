@@ -54,9 +54,13 @@ public class PlayerSingleton : MonoBehaviour
     // The current maximum size of slots in the inventory
     public int inventorySize = 15;
 
+    // Creates the equipped items array and fils it with default value items that means the slot is empty
     public InventoryItem[] equippedItems = new InventoryItem[6];
 
-    /* In-game variables */
+    // Sets default values for the items that will mean that there are no items in the slot
+    public InventoryItem emptyEquipItem = new InventoryItem("-1", false, true, -1, null, 0, "-1", null);
+
+    #region In-game variables
 
     // Variables used for in-combat purposes to see what the current damage of the player is,
     // and if the player has attacked this round or not
@@ -80,5 +84,5 @@ public class PlayerSingleton : MonoBehaviour
     public bool canMove = true;
 
     public string attackingEnemy;
-
+    #endregion
 }
