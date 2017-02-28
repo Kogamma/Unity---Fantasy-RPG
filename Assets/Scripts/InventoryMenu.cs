@@ -71,6 +71,8 @@ public class InventoryMenu : MonoBehaviour
 
     string currentMenu = "Select";
 
+    bool updateInfoText = false;
+
 	void Start ()
     {
         // Sets both components to be those that the EventSystem object in the scene has
@@ -195,10 +197,12 @@ public class InventoryMenu : MonoBehaviour
             if (currentItem != -1)
             {
                 itemInfoText.text = PlayerSingleton.instance.playerInventory[currentItemIndexes[currentItems[currentItem]]].infoText;
-            }
+            }     
             else
                 itemInfoText.text = "Choose an item to see info about it.";
         }
+        else
+            itemInfoText.text = "Choose an item to see info about it.";
 
         #endregion
     }
@@ -570,5 +574,33 @@ public class InventoryMenu : MonoBehaviour
 
         currentMenu = "Select";
     }
-#endregion
+    #endregion
+
+    // Checks when we hover over something
+    public void ItemButtonEnter(int index)
+    {
+        // The code cannot update the text on itself now
+        updateInfoText = false;
+
+        // Sets the text based on the button we're currently hovering over
+        itemInfoText.text = PlayerSingleton.instance.playerInventory[currentItemIndexes[currentItems[index]]].infoText;
+    }
+
+    public void EquipButtonEnter(int index)
+    {
+        // The code cannot update the text on itself now
+        updateInfoText = false;
+
+        // Sets the text based on the button we're currently hovering over
+        itemInfoText.text = PlayerSingleton.instance.equippedItems[index].infoText;
+    }
+
+    public void ItemButtonExit()
+    {
+        // The code can manually update the text
+        updateInfoText = true;
+
+        // Resets text to default
+        itemInfoText.text = "Choose an item to see info about it.";
+    }
 }
