@@ -26,11 +26,14 @@ public class PlayerCombatLogic : MonoBehaviour {
     [SerializeField] GameObject iceParticle;
     [SerializeField] GameObject iceBlock;
 
+    private AudioSource source;
+    [SerializeField] AudioClip attack_sound;
+
     // Use this for initialization
     void Start()
     {
         anim = GetComponent<Animator>();
-
+        source = GetComponent<AudioSource>();
         combatScript = combatHandler.GetComponent<CombatScript>();
     }
 
@@ -112,8 +115,11 @@ public class PlayerCombatLogic : MonoBehaviour {
         //Check if the combo is done
         if (comboIsDone)
         {
-            if(whichAttack != "Flee")
+            if (whichAttack != "Flee")
+            {
                 anim.SetTrigger("MeeleAttack");   //Playing the attack animation
+                source.PlayOneShot(attack_sound, 1f);
+            }
             dmg *= hitAccuracy;             //Multiplay the damge with the combo hit accuracy
 
             float rng = Random.Range(0f, 1f);
@@ -157,6 +163,7 @@ public class PlayerCombatLogic : MonoBehaviour {
                     {
                         text2.Add("You succeed to flee!");
                         OverworldEnemySingleton.instance.fled = true;
+                        OverworldEnemySingleton.instance.backFromCombat = true;
                         textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(text2,gameObject,"FleeToScene");
                     }
                      if(hitAccuracy < 0.7)
