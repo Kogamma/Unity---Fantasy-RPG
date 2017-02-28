@@ -12,10 +12,11 @@ public class CombatStart : MonoBehaviour
 
     void Start()
     {
-        if(PlayerSingleton.instance.overWorldPos != Vector3.zero)
+        if(PlayerSingleton.instance.overWorldPos != Vector3.zero && OverworldEnemySingleton.instance.backFromCombat)
         {
             transform.position = PlayerSingleton.instance.overWorldPos;
             transform.rotation = PlayerSingleton.instance.overWorldRot;
+            OverworldEnemySingleton.instance.backFromCombat = false;
         }
     }
 
