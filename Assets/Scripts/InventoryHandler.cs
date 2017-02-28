@@ -4,43 +4,33 @@ using UnityEngine;
 
 public class InventoryHandler : MonoBehaviour
 {
-    // This is the actual inventory which consists of different InventoryItem
-    [System.NonSerialized]
-    public List<InventoryItem> inventory;
-
-	void Start ()
-    {
-        inventory = PlayerSingleton.instance.playerInventory;
-	}
 
     public void AddItem(InventoryItem itemToAdd)
     {
-        inventory = PlayerSingleton.instance.playerInventory;
-
         // If the stack is full or if there are no items we have to add a new one
         bool addItemOnNewSlot = false;
 
         // Loops through the inventory if we have atleast 1 item
-        if (inventory.Count > 0 && itemToAdd.stackable)
-            for (int i = 0; i < inventory.Count; i++)
+        if (PlayerSingleton.instance.playerInventory.Count > 0 && itemToAdd.stackable)
+            for (int i = 0; i < PlayerSingleton.instance.playerInventory.Count; i++)
             {
                 // Checks if there is already a item like the one we're adding
-                if (inventory[i].itemName == itemToAdd.itemName)
+                if (PlayerSingleton.instance.playerInventory[i].itemName == itemToAdd.itemName)
                 {
-                    if (inventory[i].amountOfItem < 99)
+                    if (PlayerSingleton.instance.playerInventory[i].amountOfItem < 99)
                     {
                         // ... we can just add to that amount
-                        inventory[i].IncrementItem();
+                        PlayerSingleton.instance.playerInventory[i].IncrementItem();
 
                         break;
                     }
                 }
 
                 // If we're on the last iteration
-                if (i == inventory.Count - 1)
+                if (i == PlayerSingleton.instance.playerInventory.Count - 1)
                 {
                     // If we have a full stack or if this is a new item                    
-                    if (inventory[i].amountOfItem >= 99 || inventory[i].itemName != itemToAdd.itemName)
+                    if (PlayerSingleton.instance.playerInventory[i].amountOfItem >= 99 || PlayerSingleton.instance.playerInventory[i].itemName != itemToAdd.itemName)
                     {
                         addItemOnNewSlot = true;
 
@@ -50,22 +40,24 @@ public class InventoryHandler : MonoBehaviour
             }
         // If we don't have a single item in our inventory, 
         // we don't have to check if we can add one
-        else if (inventory.Count <= 0 || !itemToAdd.stackable)
+        else if (PlayerSingleton.instance.playerInventory.Count <= 0 || !itemToAdd.stackable)
             addItemOnNewSlot = true;
 
         if (addItemOnNewSlot)
         {
-            if (inventory.Count < PlayerSingleton.instance.inventorySize)
+            if (PlayerSingleton.instance.playerInventory.Count < PlayerSingleton.instance.inventorySize)
             {
                 addItemOnNewSlot = false;
-                inventory.Add(itemToAdd);
-                inventory[inventory.Count - 1].IncrementItem();
+                PlayerSingleton.instance.playerInventory.Add(itemToAdd);
+                PlayerSingleton.instance.playerInventory[PlayerSingleton.instance.playerInventory.Count - 1].IncrementItem();
             }
             else
             {
                 Debug.Log("You can't add any more items to the inventory!");
             }
         }
+
+        PlayerSingleton.instance.playerInventory = PlayerSingleton.instance.playerInventory;
 
         GetComponent<InventoryMenu>().UpdateItems();
     }
@@ -76,15 +68,15 @@ public class InventoryHandler : MonoBehaviour
         bool closeWindowOnReturn = false;
 
         // If we have more than one of the item we just subtract the amount of it
-        if (inventory[index].amountOfItem > 1)
-        { 
-            inventory[index].amountOfItem--;
+        if (PlayerSingleton.instance.playerInventory[index].amountOfItem > 1)
+        {
+            PlayerSingleton.instance.playerInventory[index].amountOfItem--;
         }
         // If there is only 1 item left we remove it completely from the list
         else
         {
             // Removes the specified item from the list
-            inventory.RemoveAt(index);
+            PlayerSingleton.instance.playerInventory.RemoveAt(index);
             closeWindowOnReturn = true;
         }
 
@@ -92,5 +84,36 @@ public class InventoryHandler : MonoBehaviour
         GetComponent<InventoryMenu>().UpdateItems();
 
         return closeWindowOnReturn;
+    }
+
+    // Equips the specified item
+    public bool EquipItem(int invIndex)
+    {
+
+        // Gets the item we want to equip
+        InventoryItem itemToEquip = PlayerSingleton.instance.playerInventory[invIndex];
+ 
+        // If we don't have an item equipped in that slot
+        if(PlayerSingleton.instance.equippedItems[itemToEquip.equipSlot] == null)
+        {
+            // We put the item in the list of equipped items
+            PlayerSingleton.instance.equippedItems[itemToEquip.equipSlot] = itemToEquip;
+
+            // We remove the item from the inventory
+            RemoveItem(invIndex);
+        }
+        // If we have an item equipped in the slot
+        else
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    // Deequips the specified item
+    public void DeequipItem()
+    {
+
     }
 }

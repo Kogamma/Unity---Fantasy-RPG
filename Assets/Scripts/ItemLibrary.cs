@@ -26,6 +26,10 @@ public class ItemLibrary : MonoBehaviour
             newItem = NewManaPotion();
         else if (item == "Ointment")
             newItem = NewAntidote();
+        else if (item == "BasicSword")
+            newItem = NewBasicSword();
+        else if (item == "IronHelmet")
+            newItem = NewIronHelmet();
 
         invHandler.AddItem(newItem);
     }
@@ -47,6 +51,12 @@ public class ItemLibrary : MonoBehaviour
         // If this item is stackable or if we can only have one in each slot
         bool stackable = true;
 
+        // If you can equip this item
+        bool equippable = false;
+
+        // Which slot this item will equip in
+        int equipSlot = -1;
+
         // The image that will represent the item in menu's and such
         Sprite itemImage = sprites.healingPotionSprite;
 
@@ -60,7 +70,7 @@ public class ItemLibrary : MonoBehaviour
         string method = "HealingPotion";
 
         // Creates a new inventoryitem     
-        InventoryItem item = new InventoryItem(itemName, stackable, itemImage, value, infoText, method);
+        InventoryItem item = new InventoryItem(itemName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
         
         // Returns the item we just created
         return item;
@@ -75,6 +85,12 @@ public class ItemLibrary : MonoBehaviour
         // If this item is stackable or if we can only have one in each slot
         bool stackable = true;
 
+        // If you can equip this item
+        bool equippable = false;
+
+        // Which slot this item will equip in
+        int equipSlot = -1;
+
         // The image that will represent the item in menu's and such
         Sprite itemImage = sprites.manaPotionSprite;
 
@@ -88,7 +104,7 @@ public class ItemLibrary : MonoBehaviour
         string method = "ManaPotion";
 
         // Creates a new inventoryitem
-        InventoryItem item = new InventoryItem(itemName, stackable, itemImage, value, infoText, method);
+        InventoryItem item = new InventoryItem(itemName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
 
         // Returns the item we just created
         return item;
@@ -101,7 +117,13 @@ public class ItemLibrary : MonoBehaviour
         string itemName = "Antidote";
 
         // If this item is stackable or if we can only have one in each slot
-        bool stackable = false;
+        bool stackable = true;
+
+        // If you can equip this item
+        bool equippable = false;
+
+        // Which slot this item will equip in
+        int equipSlot = -1;
 
         // The image that will represent the item in menu's and such
         Sprite itemImage = sprites.antidoteSprite;
@@ -116,11 +138,81 @@ public class ItemLibrary : MonoBehaviour
         string method = "Antidote";
 
         // Creates a new inventoryitem
-        InventoryItem item = new InventoryItem(itemName, stackable, itemImage, value, infoText, method);
+        InventoryItem item = new InventoryItem(itemName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
 
         // Returns the item we just created
         return item;
     }
+    #endregion
+
+    #region Equippable Items
+    // Iron Helmet
+    public InventoryItem NewIronHelmet()
+    {
+        // Name of the item we're creating
+        string itemName = "Iron Helmet";
+
+        // If this item is stackable or if we can only have one in each slot
+        bool stackable = false;
+
+        // If you can equip this item
+        bool equippable = true;
+
+        // Which slot this item will equip in
+        int equipSlot = 0;
+
+        // The image that will represent the item in menu's and such
+        Sprite itemImage = sprites.ironHelmetSprite;
+
+        // How much the item is worth in a shop
+        int value = 10;
+
+        // Info text about the item
+        string infoText = "A sturdy iron helmet that will protect your head from attacks.";
+
+        // The method to invoke when you use the item
+        string method = "null";
+
+        // Creates a new inventoryitem     
+        InventoryItem item = new InventoryItem(itemName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
+
+        // Returns the item we just created
+        return item;
+    }
+
+    public InventoryItem NewBasicSword()
+    {
+        // Name of the item we're creating
+        string itemName = "Iron Sword";
+
+        // If this item is stackable or if we can only have one in each slot
+        bool stackable = false;
+
+        // If you can equip this item
+        bool equippable = true;
+
+        // Which slot this item will equip in
+        int equipSlot = 4;
+
+        // The image that will represent the item in menu's and such
+        Sprite itemImage = sprites.swordSprite;
+
+        // How much the item is worth in a shop
+        int value = 10;
+
+        // Info text about the item
+        string infoText = "The sword you started your adventure with. Pretty basic but it gets the job done.";
+
+        // The method to invoke when you use the item
+        string method = "null";
+
+        // Creates a new inventoryitem     
+        InventoryItem item = new InventoryItem(itemName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
+
+        // Returns the item we just created
+        return item;
+    }
+
     #endregion
 }
 
@@ -160,4 +252,8 @@ public class ItemSprites
     public Sprite manaPotionSprite;
 
     public Sprite antidoteSprite;
+
+    public Sprite ironHelmetSprite;
+
+    public Sprite swordSprite;
 }
