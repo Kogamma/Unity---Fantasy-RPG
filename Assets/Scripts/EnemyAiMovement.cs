@@ -62,8 +62,6 @@ public class EnemyAiMovement : MonoBehaviour {
                 GetComponentInChildren<BoxCollider>().enabled = true;
                 isFrozen = false;
             }
-
-
         }
     }
 

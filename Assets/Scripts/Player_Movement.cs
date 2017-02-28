@@ -24,6 +24,14 @@ public class Player_Movement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         _anim = GetComponent<Animator>();
+
+        if (!OverworldEnemySingleton.instance.backFromCombat && PlayerSingleton.instance.entryPos != Vector3.zero)
+        {
+            transform.position = PlayerSingleton.instance.entryPos;
+            transform.rotation = Quaternion.Euler(PlayerSingleton.instance.entryRot);
+        }
+
+        PlayerSingleton.instance.currentScene = Application.loadedLevel;
 	}
 	
 	void FixedUpdate ()

@@ -84,6 +84,18 @@ public class PlayerCombatLogic : MonoBehaviour {
         PlayerSingleton.instance.playerMana -= 10;
     }
 
+    public void FireAttack()
+    {
+        notes = 8;
+        noteSpeed = 0.45f * noteSpeedMultiplicator;
+        interval = 0.3f;
+        critchance = 20;
+
+        comboSystem.SetActive(true);
+        dmg = PlayerSingleton.instance.playerDmg + (1.7f * (float)PlayerSingleton.instance.playerInt);
+        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval, critchance);
+    }
+
     public void Flee()
     {
         notes = 6;
@@ -131,6 +143,15 @@ public class PlayerCombatLogic : MonoBehaviour {
                         combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isConfused = true;
                     break;
 
+                case "FireAttack":
+                    if (!combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isFrozen)
+                    {
+                        combatScript.enemyHolder.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>().Play();
+                        combatScript.enemyHolder.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>().loop = true;
+                        if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().chanceToGetOnFire >= rng)
+                            combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().onFire = true;
+                    }
+                    break;
                 case "Flee":
                     List<string> text2 = new List<string>();
                     if (hitAccuracy >= 0.7)
@@ -157,6 +178,9 @@ public class PlayerCombatLogic : MonoBehaviour {
                     text.Add("The Enemy froze! It has to skip a turn!");
                 else if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isConfused && whichAttack == "ConfusionAttack")
                     text.Add("The Enemy is confused! Its attacks are now weaker!");
+                else if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().onFire && whichAttack == "FireAttack")
+                    text.Add("The Enemy is on fire!");
+
                 textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(text, gameObject, "ChangeViewToMain");
             }
 

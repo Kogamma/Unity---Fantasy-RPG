@@ -24,8 +24,9 @@ public class CombatScript : MonoBehaviour
     public bool enemyIsDead = false;
 
     private int playerPoisonedTurns = 0;
-    private int enemyPoisonedTurns = 0;
     private int maxPoisonedTurns = 3;
+    private int enemyFireTurns = 0;
+    private int maxFireTurns = 3;
 
     private int playerConfusedTurns;
     private int enemyConfusedTurns;
@@ -187,19 +188,36 @@ public class CombatScript : MonoBehaviour
                     {
                         enemyConfusedTurns++;
 
-                        if(enemyConfusedTurns == maxConfusedTurns)
+                        if (enemyConfusedTurns == maxConfusedTurns)
                         {
                             enemyHolder.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().loop = false;
                             enemyConfusedTurns = 0;
                             enemyClass.isConfused = false;
                             text2.Add("The Enemy is no longer confused!");
-                            textBox.PrintMessage(text2, gameObject, "EnemyAttack");
                         }
-                        else
-                            EnemyAttack();
                     }
+
+                    if (enemyClass.onFire)
+                    {
+                        enemyFireTurns++;
+                        int rndDamage = Random.Range(1, 4) * (PlayerSingleton.instance.playerInt / 5);
+                        enemyClass.enemyHp -= rndDamage;
+
+                        text2.Add("The enemy took " + rndDamage + " fire damage!");
+
+                        if (enemyFireTurns == maxFireTurns)
+                        {
+                            enemyHolder.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>().loop = false;
+                            enemyFireTurns = 0;
+                            enemyClass.onFire = false;
+                            text2.Add("The enemy is no longer on fire!");
+                        }
+                    }
+
+                    if (text2.Count > 0)
+                        textBox.PrintMessage(text2, gameObject, "EnemyAttack");
+
                     else
-                        //Calling the function EnemyAttack
                         EnemyAttack();
                     //Setting the player menu to false
                     playerMenu.SetActive(false);             

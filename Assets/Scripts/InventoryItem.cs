@@ -11,6 +11,20 @@ public class InventoryItem : MonoBehaviour
     // If the item is stackable, as in a consumable such as a potion or other heal items
     public bool stackable = false;
 
+    // If this item is equippable or not
+    public bool equippable = false;
+
+    // Which slot this item will be equipped to
+    /*
+    0 = Head Slot
+    1 = Chest Slot
+    2 = Leg Slot
+    3 = Ring Slot
+    4 = Weapon Slot
+    5 = Amulet Slot
+    */
+    public int equipSlot = -1;
+
     // The image that will represent the item in menu's and such
     public Sprite itemImage;
 
@@ -26,11 +40,15 @@ public class InventoryItem : MonoBehaviour
     public string methodName = "";
 
     // Constructor
-    public InventoryItem(string name, bool stack, Sprite img, int val, string info, string method)
+    public InventoryItem(string name, bool stack, bool equip, int eqSlot, Sprite img, int val, string info, string method)
     {
         itemName = name;
 
         stackable = stack;
+
+        equippable = equip;
+
+        equipSlot = eqSlot;
 
         itemImage = img;
 
