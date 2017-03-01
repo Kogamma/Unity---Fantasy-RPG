@@ -5,15 +5,32 @@ using UnityEngine;
 public class LookAtEnemy : MonoBehaviour
 {
     public GameObject target;   // Target to look at
-    public Vector3 offset;      // Distance from target
+    public int offset;      // Distance from target
 
-
-    // LateUpdate is called after Update each frame
+    
     void Update()
     {
-        // Set the position of the camera's transform to be the same as the player's, but offset by the calculated offset distance.
-        transform.position = player.transform.position + offset;
+        if (PlayerSingleton.instance.attackingEnemy == "Slime")
+            offset = 2;
 
-        transform.LookAt(player.transform.position);
+        else if (PlayerSingleton.instance.attackingEnemy == "Zombie")
+            offset = 2;
+
+        else if (PlayerSingleton.instance.attackingEnemy == "Bat")
+            offset = 2;
+
+        else if (PlayerSingleton.instance.attackingEnemy == "Ghost")
+            offset = 2;
+
+        else if (PlayerSingleton.instance.attackingEnemy == "Troll")
+            offset = 2;
+
+        else if (PlayerSingleton.instance.attackingEnemy == "Boss")
+            offset = 2;
+
+
+        //transform.position = target.transform.position + transform.loca offset;
+
+        transform.LookAt(target.transform.position);
     }
 }
