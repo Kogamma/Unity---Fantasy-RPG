@@ -48,6 +48,8 @@ public class CombatScript : MonoBehaviour
         //Setting the currentstate to main       
         currentState = (int)cameraState.MAIN;
 
+        _EnemyCamera.GetComponent<LookAtEnemy>().target = enemyHolder.transform.GetChild(0).transform.position;
+
         enemyClass = enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>();
     }
 

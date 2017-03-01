@@ -4,33 +4,28 @@ using UnityEngine;
 
 public class LookAtEnemy : MonoBehaviour
 {
-    public GameObject target;   // Target to look at
-    public int offset;      // Distance from target
+    private Vector3 originPos;  // The original position of the camera
+    public Vector3 target;      // Target to look at
+    private int offset = 0;     // Distance from target
 
-    
-    void Update()
+
+    void Start ()
     {
-        if (PlayerSingleton.instance.attackingEnemy == "Slime")
-            offset = 2;
+        originPos = transform.position;
+    }
+    
 
-        else if (PlayerSingleton.instance.attackingEnemy == "Zombie")
-            offset = 2;
-
-        else if (PlayerSingleton.instance.attackingEnemy == "Bat")
-            offset = 2;
-
-        else if (PlayerSingleton.instance.attackingEnemy == "Ghost")
-            offset = 2;
-
-        else if (PlayerSingleton.instance.attackingEnemy == "Troll")
-            offset = 2;
+    void Update ()
+    {
+        if (PlayerSingleton.instance.attackingEnemy == "Troll")
+            offset = 1;
 
         else if (PlayerSingleton.instance.attackingEnemy == "Boss")
             offset = 2;
 
-
-        //transform.position = target.transform.position + transform.loca offset;
-
-        transform.LookAt(target.transform.position);
+        // Looks slightly above the target
+        transform.LookAt(new Vector3(target.x, target.y + 0.5f, target.z));
+        // Sets position of the camera further away from bigger enemies, if needed
+        transform.position = new Vector3(originPos.x - offset, originPos.y + offset, originPos.z - offset);
     }
 }
