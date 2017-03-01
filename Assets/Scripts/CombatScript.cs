@@ -274,7 +274,7 @@ public class CombatScript : MonoBehaviour
     public void ReturnToTheWorld()
     {
         OverworldEnemySingleton.instance.backFromCombat = true;
-        SceneManager.LoadScene("Forest_Scene_1");
+        SceneManager.LoadScene(PlayerSingleton.instance.currentScene);
     }
 
 

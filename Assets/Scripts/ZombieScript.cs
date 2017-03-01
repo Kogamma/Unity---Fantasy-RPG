@@ -14,6 +14,7 @@ public class ZombieScript : EnemyClass
             canPoison = true;
     }
 
+
     public override void AttackPattern()
     {
         if (canPoison && Random.Range(0, 100 / poisonChance) == 0)
