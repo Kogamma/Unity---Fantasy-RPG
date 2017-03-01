@@ -68,7 +68,7 @@ public class InventoryHandler : MonoBehaviour
 
         PlayerSingleton.instance.playerInventory = PlayerSingleton.instance.playerInventory;
 
-        GetComponent<InventoryMenu>().UpdateItems();
+        GetComponent<CombatInventory>().UpdateItems();
     }
 
     public bool RemoveItem(int index)
@@ -88,9 +88,6 @@ public class InventoryHandler : MonoBehaviour
             PlayerSingleton.instance.playerInventory.RemoveAt(index);
             closeWindowOnReturn = true;
         }
-
-        // Updates the list of items in the inventory menu
-        GetComponent<InventoryMenu>().UpdateItems();
 
         return closeWindowOnReturn;
     }

@@ -24,7 +24,7 @@ public class ItemLibrary : MonoBehaviour
             newItem = NewHealingPotion();
         else if (item == "Mana")
             newItem = NewManaPotion();
-        else if (item == "Ointment")
+        else if (item == "Antidote")
             newItem = NewAntidote();
         else if (item == "BasicSword")
             newItem = NewBasicSword();
