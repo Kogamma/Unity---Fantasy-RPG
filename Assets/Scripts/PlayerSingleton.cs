@@ -48,6 +48,7 @@ public class PlayerSingleton : MonoBehaviour
 
     // How much mana points the player has
     public int playerMana = 10;
+    public int playerMaxMana = 10;
 
     // The inventory holding all of the player items
     public List<InventoryItem> playerInventory;
