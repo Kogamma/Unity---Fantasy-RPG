@@ -233,6 +233,12 @@ public class CombatScript : MonoBehaviour
         }
     }
 
+    public void RemovePoison()
+    {
+        player.transform.GetChild(4).GetComponent<ParticleSystem>().loop = false;
+        PlayerSingleton.instance.poisoned = false;
+        playerPoisonedTurns = 0;
+    }
 
     //This function will check which attack the player will use,
     public void PlayerAttack(string attack)

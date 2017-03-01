@@ -56,7 +56,13 @@ public class PlayerSingleton : MonoBehaviour
     public int inventorySize = 15;
 
     // Creates the equipped items array and fils it with default value items that means the slot is empty
-    public InventoryItem[] equippedItems = new InventoryItem[6];
+    public InventoryItem[] equippedItems = new InventoryItem[6] {
+        new InventoryItem("-1", false, true, -1, null, 0, "-1", null),
+        new InventoryItem("-1", false, true, -1, null, 0, "-1", null),
+        new InventoryItem("-1", false, true, -1, null, 0, "-1", null),
+        new InventoryItem("-1", false, true, -1, null, 0, "-1", null),
+        new InventoryItem("-1", false, true, -1, null, 0, "-1", null),
+        new InventoryItem("-1", false, true, -1, null, 0, "-1", null)};
 
     // Sets default values for the items that will mean that there are no items in the slot
     public InventoryItem emptyEquipItem = new InventoryItem("-1", false, true, -1, null, 0, "-1", null);
