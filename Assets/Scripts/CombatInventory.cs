@@ -104,11 +104,15 @@ public class CombatInventory : MonoBehaviour
         {
             ListNavigation(listInput);
         }
+
+        UpdateItems();
     }
 
     public void UpdateButtons()
     {
         #region Inventory
+
+        InventoryHandler handler = GetComponent<InventoryHandler>();
 
         // How many buttons we will iterate
         iteratorLength = itemButtons.Length;
@@ -118,7 +122,7 @@ public class CombatInventory : MonoBehaviour
             // Checks if there is anything in that inventory slot
             if (currentItemIndexes[currentItems[i]] != -1)
             {
-                if (PlayerSingleton.instance.playerInventory[currentItemIndexes[currentItems[i]]].equippable)
+                if (handler.items[currentItemIndexes[currentItems[i]]].equippable)
                     itemButtons[i].GetComponent<Button>().interactable = false;
 
                 if (canClick)
@@ -133,14 +137,14 @@ public class CombatInventory : MonoBehaviour
                 }
 
                 // Adds the item's sprite to the item button
-                itemButtons[i].transform.GetChild(0).GetComponent<Image>().sprite = PlayerSingleton.instance.playerInventory[currentItemIndexes[currentItems[i]]].itemImage;
+                itemButtons[i].transform.GetChild(0).GetComponent<Image>().sprite = handler.items[currentItemIndexes[currentItems[i]]].itemImage;
                 itemButtons[i].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 1);
 
                 // Adds the name of the item to the item button
-                itemButtons[i].transform.GetChild(1).GetComponent<Text>().text = PlayerSingleton.instance.playerInventory[currentItemIndexes[currentItems[i]]].itemName;
+                itemButtons[i].transform.GetChild(1).GetComponent<Text>().text = handler.items[currentItemIndexes[currentItems[i]]].itemName;
 
                 // Adds the amount of the item to the item button
-                itemButtons[i].transform.GetChild(2).GetComponent<Text>().text = "x" + PlayerSingleton.instance.playerInventory[currentItemIndexes[currentItems[i]]].amountOfItem;
+                itemButtons[i].transform.GetChild(2).GetComponent<Text>().text = "x" + handler.items[currentItemIndexes[currentItems[i]]].amountOfItem;
             }
             // If there is nothing in the inventory slot...
             else
@@ -166,7 +170,7 @@ public class CombatInventory : MonoBehaviour
         {
             if (currentItem != -1)
             {
-                itemInfoText.text = PlayerSingleton.instance.playerInventory[currentItemIndexes[currentItems[currentItem]]].infoText;
+                itemInfoText.text = handler.items[currentItemIndexes[currentItems[currentItem]]].infoText;
             }
             else
                 itemInfoText.text = "Choose an item to see info about it.";
@@ -214,37 +218,6 @@ public class CombatInventory : MonoBehaviour
                     // Restarts the timer
                     startTime = Time.time;
                 }
-            }
-        }
-
-        // Changes the values of the list accordingly
-        for (int i = 0; i < currentItems.Length; i++)
-        {
-            currentItems[i] += incrementer;
-        }
-    }
-
-    public void ButtonListNavigation(int direction)
-    {
-        int incrementer = 0;
-
-        // Checks what direction of input we made
-        if (direction < 0)
-        {
-            // Checks if we have more items to show below
-            if (currentItems[currentItems.Length - 1] + 1 < PlayerSingleton.instance.playerInventory.Count)
-            {
-                // Says that we should go down in the list
-                incrementer = 1;
-            }
-        }
-        else if (direction > 0)
-        {
-            // Checks if we're not on the first item
-            if (currentItems[0] > 0)
-            {
-                // Says that we should go up in the list
-                incrementer = -1;
             }
         }
 
@@ -320,7 +293,7 @@ public class CombatInventory : MonoBehaviour
         List<string> textPages = new List<string>();
 
         // Calls the method to use the item and we will also get a message back to print
-        textPages = PlayerSingleton.instance.playerInventory[currentItemIndexes[currentItems[currentItem]]].UseItem();
+        textPages = GetComponent<InventoryHandler>().items[currentItemIndexes[currentItems[currentItem]]].UseItem();
 
         // Checks if the first letters are not, which means the item should not be used
         if (textPages[0][0] == 'N' && textPages[0][1] == 'o' && textPages[0][2] == 't')
@@ -372,8 +345,6 @@ public class CombatInventory : MonoBehaviour
             // Prints the message that the item will not be used and does NOT end the turn
             textBox.PrintMessage(textPages, this.gameObject, "CloseItem");
         }
-
-        UpdateItems();
     }
 
     // Throws away the item selected
@@ -424,7 +395,7 @@ public class CombatInventory : MonoBehaviour
         // Goes to the enemies turn
         combatScript.UpdateTurn("Enemy");
 
-        this.gameObject.SetActive(false);
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 
     public void CloseItem()
@@ -445,7 +416,7 @@ public class CombatInventory : MonoBehaviour
         updateInfoText = false;
 
         // Sets the text based on the button we're currently hovering over
-        itemInfoText.text = PlayerSingleton.instance.playerInventory[currentItemIndexes[currentItems[index]]].infoText;
+        itemInfoText.text = GetComponent<InventoryHandler>().items[currentItemIndexes[currentItems[index]]].infoText;
     }
 
     public void ItemButtonExit()

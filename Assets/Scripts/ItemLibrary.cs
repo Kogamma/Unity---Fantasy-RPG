@@ -16,13 +16,13 @@ public class ItemLibrary : MonoBehaviour
         invHandler = GetComponent<InventoryHandler>();
     }
 
-    public void AddItemWithButton(string item)
+    public InventoryItem AddItem(string item)
     {
         InventoryItem newItem = null;
 
-        if (item == "Healing")
+        if (item == "HealingPotion")
             newItem = NewHealingPotion();
-        else if (item == "Mana")
+        else if (item == "ManaPotion")
             newItem = NewManaPotion();
         else if (item == "Antidote")
             newItem = NewAntidote();
@@ -31,7 +31,7 @@ public class ItemLibrary : MonoBehaviour
         else if (item == "IronHelmet")
             newItem = NewIronHelmet();
 
-        invHandler.AddItem(newItem);
+        return newItem;
     }
 
     /*

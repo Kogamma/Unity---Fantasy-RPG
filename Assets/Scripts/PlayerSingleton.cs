@@ -50,22 +50,14 @@ public class PlayerSingleton : MonoBehaviour
     public int playerMana = 10;
     public int playerMaxMana = 10;
 
-    // The inventory holding all of the player items
-    public List<InventoryItem> playerInventory = new List<InventoryItem>();
+    public List<string> playerInventory = new List<string>();
+    public List<int> inventoryAmounts = new List<int>();
+
     // The current maximum size of slots in the inventory
     public int inventorySize = 15;
     
     // Creates the equipped items array and fils it with default value items that means the slot is empty
-    public InventoryItem[] equippedItems = new InventoryItem[6] {
-        new InventoryItem("-1", false, true, -1, null, 0, "-1", null),
-        new InventoryItem("-1", false, true, -1, null, 0, "-1", null),
-        new InventoryItem("-1", false, true, -1, null, 0, "-1", null),
-        new InventoryItem("-1", false, true, -1, null, 0, "-1", null),
-        new InventoryItem("-1", false, true, -1, null, 0, "-1", null),
-        new InventoryItem("-1", false, true, -1, null, 0, "-1", null)};
-
-    // Sets default values for the items that will mean that there are no items in the slot
-    public InventoryItem emptyEquipItem = new InventoryItem("-1", false, true, -1, null, 0, "-1", null);
+    public string[] equippedItems = new string[6] {"null", "null", "null", "null", "null", "null"};
 
     #region In-game variables
 
