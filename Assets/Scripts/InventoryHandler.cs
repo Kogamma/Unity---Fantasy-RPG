@@ -4,16 +4,6 @@ using UnityEngine;
 
 public class InventoryHandler : MonoBehaviour
 {
-
-    void Start()
-    {
-        // Sets the equipment slots to have the default item from the start, which means that it's empty
-        for (int i = 0; i < PlayerSingleton.instance.equippedItems.Length; i++)
-        {
-            PlayerSingleton.instance.equippedItems[i] = new InventoryItem("-1", false, true, -1, null, 0, "-1", null);
-        }
-    }
-
     public void AddItem(InventoryItem itemToAdd)
     {
         // If the stack is full or if there are no items we have to add a new one
@@ -68,7 +58,7 @@ public class InventoryHandler : MonoBehaviour
 
         PlayerSingleton.instance.playerInventory = PlayerSingleton.instance.playerInventory;
 
-        GetComponent<InventoryMenu>().UpdateItems();
+        GetComponent<CombatInventory>().UpdateItems();
     }
 
     public bool RemoveItem(int index)
@@ -88,9 +78,6 @@ public class InventoryHandler : MonoBehaviour
             PlayerSingleton.instance.playerInventory.RemoveAt(index);
             closeWindowOnReturn = true;
         }
-
-        // Updates the list of items in the inventory menu
-        GetComponent<InventoryMenu>().UpdateItems();
 
         return closeWindowOnReturn;
     }

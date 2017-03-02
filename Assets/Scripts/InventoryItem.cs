@@ -93,26 +93,42 @@ public class InventoryItem : MonoBehaviour
 
     public List<string> HealingPotion()
     {
-        // Heals the player for 5 HP
-        PlayerSingleton.instance.playerHealth += 5;
-
-        PlayerSingleton.instance.playerHealth = Mathf.Clamp(PlayerSingleton.instance.playerHealth, 0, PlayerSingleton.instance.playerMaxHealth);
-
         List<string> textPages = new List<string>();
-        textPages.Add("You were healed! You got 5 HP back!");
+
+        if (PlayerSingleton.instance.playerHealth >= PlayerSingleton.instance.playerMaxHealth)
+        {
+            textPages.Add("NotHealth");
+        }
+        else
+        {
+            // Heals the player for 5 HP
+            PlayerSingleton.instance.playerHealth += 5;
+
+            PlayerSingleton.instance.playerHealth = Mathf.Clamp(PlayerSingleton.instance.playerHealth, 0, PlayerSingleton.instance.playerMaxHealth);
+            
+            textPages.Add("You were healed! You got 5 HP back!");
+        }
 
         return textPages;
     }
 
     public List<string> ManaPotion()
     {
-        // Gives the player 5 mana back
-        PlayerSingleton.instance.playerMana += 5;
-
-        PlayerSingleton.instance.playerMana = Mathf.Clamp(PlayerSingleton.instance.playerMana, 0, 10);
-
         List<string> textPages = new List<string>();
-        textPages.Add("You're mana was restored! You got 5 mana back!");
+
+        if (PlayerSingleton.instance.playerMana >= PlayerSingleton.instance.playerMaxMana)
+        {
+            textPages.Add("NotMana");
+        }
+        else
+        {
+            // Gives the player 5 mana back
+            PlayerSingleton.instance.playerMana += 5;
+
+            PlayerSingleton.instance.playerMana = Mathf.Clamp(PlayerSingleton.instance.playerMana, 0, 10);
+            
+            textPages.Add("You're mana was restored! You got 5 mana back!");
+        }
 
         return textPages;
     }
@@ -120,7 +136,13 @@ public class InventoryItem : MonoBehaviour
     public List<string> Antidote()
     {
         List<string> textPages = new List<string>();
-        textPages.Add("You used the antidote and your poison effect was cured!");
+
+        textPages.Add("Antidote");
+
+        if (!PlayerSingleton.instance.poisoned)
+            textPages.Insert(0, "NotAntidote");
+        else
+            textPages.Add("You used the antidote and your poison effect was cured!");
 
         return textPages;
     }

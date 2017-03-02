@@ -48,6 +48,8 @@ public class CombatScript : MonoBehaviour
         //Setting the currentstate to main       
         currentState = (int)cameraState.MAIN;
 
+        _EnemyCamera.GetComponent<LookAtEnemy>().target = enemyHolder.transform.GetChild(0).transform.position;
+
         enemyClass = enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>();
     }
 
@@ -231,6 +233,12 @@ public class CombatScript : MonoBehaviour
         }
     }
 
+    public void RemovePoison()
+    {
+        player.transform.GetChild(4).GetComponent<ParticleSystem>().loop = false;
+        PlayerSingleton.instance.poisoned = false;
+        playerPoisonedTurns = 0;
+    }
 
     //This function will check which attack the player will use,
     public void PlayerAttack(string attack)
@@ -266,7 +274,7 @@ public class CombatScript : MonoBehaviour
     public void ReturnToTheWorld()
     {
         OverworldEnemySingleton.instance.backFromCombat = true;
-        SceneManager.LoadScene("Forest_Scene_1");
+        SceneManager.LoadScene(PlayerSingleton.instance.currentScene);
     }
 
 
