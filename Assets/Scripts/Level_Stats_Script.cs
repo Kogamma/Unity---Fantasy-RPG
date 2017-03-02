@@ -22,8 +22,14 @@ public class Level_Stats_Script : MonoBehaviour
     public Text dex;
     public Text currentLevel;
     public Text add;
+    public Text XPtext;
 
     public Slider expSlider;
+
+    void Start()
+    {
+        expSlider.maxValue = PlayerSingleton.instance.currentXPNeeded;
+    }
 
     void LateUpdate()
     {
@@ -35,24 +41,38 @@ public class Level_Stats_Script : MonoBehaviour
         playerInt = PlayerSingleton.instance.playerInt;
         playerMaxHealth = PlayerSingleton.instance.playerMaxHealth;
         playerMaxMana = PlayerSingleton.instance.playerMaxMana;
+        statTotal = PlayerSingleton.instance.skillPoints;
+        expSlider.maxValue = PlayerSingleton.instance.currentXPNeeded;
 
         expSlider.value = playerExp;
-        PLayerLevel();
+        XPtext.text = playerExp + " / " + expSlider.maxValue;
 
         lucky.text = playerLuck.ToString();
         str.text = playerStr.ToString();
         Int.text = playerInt.ToString();
         dex.text = playerDex.ToString();
-      
+
         currentLevel.text = level.ToString();
 
         add.text = statTotal.ToString();
     }
 
-	void PLayerLevel()
+	public bool PLayerLevel()
     {
+        playerExp = PlayerSingleton.instance.playerExp;
+        level = PlayerSingleton.instance.level;
+        playerLuck = PlayerSingleton.instance.playerLuck;
+        playerDex = PlayerSingleton.instance.playerDex;
+        playerStr = PlayerSingleton.instance.playerStr;
+        playerInt = PlayerSingleton.instance.playerInt;
+        playerMaxHealth = PlayerSingleton.instance.playerMaxHealth;
+        playerMaxMana = PlayerSingleton.instance.playerMaxMana;
+        statTotal = PlayerSingleton.instance.skillPoints;
+        expSlider.maxValue = PlayerSingleton.instance.currentXPNeeded;
+
+
         //Level 2
-        if(playerExp >= 50 && level == 1)
+        if (playerExp >= 50 && level == 1)
         {
             //Add Level
             level++;
@@ -78,7 +98,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 3
-        if (playerExp >= 100 && level == 2)
+        else if (playerExp >= 100 && level == 2)
         {
             //Add Level
             level++;
@@ -104,7 +124,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 4
-        if (playerExp >= 150 && level == 3)
+        else if (playerExp >= 150 && level == 3)
         {
             //Add Level
             level++;
@@ -130,7 +150,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 5
-        if (playerExp >= 200 && level == 4)
+        else if (playerExp >= 200 && level == 4)
         {
             //Add Level
             level++;
@@ -156,7 +176,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 6
-        if (playerExp >= 250 && level == 5)
+        else if (playerExp >= 250 && level == 5)
         {
             //Add Level
             level++;
@@ -182,7 +202,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 7
-        if (playerExp >= 300 && level == 6)
+        else if (playerExp >= 300 && level == 6)
         {
             //Add Level
             level++;
@@ -208,7 +228,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 8
-        if (playerExp >= 350 && level == 7)
+        else if (playerExp >= 350 && level == 7)
         {
             //Add Level
             level++;
@@ -234,7 +254,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 9
-        if (playerExp >= 400 && level == 8)
+        else if (playerExp >= 400 && level == 8)
         {
             //Add Level
             level++;
@@ -260,7 +280,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 10
-        if (playerExp >= 450 && level == 9)
+        else if (playerExp >= 450 && level == 9)
         {
             //Add Level
             level++;
@@ -286,7 +306,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 11
-        if (playerExp >= 500 && level == 10)
+        else if (playerExp >= 500 && level == 10)
         {
             //Add Level
             level++;
@@ -312,7 +332,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 12
-        if (playerExp >= 550 && level == 11)
+        else if (playerExp >= 550 && level == 11)
         {
             //Add Level
             level++;
@@ -338,7 +358,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 13
-        if (playerExp >= 600 && level == 12)
+        else if (playerExp >= 600 && level == 12)
         {
             //Add Level
             level++;
@@ -364,7 +384,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 14
-        if (playerExp >= 650 && level == 13)
+        else if (playerExp >= 650 && level == 13)
         {
             //Add Level
             level++;
@@ -390,7 +410,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 15
-        if (playerExp >= 700 && level == 14)
+        else if (playerExp >= 700 && level == 14)
         {
             //Add Level
             level++;
@@ -416,7 +436,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 16
-        if (playerExp >= 750 && level == 15)
+        else if (playerExp >= 750 && level == 15)
         {
             //Add Level
             level++;
@@ -442,7 +462,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 17
-        if (playerExp >= 800 && level == 16)
+        else if (playerExp >= 800 && level == 16)
         {
             //Add Level
             level++;
@@ -468,7 +488,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 18
-        if (playerExp >= 850 && level == 17)
+        else if (playerExp >= 850 && level == 17)
         {
             //Add Level
             level++;
@@ -494,7 +514,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 19
-        if (playerExp >= 900 && level == 18)
+        else if (playerExp >= 900 && level == 18)
         {
             //Add Level
             level++;
@@ -520,7 +540,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 20
-        if (playerExp >= 950 && level == 19)
+        else if (playerExp >= 950 && level == 19)
         {
             //Add Level
             level++;
@@ -541,6 +561,8 @@ public class Level_Stats_Script : MonoBehaviour
             //Set the amount stats a player can pick
             statTotal += 2;
         }
+        else
+            return false;
 
         PlayerSingleton.instance.playerExp = playerExp;
         PlayerSingleton.instance.level = level;
@@ -550,7 +572,11 @@ public class Level_Stats_Script : MonoBehaviour
         PlayerSingleton.instance.playerInt = playerInt;
         PlayerSingleton.instance.playerMaxHealth = playerMaxHealth;
         PlayerSingleton.instance.playerMaxMana = playerMaxMana;
+        PlayerSingleton.instance.skillPoints = statTotal;
+        PlayerSingleton.instance.currentXPNeeded = (int)expSlider.maxValue;
 
+
+        return true;
     }
     //Allow the player to add Dex, Luck, Int or Str
     public void AddDex()
@@ -559,8 +585,9 @@ public class Level_Stats_Script : MonoBehaviour
         {
             playerDex++;
             statTotal--;
-
+            
             PlayerSingleton.instance.playerDex = playerDex;
+            PlayerSingleton.instance.skillPoints = statTotal;
         }
     }
     public void AddLuck()
@@ -571,6 +598,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal--;
 
             PlayerSingleton.instance.playerLuck = playerLuck;
+            PlayerSingleton.instance.skillPoints = statTotal;
         }
     }
     public void AddInt()
@@ -581,6 +609,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal--;
 
             PlayerSingleton.instance.playerInt = playerInt;
+            PlayerSingleton.instance.skillPoints = statTotal;
         }
     }
     public void AddStr()
@@ -591,6 +620,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal--;
 
             PlayerSingleton.instance.playerStr = playerStr;
+            PlayerSingleton.instance.skillPoints = statTotal;
         }
     }
 }

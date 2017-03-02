@@ -19,7 +19,7 @@ public class Player_Movement : MonoBehaviour
     // For applyng gravity to the character
     private float m_ySpeed = 0;
 
-    void Start ()
+    void Awake ()
     {
         rb = GetComponent<Rigidbody>();
 

@@ -52,9 +52,9 @@ public class MenuController : MonoBehaviour
         // Pauses the game if it's not already paused and vice versa
         PlayerSingleton.instance.canMove = PlayerSingleton.instance.canMove ? false : true;
 
-        if (Time.timeScale == 1)
+        /*if (Time.timeScale == 1)
             Time.timeScale = 0;
         else if (Time.timeScale == 0)
-            Time.timeScale = 1;
+            Time.timeScale = 1;*/
     }
 }

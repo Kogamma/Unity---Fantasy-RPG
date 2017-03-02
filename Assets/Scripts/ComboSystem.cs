@@ -214,7 +214,7 @@ public class ComboSystem : MonoBehaviour
     }
     
     
-    public void ActivateCombo (int _nrOfNotes, float _noteSpeed, float _interval, int _critChance)
+    public void ActivateCombo (int _nrOfNotes, float _noteSpeed, float _interval)
     {
         // Resets variables
         shouldSpawn = true;
@@ -231,7 +231,7 @@ public class ComboSystem : MonoBehaviour
         nrOfNotes = _nrOfNotes;
         noteSpeed = _noteSpeed;
         baseInterval = _interval;
-        critChance = _critChance;
+        critChance = PlayerSingleton.instance.playerLuck;
     }
 
 

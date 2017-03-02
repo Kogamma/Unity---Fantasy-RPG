@@ -17,10 +17,14 @@ public class EnemyAiMovement : MonoBehaviour {
 
     private bool isChasing = false;
 
+    private float m_originSpeed;
+
     private void Start()
     {
         ultimateGoal = goals[0];
         agent = GetComponent<NavMeshAgent>();   // Find the component "NavMeshAgent"
+
+        m_originSpeed = agent.speed;
     }
 
 
@@ -63,6 +67,11 @@ public class EnemyAiMovement : MonoBehaviour {
                 isFrozen = false;
             }
         }
+
+        if (!PlayerSingleton.instance.canMove)
+            agent.speed = 0;
+        else
+            agent.speed = m_originSpeed;
     }
 
 

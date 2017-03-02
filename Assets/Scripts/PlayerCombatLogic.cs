@@ -14,7 +14,6 @@ public class PlayerCombatLogic : MonoBehaviour {
     float noteSpeed;                                            //Using to set the notespeed for the attacks
     public float noteSpeedMultiplicator = 1;
     float interval;                                             //Using to set the interval for the notes on the diffrent attacks
-    int critchance;                                             //Using to set the critchance for the diffrent attack
     float dmg;                                                  //Using to set the damge for the player
 
     private CombatScript combatScript;
@@ -22,7 +21,6 @@ public class PlayerCombatLogic : MonoBehaviour {
     //int meeleAttack = Animator.StringToHash("MeeleAttack");     //Using to get the attack animation
     [SerializeField] GameObject comboSystem;                    //Using to call the combo system and activate it
     [SerializeField] GameObject textBox;
-    [SerializeField] UnityEngine.UI.Image healthBar;
     [SerializeField] GameObject iceParticle;
     [SerializeField] GameObject iceBlock;
 
@@ -40,9 +38,7 @@ public class PlayerCombatLogic : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        AttackIsDone();
-        healthBar.fillAmount = (float)((float)PlayerSingleton.instance.playerHealth / (float)PlayerSingleton.instance.playerMaxHealth);
-        
+        AttackIsDone();        
     }
     //The normal attack for the player
     public void MeeleAttack()
@@ -50,12 +46,10 @@ public class PlayerCombatLogic : MonoBehaviour {
         notes = 4;          //The combo will have 4 notes
         noteSpeed = 0.3f * noteSpeedMultiplicator;    //The speed for the notes will be 150
         interval = 0.5f;    //They will come 0.5 sec after each other
-        critchance = 10;    // The player will have 10% critchance
-
 
         comboSystem.SetActive(true);                                                                        //Setting the combo system ui to true
         dmg = PlayerSingleton.instance.playerDmg + ((1.4f * (float)PlayerSingleton.instance.playerStr));    //Setting the damage for the player
-        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval, critchance);      //Calling the funtion Activatecombo, and placing the parameters in  
+        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval);      //Calling the funtion Activatecombo, and placing the parameters in  
     }
 
     //The ice attack for the player
@@ -63,12 +57,11 @@ public class PlayerCombatLogic : MonoBehaviour {
     {
         notes = 6;          //The combo will have 6 notes
         noteSpeed = 0.6f * noteSpeedMultiplicator;    //The speed for the notes will be 200
-        interval = 0.5f;    //They will come 0.5sec after each other
-        critchance = 10;    //The player will have 10% critchance
+        interval = 0.5f;    //They will come 0.5sec after each other 
 
         comboSystem.SetActive(true);                                                                        //Setting the combo system ui to true
         dmg = PlayerSingleton.instance.playerDmg + ((0.7f * (float)PlayerSingleton.instance.playerInt));    //Setting the damage for the player
-        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval, critchance);      //Calling the funtion Activatecombo, and placing the parameters in
+        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval);      //Calling the funtion Activatecombo, and placing the parameters in
 
         PlayerSingleton.instance.playerMana -= 5;
     }
@@ -78,11 +71,10 @@ public class PlayerCombatLogic : MonoBehaviour {
         notes = 6;          //The combo will have 6 notes
         noteSpeed = 0.4f * noteSpeedMultiplicator;    //The speed for the notes will be 200
         interval = 0.3f;    //They will come 0.3sec after each other
-        critchance = 15;    //The player will have 15% critchance
 
         comboSystem.SetActive(true);                                                                        //Setting the combo system ui to true
         dmg = PlayerSingleton.instance.playerDmg + ((0.9f * (float)PlayerSingleton.instance.playerInt));    //Setting the damage for the player
-        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval, critchance);      //Calling the funtion Activatecombo, and placing the parameters in
+        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval);      //Calling the funtion Activatecombo, and placing the parameters in
 
         PlayerSingleton.instance.playerMana -= 10;
     }
@@ -92,11 +84,10 @@ public class PlayerCombatLogic : MonoBehaviour {
         notes = 8;
         noteSpeed = 0.45f * noteSpeedMultiplicator;
         interval = 0.3f;
-        critchance = 20;
 
         comboSystem.SetActive(true);
         dmg = PlayerSingleton.instance.playerDmg + (1.7f * (float)PlayerSingleton.instance.playerInt);
-        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval, critchance);
+        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval);
     }
 
     public void Flee()
@@ -104,10 +95,9 @@ public class PlayerCombatLogic : MonoBehaviour {
         notes = 6;
         noteSpeed = 0.4f * noteSpeedMultiplicator;
         interval = 0.5f;
-        critchance = 10;
 
         comboSystem.SetActive(true);
-        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval, critchance);
+        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval);
     }
 
     public void AttackIsDone()
@@ -167,7 +157,7 @@ public class PlayerCombatLogic : MonoBehaviour {
                     {
                         OverworldEnemySingleton.instance.fled = true;
                         OverworldEnemySingleton.instance.backFromCombat = true;
-                        text2.Add("You succeed to flee!");
+                        text2.Add("You succeeded to flee!");
                         textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(text2,gameObject,"FleeToScene");
                     }
                      if(hitAccuracy < 0.7)

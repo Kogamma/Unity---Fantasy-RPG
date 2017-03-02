@@ -76,8 +76,6 @@ public class CombatTextBoxHandler : MonoBehaviour
         // Checks if we're not already playing text
         if (!_textIsPlaying)
         {
-            PlayerSingleton.instance.canMove = false;
-
             _methodCaller = methodHolder;
             _methodToInvoke = invokeMethod;
 
@@ -100,8 +98,6 @@ public class CombatTextBoxHandler : MonoBehaviour
 
         while (!finishedText)
             yield return 0;
-
-        PlayerSingleton.instance.canMove = true;
 
         if (_methodCaller != null)
             if (_methodToInvoke != null)

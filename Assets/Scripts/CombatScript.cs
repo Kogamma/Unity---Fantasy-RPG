@@ -16,6 +16,8 @@ public class CombatScript : MonoBehaviour
     public GameObject player;
     public GameObject playerMenu;
     public GameObject menuManager;
+    public GameObject levelUpMenu;
+    public GameObject levelUpParticle;
     public int currentState;
     public CombatTextBoxHandler textBox;
     public GameObject enemyHolder;
@@ -32,6 +34,9 @@ public class CombatScript : MonoBehaviour
     private int maxConfusedTurns = 3;
 
     private EnemyClass enemyClass;
+
+    public Image blackScreen;
+    public float waitTimeBlackScreen;
 
 	// Use this for initialization
 	void Start ()
@@ -173,7 +178,7 @@ public class CombatScript : MonoBehaviour
                     //If it is a textbox will show, a death animation for the enamy will be played and a return to the world button will be showed 
                     enemyHolder.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Dead");
                     text2.Add("You defeated the enemy, you got " + enemyClass.enemyExp + " exp!");
-                    textBox.PrintMessage(text2, menuManager, "ReturnToWorldSelect");
+                    textBox.PrintMessage(text2, this.gameObject, "EndOfCombat");
                     enemyIsDead = true;
 
                     // Marks this enemy for deactivation when the player returns to the last scene
@@ -265,8 +270,8 @@ public class CombatScript : MonoBehaviour
 
     public void ReturnToTheWorld()
     {
-        OverworldEnemySingleton.instance.backFromCombat = true;
-        SceneManager.LoadScene(PlayerSingleton.instance.currentScene);
+        menuManager.GetComponent<MenuManagment>().returnButton.SetActive(false);
+        StartCoroutine(FillBlackScreen());
     }
 
 
@@ -282,5 +287,41 @@ public class CombatScript : MonoBehaviour
     public void LoadGameOver()
     {
         SceneManager.LoadScene("DeathScene");
+    }
+
+
+    void EndOfCombat ()
+    {
+        if (levelUpMenu.GetComponent<Level_Stats_Script>().PLayerLevel())
+        {
+            Instantiate(levelUpParticle, player.transform.position, player.transform.rotation);
+            List<string> text = new List<string>();
+            text.Add("You leveled up to level " + PlayerSingleton.instance.level + "!");
+            textBox.PrintMessage(text, this.gameObject, "LevelUp");
+        }
+        else
+            ReturnToTheWorld();
+    }
+
+
+    void LevelUp()
+    {
+        levelUpMenu.transform.GetChild(0).gameObject.SetActive(true);
+        menuManager.GetComponent<MenuManagment>().ReturnToWorldSelect();
+    }
+
+    IEnumerator FillBlackScreen()
+    {
+        blackScreen.gameObject.SetActive(true);
+
+        while (blackScreen.fillAmount < 1)
+        {
+            blackScreen.fillAmount += 1.0f / waitTimeBlackScreen * Time.deltaTime;
+
+            yield return null;
+        }
+
+        OverworldEnemySingleton.instance.backFromCombat = true;
+        SceneManager.LoadScene(PlayerSingleton.instance.currentScene);
     }
 }

@@ -23,7 +23,7 @@ public class CombatStart : MonoBehaviour
     //with the "enemyOverworld" tag, "fill" is true
 	void OnTriggerEnter(Collider enemy)
     {
-        if (enemy.gameObject.layer == 8 && Time.timeScale > 0)
+        if (enemy.gameObject.layer == 8 && PlayerSingleton.instance.canMove)
         {
             StartCoroutine(FillScreen());
             PlayerSingleton.instance.attackingEnemy = enemy.tag;

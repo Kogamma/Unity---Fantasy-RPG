@@ -259,7 +259,6 @@ public class InventoryMenu : MonoBehaviour
         // Checks what direction of input we made
         if (direction < 0)
         {
-            Debug.Log("down");
             // Checks if we're on the bottom of the list and that we have more items to show below
             if (_eventSystem.currentSelectedGameObject == itemButtons[itemButtons.Length - 1]
                 && currentItems[currentItems.Length - 1] + 1 < PlayerSingleton.instance.playerInventory.Count)
@@ -277,7 +276,6 @@ public class InventoryMenu : MonoBehaviour
         }
         else if (direction > 0)
         {
-            Debug.Log("up");
             // Checks if we're on the top of the list
             if (_eventSystem.currentSelectedGameObject == itemButtons[0] && currentItems[0] > 0)
             {

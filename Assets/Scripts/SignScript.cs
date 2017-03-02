@@ -22,4 +22,12 @@ public class SignScript : MonoBehaviour {
     {
         textBox.StartMessage(textPages, messagerName, methodHolder, methodName);
     }
+
+    public void RemoveInvisibleWall()
+    {
+        transform.GetChild(0).GetComponent<BoxCollider>().enabled = false;
+
+        if (name == "TutorialSign")
+            this.gameObject.SetActive(false);
+    }
 }

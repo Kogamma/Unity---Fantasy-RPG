@@ -10,7 +10,7 @@ public class MenuManagment : MonoBehaviour
     [SerializeField] GameObject attackGroup;
     [SerializeField] GameObject itemsGroup;
     [SerializeField] GameObject uiBox;
-    [SerializeField] GameObject returnButton;
+    public GameObject returnButton;
     [SerializeField] GameObject restartButton;
     [SerializeField] GameObject descriptionBox;
 

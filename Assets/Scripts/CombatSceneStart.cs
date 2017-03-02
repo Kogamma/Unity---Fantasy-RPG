@@ -19,6 +19,13 @@ public class CombatSceneStart : MonoBehaviour
 
     bool doOnce = true;
 
+    private void Awake()
+    {
+        blackScreen.fillAmount = 1;
+
+        StartCoroutine(RemoveBlackScreen());
+    }
+
     void Start ()
     {
         if (PlayerSingleton.instance.attackingEnemy == "Slime")
@@ -44,27 +51,21 @@ public class CombatSceneStart : MonoBehaviour
     }
 
 
-    void LateUpdate()
-    {
-        //When the battlescene has loaded
-        //the blackscreen starts to go back
-        blackScreen.fillAmount -= 1.0f / waitTime * Time.deltaTime;
-
-        if (blackScreen.fillAmount <= 0 && doOnce)
-        {
-            Destroy(blackScreen.gameObject);
-
-            //When the blackscreen is or less than 0
-            //it prints out a textbox
-            textBox.PrintMessage(textPages, this.gameObject, "ActivateUI");
-
-            doOnce = false;
-        }
-    }
-
-
     public void ActivateUI()
     {
         UIGroup.SetActive(true);
+    }
+
+    IEnumerator RemoveBlackScreen()
+    {
+        while (blackScreen.fillAmount > 0)
+        {
+            blackScreen.fillAmount -= 1.0f / waitTime * Time.deltaTime;
+
+            yield return null;
+        }
+        blackScreen.gameObject.SetActive(false);
+
+        textBox.PrintMessage(textPages, this.gameObject, "ActivateUI");
     }
 }
