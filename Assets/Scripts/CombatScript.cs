@@ -16,7 +16,6 @@ public class CombatScript : MonoBehaviour
     public GameObject player;
     public GameObject playerMenu;
     public GameObject menuManager;
-    public GameObject returnToWorldButton;
     public int currentState;
     public CombatTextBoxHandler textBox;
     public GameObject enemyHolder;
@@ -43,8 +42,6 @@ public class CombatScript : MonoBehaviour
         _playerCamera.enabled = false;
         //Setting the enemy camera to false           
         _EnemyCamera.enabled = false;
-        //Setting the return button to false               
-        returnToWorldButton.SetActive(false);
         //Setting the currentstate to main       
         currentState = (int)cameraState.MAIN;
 
@@ -183,6 +180,8 @@ public class CombatScript : MonoBehaviour
                     OverworldEnemySingleton.instance.shouldDestroy[OverworldEnemySingleton.instance.currentEnemyIndex] = true;
 
                     enemyClass.source.PlayOneShot(enemyClass.death, 1f);
+
+                    PlayerSingleton.instance.playerExp += enemyClass.enemyExp;
                 }
                 else if (enemyClass.isStunned == false)
                 {
@@ -261,13 +260,6 @@ public class CombatScript : MonoBehaviour
         ChangeViewPort(cameraState.ENEMY);
         //Calling the child to the enemyHolder and calling AttackPattern
         enemyClass.AttackPattern();
-    }
-
-
-    public void ShowVictoryMenu()
-    {
-        
-        returnToWorldButton.SetActive(true);
     }
 
 

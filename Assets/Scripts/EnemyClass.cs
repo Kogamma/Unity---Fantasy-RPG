@@ -11,7 +11,8 @@ public class EnemyClass : MonoBehaviour
     protected int maxHP;
     public int enemyExp;
     public int enemyArmorClass;
-    public int enemyDmg;
+    public int enemyDmgMax;
+    public int enemyDmgMin;
     protected int enemyDmgDealt;
     public string displayName = "enemy";
     public bool isStunned;
@@ -50,7 +51,8 @@ public class EnemyClass : MonoBehaviour
     //A normal attack for the enemy
     public void NormalAttack()
     {
-        enemyDmgDealt = enemyDmg;
+        int enemyRngDmg = Random.RandomRange(enemyDmgMin, enemyDmgMax + 1);
+        enemyDmgDealt = enemyRngDmg;
 
         if (isConfused)
             enemyDmgDealt = Mathf.RoundToInt(enemyDmgDealt * 0.67f);
@@ -66,7 +68,8 @@ public class EnemyClass : MonoBehaviour
 
     public void PoisonAttack()
     {
-        enemyDmgDealt = enemyDmg / 2;
+        int enemyRngDmg = Random.RandomRange(enemyDmgMin, enemyDmgMax + 1);
+        enemyDmgDealt = enemyRngDmg / 2;
 
         if (isConfused)
             enemyDmgDealt = Mathf.RoundToInt(enemyDmgDealt * 0.67f);
@@ -86,8 +89,9 @@ public class EnemyClass : MonoBehaviour
 
     public void ConfusionAttack()
     {
+        int enemyRngDmg = Random.RandomRange(enemyDmgMin, enemyDmgMax + 1);
         // Calculates what damage to deal
-        enemyDmgDealt = Mathf.RoundToInt(enemyDmg * 0.75f);
+        enemyDmgDealt = Mathf.RoundToInt(enemyRngDmg * 0.75f);
 
         if (isConfused)
             enemyDmgDealt = Mathf.RoundToInt(enemyDmgDealt * 0.67f);

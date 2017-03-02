@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class TrollScript : EnemyClass
 {
-    int attacked = Animator.StringToHash("Attacked");
-    
     [SerializeField] private int confusionChance = 20;
     private bool canConfuse = false;
-
-    // Use this for initialization
-    void Awake()
-    {
-    }
+ 
 
     void Update()
     {
