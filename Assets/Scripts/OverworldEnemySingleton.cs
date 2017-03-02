@@ -27,7 +27,7 @@ public class OverworldEnemySingleton : MonoBehaviour
 
     // List of bools telling if an enemy should be dead
     // Since the enemy list will be sorted, these bools will share the index with the enemies
-    [System.NonSerialized] public List<bool> shouldDestroy; 
+    public List<bool> shouldDestroy; 
     
     // The index of the enemy that is encountered in combat
     public int currentEnemyIndex;

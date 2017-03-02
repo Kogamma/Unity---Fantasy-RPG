@@ -42,7 +42,6 @@ public class CombatStart : MonoBehaviour
         PlayerSingleton.instance.canMove = PlayerSingleton.instance.canMove ? false : true;
 
         Time.timeScale = 0;
-            
 
         while (blackScreen.fillAmount < 1)
         {
@@ -55,8 +54,10 @@ public class CombatStart : MonoBehaviour
         PlayerSingleton.instance.canMove = PlayerSingleton.instance.canMove ? false : true;
         Time.timeScale = 1;
 
-        //When the blackscreen is done
-        //the battle scene loads
-        SceneManager.LoadScene("Battle_scene");
+        // When the blackscreen is done the battle scene loads
+        if (PlayerSingleton.instance.currentScene == 5)
+            SceneManager.LoadScene("Battle_scene");
+        else if (PlayerSingleton.instance.currentScene == 6)
+            SceneManager.LoadScene("Battle_Scene_dark");
     }
 }

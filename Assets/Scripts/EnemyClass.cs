@@ -105,7 +105,13 @@ public class EnemyClass : MonoBehaviour
         // Plays second attack animation
         anim.SetTrigger("Attack2");
 
-        source.PlayOneShot(attack2, 1f);
+        if (displayName == "Troll")
+        {
+            source.clip = attack2;
+            source.PlayDelayed(1f);
+        }
+        else
+            source.PlayOneShot(attack2, 1f);
     }
 
 
