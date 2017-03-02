@@ -2,29 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BatCombatScript : EnemyClass {
+public class BatCombatScript : EnemyClass
+{
+    [SerializeField] private int poisonChance = 20;
+    private bool canPoison = false;
 
-
-    [SerializeField] private int confusionChance = 20;
-    private bool canConfuse = false;
-
-    // Use this for initialization
-    void Start ()
+    
+    void Update ()
     {
         if (enemyHp <= maxHP * 0.5f)
-            canConfuse = true;
+            canPoison = true;
 	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-		
-	}
+
 
     public override void AttackPattern()
     {
-        if (canConfuse && Random.Range(0, 100 / confusionChance) == 0)
-            base.ConfusionAttack();
+        if (canPoison && Random.Range(0, 100 / poisonChance) == 0)
+            base.PoisonAttack();
         else
             base.NormalAttack();
     }

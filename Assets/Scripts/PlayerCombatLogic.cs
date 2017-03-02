@@ -142,20 +142,23 @@ public class PlayerCombatLogic : MonoBehaviour {
                     break;
 
                 case "ConfusionAttack":
-                    combatScript.enemyHolder.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().Play();
-                    combatScript.enemyHolder.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().loop = true;
-
                     if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().chanceToGetConfused >= rng)
+                    {
                         combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isConfused = true;
+                        combatScript.enemyHolder.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().Play();
+                        combatScript.enemyHolder.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().loop = true;
+                    }
                     break;
 
                 case "FireAttack":
                     if (!combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isFrozen)
                     {
-                        combatScript.enemyHolder.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>().Play();
-                        combatScript.enemyHolder.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>().loop = true;
                         if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().chanceToGetOnFire >= rng)
+                        {
                             combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().onFire = true;
+                            combatScript.enemyHolder.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>().Play();
+                            combatScript.enemyHolder.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>().loop = true;
+                        }
                     }
                     break;
                 case "Flee":
