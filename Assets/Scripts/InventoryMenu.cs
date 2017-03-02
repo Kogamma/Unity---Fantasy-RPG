@@ -137,7 +137,7 @@ public class InventoryMenu : MonoBehaviour
     {
         UpdateButtons();
 
-        UpdateEquipment();
+       // UpdateEquipment();
 
         // Shows how full the inventory is
         invCountText.text = PlayerSingleton.instance.playerInventory.Count + "/" + PlayerSingleton.instance.inventorySize;

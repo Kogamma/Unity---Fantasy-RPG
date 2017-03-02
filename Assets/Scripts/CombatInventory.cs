@@ -118,7 +118,6 @@ public class CombatInventory : MonoBehaviour
             // Checks if there is anything in that inventory slot
             if (currentItemIndexes[currentItems[i]] != -1)
             {
-                Debug.Log(PlayerSingleton.instance.playerInventory[currentItemIndexes[currentItems[i]]].itemName);
                 if (PlayerSingleton.instance.playerInventory[currentItemIndexes[currentItems[i]]].equippable)
                     itemButtons[i].GetComponent<Button>().interactable = false;
 

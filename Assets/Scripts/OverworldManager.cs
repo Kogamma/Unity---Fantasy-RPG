@@ -49,14 +49,16 @@ public class OverworldManager : MonoBehaviour
     IEnumerator RemoveBlackScreen()
     {
         GetComponent<MenuController>().Pause();
+        PlayerSingleton.instance.gameCanRun = false;
 
-        while(blackScreen.fillAmount > 0)
+        while (blackScreen.fillAmount > 0)
         {
-            blackScreen.fillAmount -= 1f;
+            blackScreen.fillAmount -= 0.025f;
 
             yield return null;
         }
 
         GetComponent<MenuController>().Pause();
+        PlayerSingleton.instance.gameCanRun = true;
     }
 }

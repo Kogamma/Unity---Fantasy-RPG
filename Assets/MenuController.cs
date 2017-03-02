@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
-    public GameObject menuCanvas;
+    public Canvas menuCanvas;
 
     public GameObject pauseMenuCanvas;
 
@@ -18,19 +18,22 @@ public class MenuController : MonoBehaviour
 
 	void Update ()
     {
-        // Brings up the pause menu
-        if (Input.GetKeyDown(KeyCode.Escape))
-            PauseMenu();
+        if (PlayerSingleton.instance.gameCanRun)
+        {
+            // Brings up the pause menu
+            if (Input.GetKeyDown(KeyCode.Escape))
+                PauseMenu();
 
-        // Brings up the menu for stats, inventory, journal etc.
-        if (Input.GetKeyDown(KeyCode.Tab))
-            ActivateMenu();
+            // Brings up the menu for stats, inventory, journal etc.
+            if (Input.GetKeyDown(KeyCode.Tab))
+                ActivateMenu();
+        }
 	}
 
 
     void ActivateMenu()
     {
-        menuCanvas.SetActive(menuCanvas.activeSelf ? false : true);
+        menuCanvas.enabled = menuCanvas.enabled ? false : true;
 
         // Pauses or unpauses the game
         Pause();
