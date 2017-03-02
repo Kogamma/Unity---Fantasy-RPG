@@ -259,6 +259,7 @@ public class InventoryMenu : MonoBehaviour
         // Checks what direction of input we made
         if (direction < 0)
         {
+            Debug.Log("down");
             // Checks if we're on the bottom of the list and that we have more items to show below
             if (_eventSystem.currentSelectedGameObject == itemButtons[itemButtons.Length - 1]
                 && currentItems[currentItems.Length - 1] + 1 < PlayerSingleton.instance.playerInventory.Count)
@@ -275,7 +276,8 @@ public class InventoryMenu : MonoBehaviour
             }
         }
         else if (direction > 0)
-        { 
+        {
+            Debug.Log("up");
             // Checks if we're on the top of the list
             if (_eventSystem.currentSelectedGameObject == itemButtons[0] && currentItems[0] > 0)
             {
@@ -291,6 +293,35 @@ public class InventoryMenu : MonoBehaviour
             }
         }
 
+        // Changes the values of the list accordingly
+        for (int i = 0; i < currentItems.Length; i++)
+        {
+            currentItems[i] += incrementer;
+        }
+    }
+
+    // Moves down in the item list if we can with the buttons in the UI
+    public void ButtonListNavigation(int direction)
+    {
+        int incrementer = 0;
+
+        // If we pressed the 'up' arrow in the UI
+        if (direction > 0)
+        {
+            // Check so we're not already at the top
+            if (currentItems[0] > 0)
+            {
+                incrementer = -1;
+            }
+        }
+        else if (direction < 0)
+        {
+            // Checks if we're at the bottom of the list
+            if (currentItems[currentItems.Length - 1] + 1 < PlayerSingleton.instance.playerInventory.Count)
+            {
+                incrementer = 1;
+            }
+        }
         // Changes the values of the list accordingly
         for (int i = 0; i < currentItems.Length; i++)
         {

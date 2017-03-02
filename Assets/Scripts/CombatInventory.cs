@@ -124,7 +124,8 @@ public class CombatInventory : MonoBehaviour
             {
                 if (handler.items[currentItemIndexes[currentItems[i]]].equippable)
                     itemButtons[i].GetComponent<Button>().interactable = false;
-
+                else
+                    itemButtons[i].GetComponent<Button>().interactable = true;
                 if (canClick)
                 {
                     // Activates the button component on slots that aren't empty
@@ -221,6 +222,36 @@ public class CombatInventory : MonoBehaviour
             }
         }
 
+        // Changes the values of the list accordingly
+        for (int i = 0; i < currentItems.Length; i++)
+        {
+            currentItems[i] += incrementer;
+        }
+    }
+
+
+    // Moves down in the item list if we can with the buttons in the UI
+    public void ButtonListNavigation(int direction)
+    {
+        int incrementer = 0;
+
+        // If we pressed the 'up' arrow in the UI
+        if (direction > 0)
+        {
+            // Check so we're not already at the top
+            if (currentItems[0] > 0)
+            {
+                incrementer = -1;
+            }
+        }
+        else if (direction < 0)
+        {
+            // Checks if we're at the bottom of the list
+            if (currentItems[currentItems.Length - 1] + 1 < PlayerSingleton.instance.playerInventory.Count)
+            {
+                incrementer = 1;
+            }
+        }
         // Changes the values of the list accordingly
         for (int i = 0; i < currentItems.Length; i++)
         {

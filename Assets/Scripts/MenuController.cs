@@ -31,7 +31,7 @@ public class MenuController : MonoBehaviour
 	}
 
 
-    void ActivateMenu()
+    public void ActivateMenu()
     {
         menuCanvas.enabled = menuCanvas.enabled ? false : true;
 
