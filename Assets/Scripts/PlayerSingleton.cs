@@ -91,5 +91,9 @@ public class PlayerSingleton : MonoBehaviour
     public bool canMove = true;
 
     public string attackingEnemy;
+
+    // Controls if the game can start doing stuff yet or not
+    public bool gameCanRun;
+
     #endregion
 }

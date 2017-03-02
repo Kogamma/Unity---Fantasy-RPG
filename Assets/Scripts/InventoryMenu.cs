@@ -398,28 +398,66 @@ public class InventoryMenu : MonoBehaviour
     // Uses the effect of the item selected
     public void UseItem()
     {
+        // If we actually used the item in this method or not
+        bool usedItem = true;
+
         List<string> textPages = new List<string>();
 
         // Calls the method to use the item and we will also get a message back to print
         textPages = PlayerSingleton.instance.playerInventory[currentItemIndexes[currentItems[currentItem]]].UseItem();
 
+        // Checks if the first letters are not, which means the item should not be used
+        if (textPages[0][0] == 'N' && textPages[0][1] == 'o' && textPages[0][2] == 't')
+        {
+            if (textPages[0].Contains("Health"))
+            {
+                textPages.Clear();
+                textPages.Add("You already have the max amount of health!");
+            }
+            else if (textPages[0].Contains("Mana"))
+            {
+                textPages.Clear();
+                textPages.Add("You already have the max amount of mana!");
+            }
+            else if (textPages[0].Contains("Antidote"))
+            {
+                textPages.Clear();
+                textPages.Add("You are not poisoned, you don't need any antidote!");
+            }
+
+            usedItem = false;
+        }
+        // If the item we used was an antidote, we call the remove poison method in combatscript
+        else if (textPages[0] == "Antidote")
+        {
+            PlayerSingleton.instance.poisoned = false;
+            textPages.RemoveAt(0);
+        }
         // Hides the info box
         itemInfoText.transform.parent.gameObject.SetActive(false);
 
         // Hides the item options window
         itemOptions.SetActive(false);
 
-        // Removes the item when we use it
-        GetComponent<InventoryHandler>().RemoveItem(currentItemIndexes[currentItems[currentItem]]);
-
-        // Updates the list of items in the inventory menu
-        UpdateItems();
-
         // Sets it so we can't click on anything while the message is printing
         canClick = false;
 
-        // Prints the message the item usage makes
-        textBox.PrintMessage(textPages, this.gameObject, "ActivateInfoBox");
+        // If the item was actually used or not
+        if (usedItem)
+        {
+            // Removes the item when we use it
+            GetComponent<InventoryHandler>().RemoveItem(currentItemIndexes[currentItems[currentItem]]);
+
+            // Prints the message the item usage makes and ends the turn
+            textBox.PrintMessage(textPages, this.gameObject, "ActivateInfoBox");
+        }
+        else
+        {
+            // Prints the message the item usage makes and ends the turn
+            textBox.PrintMessage(textPages, this.gameObject, "ActivateInfoBox");
+        }
+
+        UpdateItems();
     }
 
     // Throws away the item selected
