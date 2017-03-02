@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InventoryHandler : MonoBehaviour
 {
+
     public void AddItem(InventoryItem itemToAdd)
     {
         // If the stack is full or if there are no items we have to add a new one
@@ -20,7 +21,6 @@ public class InventoryHandler : MonoBehaviour
                     {
                         // ... we can just add to that amount
                         PlayerSingleton.instance.playerInventory[i].IncrementItem();
-
                         break;
                     }
                 }

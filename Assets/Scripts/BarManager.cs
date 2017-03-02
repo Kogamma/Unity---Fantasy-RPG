@@ -12,10 +12,6 @@ public class BarManager : MonoBehaviour {
 	
 	void Update ()
     {
-        PlayerSingleton.instance.playerHealth = Mathf.Clamp(PlayerSingleton.instance.playerHealth, 0, PlayerSingleton.instance.playerMaxHealth);
-
-        PlayerSingleton.instance.playerMana = Mathf.Clamp(PlayerSingleton.instance.playerMana, 0, 10);
-
         healthBar.fillAmount = (float)((float)PlayerSingleton.instance.playerHealth / (float)PlayerSingleton.instance.playerMaxHealth);
 
         manaBar.fillAmount = (float)((float)PlayerSingleton.instance.playerMana / (float)10);

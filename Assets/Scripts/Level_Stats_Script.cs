@@ -12,7 +12,7 @@ public class Level_Stats_Script : MonoBehaviour
     int playerStr;
     int playerInt;
     int playerMaxHealth;
-    int playerMana;
+    int playerMaxMana;
 
     int statTotal;
 
@@ -21,14 +21,11 @@ public class Level_Stats_Script : MonoBehaviour
     public Text Int;
     public Text dex;
     public Text currentLevel;
-    public Text maxHealth;
-    public Text Mana;
     public Text add;
 
     public Slider expSlider;
 
-	// Use this for initialization
-	void Start ()
+    void LateUpdate()
     {
         playerExp = PlayerSingleton.instance.playerExp;
         level = PlayerSingleton.instance.level;
@@ -37,10 +34,8 @@ public class Level_Stats_Script : MonoBehaviour
         playerStr = PlayerSingleton.instance.playerStr;
         playerInt = PlayerSingleton.instance.playerInt;
         playerMaxHealth = PlayerSingleton.instance.playerMaxHealth;
-        playerMana = PlayerSingleton.instance.playerMana;
-    }
-    void LateUpdate()
-    {
+        playerMaxMana = PlayerSingleton.instance.playerMaxMana;
+
         expSlider.value = playerExp;
         PLayerLevel();
 
@@ -50,8 +45,7 @@ public class Level_Stats_Script : MonoBehaviour
         dex.text = playerDex.ToString();
       
         currentLevel.text = level.ToString();
-        maxHealth.text = PlayerSingleton.instance.playerHealth + " / " + playerMaxHealth.ToString();
-        Mana.text = PlayerSingleton.instance.playerMana + " / " + playerMana.ToString();
+
         add.text = statTotal.ToString();
     }
 
@@ -75,8 +69,11 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Add 5 Health and mana
             playerMaxHealth += 5;
-            playerMana += 5;
-           
+            playerMaxMana += 5;
+
+            PlayerSingleton.instance.playerHealth = playerMaxHealth;
+            PlayerSingleton.instance.playerMana = playerMaxMana;
+
             //Set the amount stats a player can pick
             statTotal += 2;
         }
@@ -98,7 +95,10 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Add 5 Health and mana
             playerMaxHealth += 5;
-            playerMana += 5;
+            playerMaxMana += 5;
+
+            PlayerSingleton.instance.playerHealth = playerMaxHealth;
+            PlayerSingleton.instance.playerMana = playerMaxMana;
 
             //Set the amount stats a player can pick
             statTotal += 2;
@@ -121,7 +121,10 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Add 5 Health and mana
             playerMaxHealth += 5;
-            playerMana += 5;
+            playerMaxMana += 5;
+
+            PlayerSingleton.instance.playerHealth = playerMaxHealth;
+            PlayerSingleton.instance.playerMana = playerMaxMana;
 
             //Set the amount stats a player can pick
             statTotal += 2;
@@ -144,7 +147,10 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Add 5 Health and mana
             playerMaxHealth += 5;
-            playerMana += 5;
+            playerMaxMana += 5;
+
+            PlayerSingleton.instance.playerHealth = playerMaxHealth;
+            PlayerSingleton.instance.playerMana = playerMaxMana;
 
             //Set the amount stats a player can pick
             statTotal += 2;
@@ -167,7 +173,10 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Add 5 Health and mana
             playerMaxHealth += 5;
-            playerMana += 5;
+            playerMaxMana += 5;
+
+            PlayerSingleton.instance.playerHealth = playerMaxHealth;
+            PlayerSingleton.instance.playerMana = playerMaxMana;
 
             //Set the amount stats a player can pick
             statTotal += 2;
@@ -190,7 +199,10 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Add 5 Health and mana
             playerMaxHealth += 5;
-            playerMana += 5;
+            playerMaxMana += 5;
+
+            PlayerSingleton.instance.playerHealth = playerMaxHealth;
+            PlayerSingleton.instance.playerMana = playerMaxMana;
 
             //Set the amount stats a player can pick
             statTotal += 2;
@@ -213,7 +225,10 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Add 5 Health and mana
             playerMaxHealth += 5;
-            playerMana += 5;
+            playerMaxMana += 5;
+
+            PlayerSingleton.instance.playerHealth = playerMaxHealth;
+            PlayerSingleton.instance.playerMana = playerMaxMana;
 
             //Set the amount stats a player can pick
             statTotal += 2;
@@ -236,7 +251,10 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Add 5 Health and mana
             playerMaxHealth += 5;
-            playerMana += 5;
+            playerMaxMana += 5;
+
+            PlayerSingleton.instance.playerHealth = playerMaxHealth;
+            PlayerSingleton.instance.playerMana = playerMaxMana;
 
             //Set the amount stats a player can pick
             statTotal += 2;
@@ -259,7 +277,10 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Add 5 Health and mana
             playerMaxHealth += 5;
-            playerMana += 5;
+            playerMaxMana += 5;
+
+            PlayerSingleton.instance.playerHealth = playerMaxHealth;
+            PlayerSingleton.instance.playerMana = playerMaxMana;
 
             //Set the amount stats a player can pick
             statTotal += 2;
@@ -282,7 +303,10 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Add 5 Health and mana
             playerMaxHealth += 5;
-            playerMana += 5;
+            playerMaxMana += 5;
+
+            PlayerSingleton.instance.playerHealth = playerMaxHealth;
+            PlayerSingleton.instance.playerMana = playerMaxMana;
 
             //Set the amount stats a player can pick
             statTotal += 2;
@@ -305,7 +329,10 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Add 5 Health and mana
             playerMaxHealth += 5;
-            playerMana += 5;
+            playerMaxMana += 5;
+
+            PlayerSingleton.instance.playerHealth = playerMaxHealth;
+            PlayerSingleton.instance.playerMana = playerMaxMana;
 
             //Set the amount stats a player can pick
             statTotal += 2;
@@ -328,7 +355,10 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Add 5 Health and mana
             playerMaxHealth += 5;
-            playerMana += 5;
+            playerMaxMana += 5;
+
+            PlayerSingleton.instance.playerHealth = playerMaxHealth;
+            PlayerSingleton.instance.playerMana = playerMaxMana;
 
             //Set the amount stats a player can pick
             statTotal += 2;
@@ -351,7 +381,10 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Add 5 Health and mana
             playerMaxHealth += 5;
-            playerMana += 5;
+            playerMaxMana += 5;
+
+            PlayerSingleton.instance.playerHealth = playerMaxHealth;
+            PlayerSingleton.instance.playerMana = playerMaxMana;
 
             //Set the amount stats a player can pick
             statTotal += 2;
@@ -374,7 +407,10 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Add 5 Health and mana
             playerMaxHealth += 5;
-            playerMana += 5;
+            playerMaxMana += 5;
+
+            PlayerSingleton.instance.playerHealth = playerMaxHealth;
+            PlayerSingleton.instance.playerMana = playerMaxMana;
 
             //Set the amount stats a player can pick
             statTotal += 2;
@@ -397,7 +433,10 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Add 5 Health and mana
             playerMaxHealth += 5;
-            playerMana += 5;
+            playerMaxMana += 5;
+
+            PlayerSingleton.instance.playerHealth = playerMaxHealth;
+            PlayerSingleton.instance.playerMana = playerMaxMana;
 
             //Set the amount stats a player can pick
             statTotal += 2;
@@ -420,7 +459,10 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Add 5 Health and mana
             playerMaxHealth += 5;
-            playerMana += 5;
+            playerMaxMana += 5;
+
+            PlayerSingleton.instance.playerHealth = playerMaxHealth;
+            PlayerSingleton.instance.playerMana = playerMaxMana;
 
             //Set the amount stats a player can pick
             statTotal += 2;
@@ -443,7 +485,10 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Add 5 Health and mana
             playerMaxHealth += 5;
-            playerMana += 5;
+            playerMaxMana += 5;
+
+            PlayerSingleton.instance.playerHealth = playerMaxHealth;
+            PlayerSingleton.instance.playerMana = playerMaxMana;
 
             //Set the amount stats a player can pick
             statTotal += 2;
@@ -466,7 +511,10 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Add 5 Health and mana
             playerMaxHealth += 5;
-            playerMana += 5;
+            playerMaxMana += 5;
+
+            PlayerSingleton.instance.playerHealth = playerMaxHealth;
+            PlayerSingleton.instance.playerMana = playerMaxMana;
 
             //Set the amount stats a player can pick
             statTotal += 2;
@@ -485,7 +533,10 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Add 5 Health and mana
             playerMaxHealth += 5;
-            playerMana += 5;
+            playerMaxMana += 5;
+
+            PlayerSingleton.instance.playerHealth = playerMaxHealth;
+            PlayerSingleton.instance.playerMana = playerMaxMana;
 
             //Set the amount stats a player can pick
             statTotal += 2;
@@ -498,7 +549,7 @@ public class Level_Stats_Script : MonoBehaviour
         PlayerSingleton.instance.playerStr = playerStr;
         PlayerSingleton.instance.playerInt = playerInt;
         PlayerSingleton.instance.playerMaxHealth = playerMaxHealth;
-        PlayerSingleton.instance.playerMana = playerMana;
+        PlayerSingleton.instance.playerMaxMana = playerMaxMana;
 
     }
     //Allow the player to add Dex, Luck, Int or Str

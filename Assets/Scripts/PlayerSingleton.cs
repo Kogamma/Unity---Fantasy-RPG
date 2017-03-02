@@ -54,7 +54,7 @@ public class PlayerSingleton : MonoBehaviour
     public List<InventoryItem> playerInventory = new List<InventoryItem>();
     // The current maximum size of slots in the inventory
     public int inventorySize = 15;
-
+    
     // Creates the equipped items array and fils it with default value items that means the slot is empty
     public InventoryItem[] equippedItems = new InventoryItem[6] {
         new InventoryItem("-1", false, true, -1, null, 0, "-1", null),
