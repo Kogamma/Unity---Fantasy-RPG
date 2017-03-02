@@ -165,9 +165,9 @@ public class PlayerCombatLogic : MonoBehaviour {
                     List<string> text2 = new List<string>();
                     if (hitAccuracy >= 0.7)
                     {
-                        text2.Add("You succeed to flee!");
                         OverworldEnemySingleton.instance.fled = true;
                         OverworldEnemySingleton.instance.backFromCombat = true;
+                        text2.Add("You succeed to flee!");
                         textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(text2,gameObject,"FleeToScene");
                     }
                      if(hitAccuracy < 0.7)
@@ -219,7 +219,7 @@ public class PlayerCombatLogic : MonoBehaviour {
 
     void FleeToScene()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Forest_Scene_1");
+        UnityEngine.SceneManagement.SceneManager.LoadScene(PlayerSingleton.instance.currentScene);
     }
 
     IEnumerator TurnDelay()

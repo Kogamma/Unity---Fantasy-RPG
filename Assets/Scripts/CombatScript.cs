@@ -105,7 +105,7 @@ public class CombatScript : MonoBehaviour
                     List<string> text = new List<string>();
                     text.Add("The enemy defeated you and you died!");
                     text.Add("GAME OVER");
-                    textBox.PrintMessage(text, gameObject, "LoadGameOver");
+                    textBox.PrintMessage(text, menuManager, "RestartGameSelect");
                 }             
                 else
                 {
@@ -270,9 +270,17 @@ public class CombatScript : MonoBehaviour
     }
 
 
+    public void RestartFromCheckpoint()
+    {
+        OverworldEnemySingleton.instance.shouldDestroy.Clear();
+        PlayerSingleton.instance.playerHealth = PlayerSingleton.instance.playerMaxHealth;
+        PlayerSingleton.instance.playerMana = PlayerSingleton.instance.playerMaxMana;
+        SceneManager.LoadScene(PlayerSingleton.instance.currentScene);
+    }
+
+
     public void LoadGameOver()
     {
-        Debug.Log("adsadasdadasd");
         SceneManager.LoadScene("DeathScene");
     }
 }

@@ -11,7 +11,7 @@ public class CombatSceneStart : MonoBehaviour
     public float waitTime = 10.0f;
     [TextArea]
     private List<string> textPages;
-    public GameObject textBox;
+    public CombatTextBoxHandler textBox;
     [SerializeField] GameObject enemyHolder;
     [SerializeField] GameObject UIGroup;
     [SerializeField] GameObject[] enemies = new GameObject[6];
@@ -56,7 +56,7 @@ public class CombatSceneStart : MonoBehaviour
 
             //When the blackscreen is or less than 0
             //it prints out a textbox
-            textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(textPages, this.gameObject, "ActivateUI");
+            textBox.PrintMessage(textPages, this.gameObject, "ActivateUI");
 
             doOnce = false;
         }
