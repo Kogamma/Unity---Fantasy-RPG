@@ -48,10 +48,10 @@ public class Level_Stats_Script : MonoBehaviour
         str.text = playerStr.ToString();
         Int.text = playerInt.ToString();
         dex.text = playerDex.ToString();
-
+      
         currentLevel.text = level.ToString();
-        maxHealth.text = playerMaxHealth.ToString();
-        Mana.text = playerMana.ToString();
+        maxHealth.text = PlayerSingleton.instance.playerHealth + " / " + playerMaxHealth.ToString();
+        Mana.text = PlayerSingleton.instance.playerMana + " / " + playerMana.ToString();
         add.text = statTotal.ToString();
     }
 
@@ -491,6 +491,15 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
 
+        PlayerSingleton.instance.playerExp = playerExp;
+        PlayerSingleton.instance.level = level;
+        PlayerSingleton.instance.playerLuck = playerLuck;
+        PlayerSingleton.instance.playerDex = playerDex;
+        PlayerSingleton.instance.playerStr = playerStr;
+        PlayerSingleton.instance.playerInt = playerInt;
+        PlayerSingleton.instance.playerMaxHealth = playerMaxHealth;
+        PlayerSingleton.instance.playerMana = playerMana;
+
     }
     //Allow the player to add Dex, Luck, Int or Str
     public void AddDex()
@@ -499,6 +508,8 @@ public class Level_Stats_Script : MonoBehaviour
         {
             playerDex++;
             statTotal--;
+
+            PlayerSingleton.instance.playerDex = playerDex;
         }
     }
     public void AddLuck()
@@ -507,7 +518,9 @@ public class Level_Stats_Script : MonoBehaviour
         {
             playerLuck++;
             statTotal--;
-        }   
+
+            PlayerSingleton.instance.playerLuck = playerLuck;
+        }
     }
     public void AddInt()
     {
@@ -515,6 +528,8 @@ public class Level_Stats_Script : MonoBehaviour
         {
             playerInt++;
             statTotal--;
+
+            PlayerSingleton.instance.playerInt = playerInt;
         }
     }
     public void AddStr()
@@ -523,6 +538,8 @@ public class Level_Stats_Script : MonoBehaviour
         {
             playerStr++;
             statTotal--;
-        }      
+
+            PlayerSingleton.instance.playerStr = playerStr;
+        }
     }
 }
