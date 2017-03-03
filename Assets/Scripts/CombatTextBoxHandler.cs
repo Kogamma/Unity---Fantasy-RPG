@@ -96,6 +96,8 @@ public class CombatTextBoxHandler : MonoBehaviour
     {
         StartCoroutine(StartTextBox());
 
+        PlayerSingleton.instance.gameCanRun = false;
+
         while (!finishedText)
             yield return 0;
 
@@ -104,6 +106,8 @@ public class CombatTextBoxHandler : MonoBehaviour
             {
                 _methodCaller.SendMessage(_methodToInvoke, _methodCaller);
             }
+
+        PlayerSingleton.instance.gameCanRun = true;
 
         finishedText = false;
     }

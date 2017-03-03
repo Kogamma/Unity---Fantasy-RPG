@@ -89,5 +89,6 @@ public class PlayerSingleton : MonoBehaviour
     // Controls if the game can start doing stuff yet or not
     public bool gameCanRun;
 
+
     #endregion
 }

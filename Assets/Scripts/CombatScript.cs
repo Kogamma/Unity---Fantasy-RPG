@@ -292,6 +292,10 @@ public class CombatScript : MonoBehaviour
 
     void EndOfCombat ()
     {
+        RemovePoison();
+        player.transform.GetChild(5).GetComponent<ParticleSystem>().loop = false;
+        PlayerSingleton.instance.confused = false;
+
         if (levelUpMenu.GetComponent<Level_Stats_Script>().PLayerLevel())
         {
             Instantiate(levelUpParticle, player.transform.position, player.transform.rotation);

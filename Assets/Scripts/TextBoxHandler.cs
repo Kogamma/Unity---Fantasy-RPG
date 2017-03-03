@@ -122,11 +122,15 @@ public class TextBoxHandler : MonoBehaviour
     {
         StartCoroutine(StartTextBox());
 
+        PlayerSingleton.instance.gameCanRun = false;
+
         while (!finishedText)
         {          
             yield return null;
         }
 
+
+        PlayerSingleton.instance.gameCanRun = true;
         PlayerSingleton.instance.canMove = true;
 
         if (_methodCaller != null)

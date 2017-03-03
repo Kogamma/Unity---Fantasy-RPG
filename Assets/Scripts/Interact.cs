@@ -42,7 +42,7 @@ public class Interact : MonoBehaviour
                 }
 
                 // If the player presses the button for interaction
-                if (Input.GetButtonDown("Interact"))
+                if (Input.GetButtonDown("Interact") && PlayerSingleton.instance.canMove)
                 {
                     // Activates its interaction event
                     hit.transform.gameObject.SendMessage("OnInteract");

@@ -157,7 +157,7 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Change expSlider max value & reset exp bar
             playerExp -= 200;
-            expSlider.maxValue = 250;
+            expSlider.maxValue = 300;
 
             //Add 1 plus on every stat 
             playerDex++;
@@ -176,7 +176,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 6
-        else if (playerExp >= 250 && level == 5)
+        else if (playerExp >= 300 && level == 5)
         {
             //Add Level
             level++;
@@ -209,7 +209,7 @@ public class Level_Stats_Script : MonoBehaviour
 
             //Change expSlider max value & reset exp bar
             playerExp -= 300;
-            expSlider.maxValue = 350;
+            expSlider.maxValue = 400;
 
             //Add 1 plus on every stat 
             playerDex++;
@@ -228,7 +228,7 @@ public class Level_Stats_Script : MonoBehaviour
             statTotal += 2;
         }
         //Level 8
-        else if (playerExp >= 350 && level == 7)
+        else if (playerExp >= 400 && level == 7)
         {
             //Add Level
             level++;
