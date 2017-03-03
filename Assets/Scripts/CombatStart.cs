@@ -9,6 +9,8 @@ public class CombatStart : MonoBehaviour
     public Image blackScreen;
     public float waitTime = 1.0f;
 
+    public AudioSource musicSource;
+
     void Start()
     {
         if(PlayerSingleton.instance.overWorldPos != Vector3.zero && OverworldEnemySingleton.instance.backFromCombat)
@@ -53,6 +55,9 @@ public class CombatStart : MonoBehaviour
         // Pauses the game if it's not already paused and vice versa
         PlayerSingleton.instance.canMove = PlayerSingleton.instance.canMove ? false : true;
         Time.timeScale = 1;
+
+        // Pauses the music before loading new scene
+        musicSource.Stop();
 
         // When the blackscreen is done the battle scene loads
         if (PlayerSingleton.instance.currentScene == 5)

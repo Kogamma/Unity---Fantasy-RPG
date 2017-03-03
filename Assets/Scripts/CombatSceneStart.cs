@@ -19,11 +19,15 @@ public class CombatSceneStart : MonoBehaviour
 
     bool doOnce = true;
 
+    private AudioSource m_musicSource;
+
     private void Awake()
     {
         blackScreen.fillAmount = 1;
 
         StartCoroutine(RemoveBlackScreen());
+
+        m_musicSource = GetComponent<AudioSource>();
     }
 
     void Start ()
