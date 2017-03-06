@@ -325,6 +325,8 @@ public class CombatScript : MonoBehaviour
             yield return null;
         }
 
+        GetComponent<AudioSource>().Stop();
+
         OverworldEnemySingleton.instance.backFromCombat = true;
         SceneManager.LoadScene(PlayerSingleton.instance.currentScene);
     }

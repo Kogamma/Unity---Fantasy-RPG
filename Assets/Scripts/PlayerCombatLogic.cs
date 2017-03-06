@@ -88,6 +88,8 @@ public class PlayerCombatLogic : MonoBehaviour {
         comboSystem.SetActive(true);
         dmg = PlayerSingleton.instance.playerDmg + (1.7f * (float)PlayerSingleton.instance.playerInt);
         comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval);
+
+        PlayerSingleton.instance.playerMana -= 15;
     }
 
     public void Flee()
