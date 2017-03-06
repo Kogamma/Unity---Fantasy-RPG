@@ -35,6 +35,10 @@ public class Level_Stats_Script : MonoBehaviour
 
     void LateUpdate()
     {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            PlayerSingleton.instance.skillPoints += 1; 
+        }
         playerExp = PlayerSingleton.instance.playerExp;
         level = PlayerSingleton.instance.level;
         playerLuck = PlayerSingleton.instance.playerLuck;
@@ -63,6 +67,7 @@ public class Level_Stats_Script : MonoBehaviour
         {
             for (int i = 0; i < addButtons.Length; i++)
             {
+                addButtons[i].transform.parent.GetComponent<Button>().interactable = true;
                 if (!addButtons[i].text.Contains(" +")) 
                     addButtons[i].text = addButtons[i].text + " +";
             }
@@ -72,9 +77,9 @@ public class Level_Stats_Script : MonoBehaviour
             
             for (int i = 0; i < addButtons.Length; i++)
             {
+                addButtons[i].transform.parent.GetComponent<Button>().interactable = false;
                 if (addButtons[i].text.Contains(" +"))
                     addButtons[i].text = addButtons[i].text.Remove(addButtons[i].text.Length - 2, 2);
-               
             }
         }
     }
