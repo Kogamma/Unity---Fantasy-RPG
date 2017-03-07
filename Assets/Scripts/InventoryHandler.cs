@@ -49,7 +49,7 @@ public class InventoryHandler : MonoBehaviour
         }
     }
 
-    public void AddItem(string itemStringToAdd)
+    public bool AddItem(string itemStringToAdd)
     {
         // Gets the item we're adding via the string parameter value
         InventoryItem itemToAdd = GetComponent<ItemLibrary>().AddItem(itemStringToAdd);
@@ -101,7 +101,7 @@ public class InventoryHandler : MonoBehaviour
             }
             else
             {
-                Debug.Log("You can't add any more items to the inventory!");
+                return false;
             }
         }
 
@@ -110,6 +110,8 @@ public class InventoryHandler : MonoBehaviour
             GetComponent<CombatInventory>().UpdateItems();
         else if (GetComponent<InventoryMenu>() != null)
             GetComponent<InventoryMenu>().UpdateItems();
+
+        return true;
     }
 
     public bool RemoveItem(int index)
