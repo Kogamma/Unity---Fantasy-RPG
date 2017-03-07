@@ -32,6 +32,7 @@ public class Interact : MonoBehaviour
             // If the hit object is a interactable object
             if (hit.transform.gameObject.tag == "Interactable")
             {
+                
                 interactIcon.SetActive(true);
                 interactIcon.transform.LookAt(camera.transform.position);
 
