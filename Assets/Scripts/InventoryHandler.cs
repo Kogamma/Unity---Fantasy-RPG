@@ -31,7 +31,6 @@ public class InventoryHandler : MonoBehaviour
                 items[i] = GetComponent<ItemLibrary>().AddItem(inventory[i]);
                 items[i].amountOfItem = PlayerSingleton.instance.inventoryAmounts[i];
             }
-            
         }
     }
 
@@ -45,8 +44,12 @@ public class InventoryHandler : MonoBehaviour
             {
                 equippedItems[i] = GetComponent<ItemLibrary>().AddItem(equipment[i]);
             }
-
         }
+    }
+
+    public void AddItemWithButton (string item)
+    {
+        AddItem(item);
     }
 
     public bool AddItem(string itemStringToAdd)

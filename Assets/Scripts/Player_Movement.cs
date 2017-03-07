@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player_Movement : MonoBehaviour
 {
     // The characters player controller and animator components
-    private Rigidbody rb;
+    private CharacterController controller;
     private Animator _anim;
 
     // How fast the player will be moving
@@ -19,9 +19,11 @@ public class Player_Movement : MonoBehaviour
     // For applyng gravity to the character
     private float m_ySpeed = 0;
 
+    private Vector3 lastPos;
+
     void Awake ()
     {
-        rb = GetComponent<Rigidbody>();
+        controller = GetComponent<CharacterController>();
 
         _anim = GetComponent<Animator>();
 
@@ -32,6 +34,8 @@ public class Player_Movement : MonoBehaviour
         }
 
         PlayerSingleton.instance.currentScene = Application.loadedLevel;
+
+        lastPos = transform.position;
 	}
 	
 	void FixedUpdate ()
@@ -55,18 +59,19 @@ public class Player_Movement : MonoBehaviour
             {
                 transform.rotation = Quaternion.LookRotation(new Vector3(inputVec.x, 0, inputVec.z));
             }
-
+            
             // Moves the character by lerping the velocity variable in rigidbody
-            rb.velocity = new Vector3(Mathf.Lerp(0, inputVec.x * moveSpeed, 0.8f), rb.velocity.y, 
-                Mathf.Lerp(0, inputVec.z * moveSpeed, 0.8f));
+            GetComponent<CharacterController>().SimpleMove(new Vector3(Mathf.Lerp(0, inputVec.x * moveSpeed, 0.8f), 0,
+            Mathf.Lerp(0, inputVec.z * moveSpeed, 0.8f)));
+
+            //Debug.Log(Vector3.Distance(transform.position, lastPos));
         }
         else
         {
             // Sets the parameter for the player's walk animation to make it stop whilst not moving
             _anim.SetFloat("Velocity", 0);
-
-            rb.velocity = Vector3.zero;
         }
+         lastPos = transform.position;
     }
 
     /*
