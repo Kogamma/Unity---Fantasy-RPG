@@ -296,7 +296,7 @@ public class CombatScript : MonoBehaviour
         player.transform.GetChild(5).GetComponent<ParticleSystem>().loop = false;
         PlayerSingleton.instance.confused = false;
 
-        if (levelUpMenu.GetComponent<Level_Stats_Script>().PLayerLevel())
+        if (levelUpMenu.GetComponent<Level_Stats_Script>().PlayerLevel())
         {
             Instantiate(levelUpParticle, player.transform.position, player.transform.rotation);
             List<string> text = new List<string>();
