@@ -10,51 +10,80 @@ public class LootObject : MonoBehaviour
 
     public TextBoxHandler textBox;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     public void OnInteract()
     {
         List<string> text = new List<string>();
+        int hpPotions = 0;
+        int manaPotions = 0;
+        int antidote = 0;
+
+       int currentItems = items.Count;
+
+        Debug.Log(currentItems);
+
         if (name.Contains("Chest"))
             gameObject.transform.GetChild(1).GetComponent<Animator>().SetTrigger("Open");
 
         text.Add("You got ");
-        for(int i = 0; i < items.Count; i++)
+        for (int i = 0; i < items.Count; i++)
         {
-
-            if(inventHanlder.AddItem(items[i]))
+            if (inventHanlder.AddItem(items[i]))
             {
                 if (items[i] == "HealingPotion")
-                    text[0] += "Potion of healing ";
-                else if (items[0] == "ManaPotion")
-                    text[0] += "Mana Potiion ";
+                    hpPotions++;
+
+                else if (items[i] == "ManaPotion")
+                    manaPotions++;
 
                 items.RemoveAt(i);
+                i--;
             }
         }
 
-        if(items.Count > 0)
+        Debug.Log(items.Count);
+
+        Debug.Log(currentItems);
+        if (hpPotions > 0)
+            text[0] += "[" + hpPotions + "] Potion of healing ";
+        if (manaPotions > 0)
+            text[0] += "[" + manaPotions + "] Mana Potion ";
+
+        if (currentItems == items.Count)
+            text[0] = "";
+
+        if (items.Count != 0)
         {
-            text.Add("Your inventory is full, this items are still in the chest ");
-            for(int i = 0; i < items.Count; i++)
+            hpPotions = 0;
+            manaPotions = 0;
+            text[0] += (" Your inventory is full, this items will be left behind");
+            for (int i = 0; i < items.Count; i++)
             {
                 if (items[i] == "HealingPotion")
-                    text[0] += "Potion of healing ";
-                else if (items[0] == "ManaPotion")
-                    text[0] += "Mana Potiion ";
+                    hpPotions++;
+                else if (items[i] == "ManaPotion")
+                    manaPotions++;
             }
+
+            if (hpPotions > 0)
+                text[0] += "[" + hpPotions + "] Potion of healing ";
+            if (manaPotions > 0)
+                text[0] += "[" + manaPotions + "] Mana Potion ";
+            textBox.StartMessage(text.ToArray(), "Chest", gameObject, "ReversAnim");
         }
 
-        textBox.StartMessage(text.ToArray(), "Chest", null, null);
+        else
+        {
+            gameObject.tag = "Uninteractable";
+            textBox.StartMessage(text.ToArray(), "Chest", null, null);
+        }
 
-        gameObject.tag = "Uninteractable";
+        
+
+        
+    }
+
+    void ReversAnim()
+    {
+        gameObject.transform.GetChild(1).GetComponent<Animator>().SetTrigger("Close");
     }
 }

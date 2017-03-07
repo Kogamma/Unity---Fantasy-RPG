@@ -102,6 +102,7 @@ public class InventoryHandler : MonoBehaviour
             else
             {
                 return false;
+               
             }
         }
 
@@ -110,6 +111,8 @@ public class InventoryHandler : MonoBehaviour
             GetComponent<CombatInventory>().UpdateItems();
         else if (GetComponent<InventoryMenu>() != null)
             GetComponent<InventoryMenu>().UpdateItems();
+
+        
 
         return true;
     }
