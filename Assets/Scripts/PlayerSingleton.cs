@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+
 
 public class PlayerSingleton : MonoBehaviour
 {
@@ -61,6 +64,15 @@ public class PlayerSingleton : MonoBehaviour
     // Creates the equipped items array and fils it with default value items that means the slot is empty
     public string[] equippedItems = new string[6] {"null", "null", "null", "null", "null", "null"};
 
+    // The non-combat scene that the player is in, used for returning after combat and after the save file is loaded
+    public int currentScene;
+
+    // The spawn coordinates of the save station that the player has saved to, used for positioning the player at the right statue after load of save file
+    // All coordinates are save separatly since Vector3 isn't serializable
+    public float savePosX;
+    public float savePosY;
+    public float savePosZ;
+
     #region In-game variables
 
     // Variables used for in-combat purposes to see what the current damage of the player is,
@@ -75,8 +87,6 @@ public class PlayerSingleton : MonoBehaviour
     public Vector3 overWorldPos;
     public Quaternion overWorldRot;
 
-    public int currentScene;
-
     // Saves position of entry point to know where to spawn when entering or restarting scenes
     public Vector3 entryPos;
     public Vector3 entryRot;
@@ -90,5 +100,135 @@ public class PlayerSingleton : MonoBehaviour
     public bool gameCanRun;
 
 
+    // Used to check if the game recently was loaded, then the player will be moved to the proper position.
+    public bool loaded = false;
     #endregion
-}
+
+
+    public void Save ()
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "/playerInfo.dat");
+
+        PlayerData data = new PlayerData();
+        data.playerMaxHealth = playerMaxHealth;
+        data.playerHealth = playerHealth;
+        data.playerMaxMana = playerMaxMana;
+        data.playerMana = playerMana;
+        data.playerDmg = playerDmg;
+        data.playerMagicDmg = playerMagicDmg;
+        data.playerExp = playerExp;
+        data.level = level;
+        data.currentXPNeeded = currentXPNeeded;
+        data.skillPoints = skillPoints;
+        data.playerInt = playerInt;
+        data.playerDex = playerDex;
+        data.playerStr = playerStr;
+        data.playerLuck = playerLuck;
+        data.playerInventory= playerInventory;
+        data.inventoryAmounts= inventoryAmounts;
+        data.equippedItems = equippedItems;
+        data.inventorySize = inventorySize;
+        data.currentScene = currentScene;
+        data.savePosX = savePosX;
+        data.savePosY = savePosY;
+        data.savePosZ = savePosZ;
+        data.shouldDestroy = OverworldEnemySingleton.instance.shouldDestroy;
+
+        bf.Serialize(file, data);
+        file.Close();
+    }
+
+
+    public void Load ()
+    {
+        if(File.Exists(Application.persistentDataPath + "/playerInfo.dat"))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/playerInfo.dat", FileMode.Open);
+            PlayerData data = (PlayerData)bf.Deserialize(file);
+            file.Close();
+
+            playerMaxHealth = data.playerMaxHealth;
+            playerHealth = data.playerHealth;
+            playerMaxMana = data.playerMaxMana;
+            playerMana = data.playerMana;
+            playerDmg = data.playerDmg;
+            playerMagicDmg = data.playerMagicDmg;
+            playerExp = data.playerExp;
+            level = data.level;
+            currentXPNeeded = data.currentXPNeeded;
+            skillPoints = data.skillPoints;
+            playerInt = data.playerInt;
+            playerDex = data.playerDex;
+            playerStr = data.playerStr;
+            playerLuck = data.playerLuck;
+            playerInventory = data.playerInventory;
+            inventoryAmounts = data.inventoryAmounts;
+            equippedItems = data.equippedItems;
+            inventorySize = data.inventorySize;
+            currentScene = data.currentScene;
+            savePosX = data.savePosX;
+            savePosY = data.savePosY;
+            savePosZ = data.savePosZ;
+            OverworldEnemySingleton.instance.shouldDestroy = data.shouldDestroy;
+
+            loaded = true;
+            UnityEngine.SceneManagement.SceneManager.LoadScene(currentScene);
+        }
+    }
+
+    [System.Serializable]
+    class PlayerData
+    {
+        // How much damage and magic damage the player does
+        public float playerDmg;
+        public int playerMagicDmg;
+
+        // How many hitpoints the player has
+        public int playerMaxHealth;
+        public int playerHealth;
+
+        public int level;
+        public int currentXPNeeded;
+        public int skillPoints;
+
+        // How much experience points the player has in total
+        public int playerExp;
+
+        // How much of the intelligence stat the player has
+        public int playerInt;
+        // How much of the strength stat the player has
+        public int playerStr;
+        // How much of the dexterity stat the player has
+        public int playerDex;
+        // How much of the luck stat the player has
+        public int playerLuck;
+
+        // How much mana points the player has
+        public int playerMana;
+        public int playerMaxMana;
+
+        public List<string> playerInventory;
+        public List<int> inventoryAmounts;
+
+        // The current maximum size of slots in the inventory
+        public int inventorySize;
+
+        // Creates the equipped items array and fils it with default value items that means the slot is empty
+        public string[] equippedItems;
+
+        // The non-combat scene that the player is in, used for returning after combat and after the save file is loaded
+        public int currentScene;
+
+        // The coordinates to spawn at of the save station that the player has saved to, used for positioning the player at the right statue after load of save file
+        // All coordinates are save separatly since Vector3 isn't serializable
+        public float savePosX;
+        public float savePosY;
+        public float savePosZ;
+
+        // List of bools telling if an enemy should be dead
+        // Since the enemy list will be sorted, these bools will share the index with the enemies
+        public List<bool> shouldDestroy;
+    }
+ }

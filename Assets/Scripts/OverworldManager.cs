@@ -7,9 +7,27 @@ using UnityEngine.UI;
 public class OverworldManager : MonoBehaviour
 {
     public Image blackScreen;
+    public GameObject player;
+    public GameObject choiceButtons;
+    public GameObject interactedSaveStation;
+    public TextBoxHandler textBox;
 
     void Awake()
     {
+        if (!OverworldEnemySingleton.instance.backFromCombat && PlayerSingleton.instance.entryPos != Vector3.zero)
+        {
+            player.transform.position = PlayerSingleton.instance.entryPos;
+            player.transform.rotation = Quaternion.Euler(PlayerSingleton.instance.entryRot);
+        }
+        else if (PlayerSingleton.instance.loaded)
+        {
+            player.transform.position = new Vector3(PlayerSingleton.instance.savePosX, PlayerSingleton.instance.savePosY, PlayerSingleton.instance.savePosZ);
+            player.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            PlayerSingleton.instance.loaded = false;
+        }
+
+        PlayerSingleton.instance.currentScene = Application.loadedLevel;
+
         // Resets the black screen so we can remove it with fillamount
         blackScreen.fillAmount = 1;
     }
@@ -60,5 +78,25 @@ public class OverworldManager : MonoBehaviour
 
         GetComponent<MenuController>().Pause();
         PlayerSingleton.instance.gameCanRun = true;
+    }
+
+
+    public void SaveChoice(bool yes)
+    {
+        Debug.Log(name);
+        choiceButtons.SetActive(false);
+        PlayerSingleton.instance.gameCanRun = true;
+        PlayerSingleton.instance.canMove = true;
+
+        if (yes)
+        {
+            PlayerSingleton.instance.savePosX = interactedSaveStation.transform.GetChild(0).position.x;
+            PlayerSingleton.instance.savePosY = interactedSaveStation.transform.GetChild(0).position.y;
+            PlayerSingleton.instance.savePosZ = interactedSaveStation.transform.GetChild(0).position.z;
+            string[] text = new string[1];
+            text[0] = "Your progress was saved!";
+            PlayerSingleton.instance.Save();
+            textBox.StartMessage(text, "", null, null);
+        }
     }
 }
