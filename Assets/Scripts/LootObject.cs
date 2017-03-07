@@ -22,7 +22,7 @@ public class LootObject : MonoBehaviour
         Debug.Log(currentItems);
 
         if (name.Contains("Chest"))
-            gameObject.transform.GetChild(1).GetComponent<Animator>().SetTrigger("Open");
+            gameObject.transform.GetChild(2).GetComponent<Animator>().SetTrigger("Open");
 
         text.Add("You got ");
         for (int i = 0; i < items.Count; i++)
@@ -74,7 +74,7 @@ public class LootObject : MonoBehaviour
         else
         {
             gameObject.tag = "Uninteractable";
-            textBox.StartMessage(text.ToArray(), "Chest", null, null);
+            textBox.StartMessage(text.ToArray(), "Chest", gameObject, "InActivateTreasure");
         }
 
         
@@ -84,6 +84,12 @@ public class LootObject : MonoBehaviour
 
     void ReversAnim()
     {
-        gameObject.transform.GetChild(1).GetComponent<Animator>().SetTrigger("Close");
+        gameObject.transform.GetChild(2).GetComponent<Animator>().SetTrigger("Close");
     }
+
+    void InActivateTreasure()
+    {
+        gameObject.transform.GetChild(0).gameObject.SetActive(false);
+    }
+
 }
