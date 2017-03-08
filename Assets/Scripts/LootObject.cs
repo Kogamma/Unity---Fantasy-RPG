@@ -4,11 +4,44 @@ using UnityEngine;
 
 public class LootObject : MonoBehaviour
 {
-    public List<string> items = new List<string>();
 
     public InventoryHandler inventHanlder;
 
     public TextBoxHandler textBox;
+
+    public AudioClip openChestSFX;
+
+    public AudioSource audioSource;
+
+    private bool opened;
+
+    public enum Item { Healing_Potion, Mana_Potion, Antidote };
+
+    public Item[] items;
+
+    private string[] itemReferences;
+
+    private List<string> itemsToLoot = new List<string>();
+
+    void Start()
+    {
+        itemReferences = new string[3];
+        itemReferences[0] = "HealingPotion";
+        itemReferences[1] = "ManaPotion";
+        itemReferences[2] = "Antidote";
+        //itemReference[2] = "BasicSword";
+        //itemReference[2] = "IronHelmet";
+        
+        audioSource = GetComponent<AudioSource>();
+
+        if (!opened && itemsToLoot.Count <= 0)
+        {
+            for (int i = 0; i < items.Length; i++)
+            {
+                itemsToLoot.Add(itemReferences[(int)items[i]]);
+            }
+        }
+    }
 
     public void OnInteract()
     {
@@ -17,30 +50,33 @@ public class LootObject : MonoBehaviour
         int manaPotions = 0;
         int antidote = 0;
 
-       int currentItems = items.Count;
+        opened = true;
 
-        Debug.Log(currentItems);
+        int currentItems = itemsToLoot.Count;
 
         if (name.Contains("Chest"))
+        {
             gameObject.transform.GetChild(2).GetComponent<Animator>().SetTrigger("Open");
+            audioSource.PlayOneShot(openChestSFX);
+        }
 
         text.Add("You got ");
-        for (int i = 0; i < items.Count; i++)
+        for (int i = 0; i < itemsToLoot.Count; i++)
         {
-            if (inventHanlder.AddItem(items[i]))
+            if (inventHanlder.AddItem(itemsToLoot[i]))
             {
-                if (items[i] == "HealingPotion")
+                if (itemsToLoot[i] == "HealingPotion")
                     hpPotions++;
 
-                else if (items[i] == "ManaPotion")
+                else if (itemsToLoot[i] == "ManaPotion")
                     manaPotions++;
 
-                items.RemoveAt(i);
+                itemsToLoot.RemoveAt(i);
                 i--;
             }
         }
 
-        Debug.Log(items.Count);
+        Debug.Log(itemsToLoot.Count);
 
         Debug.Log(currentItems);
         if (hpPotions > 0)
@@ -48,19 +84,19 @@ public class LootObject : MonoBehaviour
         if (manaPotions > 0)
             text[0] += "[" + manaPotions + "] Mana Potion ";
 
-        if (currentItems == items.Count)
+        if (currentItems == itemsToLoot.Count)
             text[0] = "";
 
-        if (items.Count != 0)
+        if (itemsToLoot.Count != 0)
         {
             hpPotions = 0;
             manaPotions = 0;
             text[0] += (" Your inventory is full, this items will be left behind");
-            for (int i = 0; i < items.Count; i++)
+            for (int i = 0; i < itemsToLoot.Count; i++)
             {
-                if (items[i] == "HealingPotion")
+                if (itemsToLoot[i] == "HealingPotion")
                     hpPotions++;
-                else if (items[i] == "ManaPotion")
+                else if (itemsToLoot[i] == "ManaPotion")
                     manaPotions++;
             }
 
