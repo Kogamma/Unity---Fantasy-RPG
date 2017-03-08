@@ -15,7 +15,7 @@ public class ItemLibrary : MonoBehaviour
     {
         invHandler = GetComponent<InventoryHandler>();
     }
-
+    
     public InventoryItem AddItem(string item)
     {
         InventoryItem newItem = null;
