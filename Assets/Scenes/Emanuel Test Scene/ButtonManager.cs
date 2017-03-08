@@ -7,6 +7,9 @@ public class ButtonManager : MonoBehaviour
 {
     public GameObject main;
     public GameObject option;
+    public GameObject resolution;
+    public GameObject audio;
+    public GameObject howToPlay;
 
     public void NewPlayBtn(string newPlayLevel)
     {
@@ -30,8 +33,31 @@ public class ButtonManager : MonoBehaviour
     //Return to Main menu
     public void ReturnToMain ()
     {
+        resolution.SetActive(false);
         option.SetActive(false);
         main.SetActive(true);
+    }
+    public void ReturnToOption()
+    {
+        resolution.SetActive(false);
+        howToPlay.SetActive(false);
+        audio.SetActive(false);
+        option.SetActive(true);
+    }
+    public void Resolution()
+    {
+        option.SetActive(false);
+        resolution.SetActive(true);
+    }
+    public void Audio()
+    {
+        option.SetActive(false);
+        audio.SetActive(true);
+    }
+    public void HowToPlay()
+    {
+        option.SetActive(false);
+        howToPlay.SetActive(true);
     }
 
     public void ExitBtn()
