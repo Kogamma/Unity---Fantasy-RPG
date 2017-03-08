@@ -10,6 +10,16 @@ public class LootObject : MonoBehaviour
 
     public TextBoxHandler textBox;
 
+    public AudioClip openChestSFX;
+
+    public AudioSource audioSource;
+
+
+    void Start()
+    {
+        //audioSource.GetComponent<AudioSource>();
+    }
+
     public void OnInteract()
     {
         List<string> text = new List<string>();
@@ -22,7 +32,10 @@ public class LootObject : MonoBehaviour
         Debug.Log(currentItems);
 
         if (name.Contains("Chest"))
+        {
             gameObject.transform.GetChild(2).GetComponent<Animator>().SetTrigger("Open");
+            audioSource.PlayOneShot(openChestSFX);
+        }
 
         text.Add("You got ");
         for (int i = 0; i < items.Count; i++)
