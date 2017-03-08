@@ -534,6 +534,7 @@ public class Level_Stats_Script : MonoBehaviour
             PlayerSingleton.instance.skillPoints = statTotal;
         }
     }
+    //Show the player what the stats do in game
     public void StatInformation(int index)
     {
         if (index == 0)

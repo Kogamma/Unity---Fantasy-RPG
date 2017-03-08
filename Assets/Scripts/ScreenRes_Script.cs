@@ -1,21 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScreenRes_Script : MonoBehaviour
 {
+    public GameObject[] setOffButton;
 
-	// Use this for initialization
-	void Start ()
-    {
-        
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-		
-	}
     public void ToggleFullScreen()
     {
         Screen.fullScreen = !Screen.fullScreen;
@@ -42,5 +33,12 @@ public class ScreenRes_Script : MonoBehaviour
         {
             Screen.SetResolution(1920, 1080, Screen.fullScreen);
         }
+
+        for (int i = 0; i < setOffButton.Length; i++)
+        {
+            setOffButton[i].GetComponent<Button>().interactable = true;
+        }
+
+        setOffButton[index].GetComponent<Button>().interactable = false;
     }
 }
