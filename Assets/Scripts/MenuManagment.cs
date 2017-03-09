@@ -14,6 +14,9 @@ public class MenuManagment : MonoBehaviour
     [SerializeField] GameObject restartButton;
     [SerializeField] GameObject descriptionBox;
 
+    public GameObject mainButton;
+    public GameObject crossButton;
+
     public AttackButton[] attackButtons;
 
     [SerializeField] Color redColor;
@@ -47,6 +50,8 @@ public class MenuManagment : MonoBehaviour
         attackGroup.SetActive(true);
         mainGroup.SetActive(false);
         AudioHelper.PlaySound(clickSound);
+
+        EventSystem.current.SetSelectedGameObject(attackGroup.transform.GetChild(0).gameObject);
     }
 
 
@@ -55,6 +60,8 @@ public class MenuManagment : MonoBehaviour
         itemsGroup.SetActive(true);
         mainGroup.SetActive(false);
         AudioHelper.PlaySound(clickSound);
+
+        EventSystem.current.SetSelectedGameObject(crossButton);
     }
 
 
@@ -66,6 +73,7 @@ public class MenuManagment : MonoBehaviour
         attackGroup.SetActive(false);
         AudioHelper.PlaySound(clickSound);
 
+        EventSystem.current.SetSelectedGameObject(mainButton);
     }
 
 

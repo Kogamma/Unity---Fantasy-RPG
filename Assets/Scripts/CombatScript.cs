@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class CombatScript : MonoBehaviour
 {
@@ -16,8 +17,12 @@ public class CombatScript : MonoBehaviour
     public GameObject player;
     public GameObject playerMenu;
     public GameObject menuManager;
+
     public GameObject levelUpMenu;
     public GameObject levelUpParticle;
+    // The first button chosen in the level up menu when leveling up
+    public GameObject firstLevelUpButton;
+
     public int currentState;
     public CombatTextBoxHandler textBox;
     public GameObject enemyHolder;
@@ -317,6 +322,9 @@ public class CombatScript : MonoBehaviour
     void LevelUp()
     {
         levelUpMenu.transform.GetChild(0).gameObject.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(firstLevelUpButton);
+
         menuManager.GetComponent<MenuManagment>().ReturnToWorldSelect();
     }
 

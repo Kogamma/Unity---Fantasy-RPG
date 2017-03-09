@@ -17,6 +17,9 @@ public class CombatSceneStart : MonoBehaviour
     [SerializeField] GameObject[] enemies = new GameObject[6];
     private GameObject enemy;
 
+    // The first button we select in the combat scene
+    public GameObject firstButtonSelected;
+
     bool doOnce = true;
 
     private void Awake()
@@ -54,6 +57,7 @@ public class CombatSceneStart : MonoBehaviour
     public void ActivateUI()
     {
         UIGroup.SetActive(true);
+        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(firstButtonSelected);
     }
 
     IEnumerator RemoveBlackScreen()

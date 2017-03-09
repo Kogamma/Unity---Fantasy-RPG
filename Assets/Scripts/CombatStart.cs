@@ -60,7 +60,6 @@ public class CombatStart : MonoBehaviour
         // When the blackscreen is done the battle scene loads
         if (PlayerSingleton.instance.currentScene == 5)
         {
-            Debug.Log("SKOG");
             SceneManager.LoadScene("Battle_scene");
         }
         else if (PlayerSingleton.instance.currentScene == 6)
