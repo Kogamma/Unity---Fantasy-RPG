@@ -22,6 +22,7 @@ public class ButtonManager : MonoBehaviour
         PlayerSingleton.instance.playerInventory.Add("Antidote");
         PlayerSingleton.instance.inventoryAmounts.Add(5);
 
+        PlayerSingleton.instance.Save();
         SceneManager.LoadScene(newPlayLevel);   // starts the game
     }
     //Go to Options menu

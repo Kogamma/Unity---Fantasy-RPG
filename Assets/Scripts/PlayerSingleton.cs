@@ -27,8 +27,8 @@ public class PlayerSingleton : MonoBehaviour
 
     /* Variables to be saved */
 
-    public float sfxVol = 1;
-    public float musicVol = 1;
+    public float sfxVol = 0.5f;
+    public float musicVol = 0.5f;
 
     // How much damage and magic damage the player does
     public float playerDmg = 1;
@@ -68,13 +68,13 @@ public class PlayerSingleton : MonoBehaviour
     public string[] equippedItems = new string[6] {"null", "null", "null", "null", "null", "null"};
 
     // The non-combat scene that the player is in, used for returning after combat and after the save file is loaded
-    public int currentScene;
+    public int currentScene = 1;
 
     // The spawn coordinates of the save station that the player has saved to, used for positioning the player at the right statue after load of save file
     // All coordinates are save separatly since Vector3 isn't serializable
-    public float savePosX;
-    public float savePosY;
-    public float savePosZ;
+    public float savePosX = -51.24f;
+    public float savePosY = -34.632f;
+    public float savePosZ = -69.54f;
 
     #region In-game variables
 

@@ -198,7 +198,7 @@ public class CombatScript : MonoBehaviour
                     // Marks this enemy for deactivation when the player returns to the last scene
                     OverworldEnemySingleton.instance.shouldDestroy[OverworldEnemySingleton.instance.currentEnemyIndex] = true;
 
-                    enemyClass.source.PlayOneShot(enemyClass.death, 1f);
+                    AudioHelper.PlaySound(enemyClass.death);
 
                     PlayerSingleton.instance.playerExp += enemyClass.enemyExp;
                 }
@@ -296,21 +296,6 @@ public class CombatScript : MonoBehaviour
     }
 
 
-    public void RestartFromCheckpoint()
-    {
-        OverworldEnemySingleton.instance.shouldDestroy.Clear();
-        PlayerSingleton.instance.playerHealth = PlayerSingleton.instance.playerMaxHealth;
-        PlayerSingleton.instance.playerMana = PlayerSingleton.instance.playerMaxMana;
-        SceneManager.LoadScene(PlayerSingleton.instance.currentScene);
-    }
-
-
-    public void LoadGameOver()
-    {
-        SceneManager.LoadScene("DeathScene");
-    }
-
-
     void EndOfCombat ()
     {
         RemovePoison();
@@ -346,7 +331,7 @@ public class CombatScript : MonoBehaviour
             yield return null;
         }
 
-        GetComponent<AudioSource>().Stop();
+        MusicHelper.Stop();
 
         OverworldEnemySingleton.instance.backFromCombat = true;
         SceneManager.LoadScene(PlayerSingleton.instance.currentScene);
