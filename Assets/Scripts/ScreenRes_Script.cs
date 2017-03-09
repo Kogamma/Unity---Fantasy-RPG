@@ -40,5 +40,10 @@ public class ScreenRes_Script : MonoBehaviour
         }
 
         setOffButton[index].GetComponent<Button>().interactable = false;
+
+        if (index < setOffButton.Length - 1)
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(setOffButton[index + 1]);
+        else
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(setOffButton[index - 1]);
     }
 }
