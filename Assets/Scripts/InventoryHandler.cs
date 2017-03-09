@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class InventoryHandler : MonoBehaviour
 {
+    [System.NonSerialized]
     public List<InventoryItem> items = new List<InventoryItem>();
-
+    [System.NonSerialized]
     public InventoryItem[] equippedItems = new InventoryItem[6];
 
     void Awake()

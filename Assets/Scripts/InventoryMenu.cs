@@ -8,7 +8,6 @@ using System.Linq;
 public class InventoryMenu : MonoBehaviour
 {
     private StandaloneInputModule _inputModule;
-    private EventSystem _eventSystem;
 
     // The buttons that represent items in the inventory menu
     public GameObject[] itemButtons;
@@ -68,10 +67,6 @@ public class InventoryMenu : MonoBehaviour
 
     public GameObject[] equipmentSlots;
 
-    // Used for closing the different menu's
-    public GameObject crossButton;
-
-    string currentMenu = "Select";
 
     bool updateInfoText = false;
 
@@ -79,12 +74,6 @@ public class InventoryMenu : MonoBehaviour
     {
         // Sets both components to be those that the EventSystem object in the scene has
         _inputModule = eventObj.GetComponent<StandaloneInputModule>();
-        _eventSystem = eventObj.GetComponent<EventSystem>();
-
-        // Disables both the inventories
-        DisableInventories();
-
-        _eventSystem.SetSelectedGameObject(enterInventory);
 
         // How many buttons we will iterate
         iteratorLength = itemButtons.Length;
@@ -122,15 +111,6 @@ public class InventoryMenu : MonoBehaviour
         equipmentSlots[4] = weaponSlot;
         equipmentSlots[5] = amuletSlot;
 
-        // Adds all the events to the item buttons
-        /*for (int i = 0; i < itemButtons.Length; i++)
-        {
-            // Gets the currentbutton
-            Button currentButton = itemButtons[i].GetComponent<Button>();
-
-            // Adds a listener for the click event on this button
-            currentButton.onClick.AddListener(() => { ItemButtonPress(i); });
-        }*/
     }
 	
 	void Update ()
@@ -167,7 +147,7 @@ public class InventoryMenu : MonoBehaviour
             // Checks if there is anything in that inventory slot
             if (currentItemIndexes[currentItems[i]] != -1)
             {
-                if (canClick && currentMenu == "Inventory")
+                if (canClick)
                 {
                     // Activates the button component on slots that aren't empty
                     itemButtons[i].GetComponent<Button>().enabled = true;
@@ -260,7 +240,7 @@ public class InventoryMenu : MonoBehaviour
         if (direction < 0)
         {
             // Checks if we're on the bottom of the list and that we have more items to show below
-            if (_eventSystem.currentSelectedGameObject == itemButtons[itemButtons.Length - 1]
+            if (EventSystem.current.currentSelectedGameObject == itemButtons[itemButtons.Length - 1]
                 && currentItems[currentItems.Length - 1] + 1 < PlayerSingleton.instance.playerInventory.Count)
             {
                 // Times the up and down input with the input modules repeat delay variable
@@ -277,7 +257,7 @@ public class InventoryMenu : MonoBehaviour
         else if (direction > 0)
         {
             // Checks if we're on the top of the list
-            if (_eventSystem.currentSelectedGameObject == itemButtons[0] && currentItems[0] > 0)
+            if (EventSystem.current.currentSelectedGameObject == itemButtons[0] && currentItems[0] > 0)
             {
                 // Times the up and down input with the input modules repeat delay variable
                 if (Time.time - startTime >= _inputModule.repeatDelay)
@@ -385,13 +365,10 @@ public class InventoryMenu : MonoBehaviour
             arrowButtons[i].GetComponent<Button>().enabled = false;
         }
 
-        // Deactivates the cross button
-        crossButton.GetComponent<Button>().enabled = false;
-
         // Sets that the current item selected is the button we just pressed
         currentItem = index;
-
-        _eventSystem.SetSelectedGameObject(itemOptions.transform.GetChild(1).gameObject);
+        
+        EventSystem.current.SetSelectedGameObject(itemOptions.transform.GetChild(1).gameObject);
 
         canClick = false;
     }
@@ -465,6 +442,9 @@ public class InventoryMenu : MonoBehaviour
         // Calls the function to remove the item, if there is no items left then in this stack we close the window also
         if(GetComponent<InventoryHandler>().RemoveItem(currentItemIndexes[currentItems[currentItem]]))
         {
+            // Sets the current item to the first one, 0
+            currentItem = 0;
+            
             // Closes the item options window
             CancelButton();
         }
@@ -510,11 +490,16 @@ public class InventoryMenu : MonoBehaviour
             arrowButtons[i].GetComponent<Button>().enabled = true;
         }
 
-        // Activates the cross button
-        crossButton.GetComponent<Button>().enabled = true;
 
-        // Sets the current item to none chosen
-        currentItem = -1;
+
+        // Checks if we have any items left at all
+        if (PlayerSingleton.instance.playerInventory.Count > 0)
+            // Selects the button we just pressed
+            EventSystem.current.SetSelectedGameObject(itemButtons[currentItem]);
+        else
+            // Moves the selected gameobject to being the first equipment slot
+            EventSystem.current.SetSelectedGameObject(equipmentSlots[0]);
+            
 
         // Makes it so you can use the buttons again
         canClick = true;
@@ -529,110 +514,7 @@ public class InventoryMenu : MonoBehaviour
         // Closes the item options window
         CancelButton();
     }
-    #endregion
-
-    #region Choose Menu Methods
-    // Activates the inventory so the player can use it
-    public void ActivateInventory()
-    {
-        // Activates the 'x' button and place it in the inventory menu
-        crossButton.SetActive(true);
-        crossButton.transform.SetParent(inventoryHolder.transform);
-        crossButton.transform.SetSiblingIndex(1);
-        crossButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(40, -40);
-
-        // Gets all the buttons in the inventory menu
-        List<Button> invButtons = new List<Button>();
-        invButtons.AddRange(inventoryHolder.GetComponentsInChildren<Button>(true));
-        invButtons.Remove(inventoryHolder.GetComponent<Button>());
-
-        // Enables all those buttons
-        for (int i = 0; i < invButtons.Count; i++)
-        {
-            invButtons[i].enabled = true;
-        }
-
-        _eventSystem.SetSelectedGameObject(invButtons[0].gameObject);
-
-        // Enables the inventory and equipment buttons
-        inventoryHolder.GetComponent<Button>().interactable = true;
-        enterInventory.SetActive(false);
-        equipmentHolder.GetComponent<Button>().interactable = false;
-
-        inventoryHolder.GetComponent<Button>().enabled = false;
-        equipmentHolder.GetComponent<Button>().enabled = true;
-
-        currentMenu = "Inventory";
-    }
-
-    // Activates the equipment inventory so the player can use it
-    public void ActivateEquipment()
-    {
-        // Activates the 'x' button and place it in the equipment menu
-        crossButton.SetActive(true);
-        crossButton.transform.SetParent(equipmentHolder.transform);
-        crossButton.transform.SetSiblingIndex(1);
-        crossButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(40, -40);
-
-        // Gets all the buttons in the equipment menu
-        List<Button> equipButtons = new List<Button>();
-        equipButtons.AddRange(equipmentHolder.GetComponentsInChildren<Button>(true));
-        equipButtons.Remove(equipmentHolder.GetComponent<Button>());
-
-
-        for (int i = 0; i < equipButtons.Count; i++)
-        {
-            equipButtons[i].enabled = true;
-        }
-
-        _eventSystem.SetSelectedGameObject(equipButtons[0].gameObject);
-
-        // Disables the inventory and equipment buttons
-        inventoryHolder.GetComponent<Button>().interactable = false;
-        enterInventory.SetActive(false);
-        equipmentHolder.GetComponent<Button>().interactable = true;
-
-        inventoryHolder.GetComponent<Button>().enabled = true;
-        equipmentHolder.GetComponent<Button>().enabled = false;
-
-        currentMenu = "Equipment";
-    }
-
-    // Disables both the inventory and equipment menu's buttons
-    public void DisableInventories()
-    {
-        List<Button> equipButtons = new List<Button>();
-        equipButtons.AddRange(equipmentHolder.GetComponentsInChildren<Button>(true));
-        equipButtons.Remove(equipmentHolder.GetComponent<Button>());
-
-        List<Button> invButtons = new List<Button>();
-        invButtons.AddRange(inventoryHolder.GetComponentsInChildren<Button>(true));
-        invButtons.Remove(inventoryHolder.GetComponent<Button>());
-
-        for (int i = 0; i < invButtons.Count; i++)
-        {
-            invButtons[i].enabled = false;
-        }
-
-        for (int i = 0; i < equipButtons.Count; i++)
-        {
-            equipButtons[i].enabled = false;
-        }
-
-        // Enables the inventory and equipment buttons
-        enterInventory.SetActive(true);
-        //equipmentHolder.GetComponent<Button>().interactable = true;
-
-        inventoryHolder.GetComponent<Button>().enabled = false;
-        //equipmentHolder.GetComponent<Button>().enabled = true;
-
-        crossButton.SetActive(false);
-
-        _eventSystem.SetSelectedGameObject(enterInventory);
-
-        currentMenu = "Select";
-    }
-    #endregion
+    #endregion 
 
     // Checks when we hover over something
     public void ItemButtonEnter(int index)

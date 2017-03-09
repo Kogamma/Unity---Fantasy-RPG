@@ -6,11 +6,20 @@ using UnityEngine.UI;
 
 public class OverworldManager : MonoBehaviour
 {
+    // An image for a loading animation when you start a new scene
     public Image blackScreen;
+    
+    // Gets the player
     public GameObject player;
-    public GameObject choiceButtons;
-    public GameObject interactedSaveStation;
+ 
+    // This is the script that prints messages
     public TextBoxHandler textBox;
+
+    // Holds which save station that you interacted with
+    [System.NonSerialized]
+    public GameObject interactedSaveStation;
+    // The buttons for choosing yes or no in the save window
+    public GameObject choiceButtons;
 
     void Awake()
     {
@@ -64,19 +73,27 @@ public class OverworldManager : MonoBehaviour
         StartCoroutine(RemoveBlackScreen());
     }
 
+    // Removes the black screen with fill amount
     IEnumerator RemoveBlackScreen()
     {
-        GetComponent<MenuController>().Pause();
+        // Pauses the game
+        PlayerSingleton.instance.canMove = !PlayerSingleton.instance.canMove;        
+        
+        // Also sets it so the game can't run when loading this black screen
         PlayerSingleton.instance.gameCanRun = false;
 
+        // Looping until the black screen is gone
         while (blackScreen.fillAmount > 0)
         {
-            blackScreen.fillAmount -= 0.025f;
+            // Removes part of the blackscreen
+            blackScreen.fillAmount -= 1f * Time.deltaTime;
 
             yield return null;
         }
 
-        GetComponent<MenuController>().Pause();
+        // Unpauses the game
+        PlayerSingleton.instance.canMove = !PlayerSingleton.instance.canMove;        
+        // Sets it so the game can start running
         PlayerSingleton.instance.gameCanRun = true;
     }
 
@@ -96,7 +113,7 @@ public class OverworldManager : MonoBehaviour
             string[] text = new string[1];
             text[0] = "Your progress was saved!";
             PlayerSingleton.instance.Save();
-            textBox.StartMessage(text, "", null, null);
+            textBox.PrintMessage(text, "", null, null);
         }
     }
 }

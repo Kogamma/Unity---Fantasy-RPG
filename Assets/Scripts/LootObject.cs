@@ -104,13 +104,13 @@ public class LootObject : MonoBehaviour
                 text[0] += "[" + hpPotions + "] Potion of healing ";
             if (manaPotions > 0)
                 text[0] += "[" + manaPotions + "] Mana Potion ";
-            textBox.StartMessage(text.ToArray(), "Chest", gameObject, "ReversAnim");
+            textBox.PrintMessage(text.ToArray(), "Chest", gameObject, "ReversAnim");
         }
 
         else
         {
             gameObject.tag = "Uninteractable";
-            textBox.StartMessage(text.ToArray(), "Chest", gameObject, "InActivateTreasure");
+            textBox.PrintMessage(text.ToArray(), "Chest", gameObject, "InActivateTreasure");
         }
 
         

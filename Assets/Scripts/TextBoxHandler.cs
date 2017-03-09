@@ -84,7 +84,7 @@ public class TextBoxHandler : MonoBehaviour
         Background.enabled = false;
     }
 
-    public void StartMessage(string[] textPages, string messagerName, GameObject methodHolder, string invokeMethod)
+    public void PrintMessage(string[] textPages, string messagerName, GameObject methodHolder, string invokeMethod)
     {
      
 

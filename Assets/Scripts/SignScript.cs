@@ -20,7 +20,7 @@ public class SignScript : MonoBehaviour {
 
 	public void OnInteract()
     {
-        textBox.StartMessage(textPages, messagerName, methodHolder, methodName);
+        textBox.PrintMessage(textPages, messagerName, methodHolder, methodName);
     }
 
     public void RemoveInvisibleWall()
