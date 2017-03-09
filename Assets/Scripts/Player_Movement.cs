@@ -11,8 +11,11 @@ public class Player_Movement : MonoBehaviour
     // How fast the player will be moving
     [Range(1f, 50f)]
     public float moveSpeed = 0f;
+
+    public float maxSpeed = 1;
+
     // Modifier to adjust animation speed
-    public float speedMod = 0.3f;
+    public float animSpeedMod = 0.3f;
 
     // Vector for movement input
     Vector3 inputVec = Vector3.zero;
@@ -49,7 +52,7 @@ public class Player_Movement : MonoBehaviour
             // Calculates the magnitude of the two input values we created
             float inputMagnitude = Vector3.Magnitude(new Vector3(inputVec.x, 0, inputVec.z));
 
-            _anim.SetFloat("WalkModifier", speedMod * moveSpeed);
+            _anim.SetFloat("WalkModifier", animSpeedMod * moveSpeed);
 
             // Sets the parameter for the player's walk animation
             _anim.SetFloat("Velocity", inputMagnitude);
@@ -59,10 +62,13 @@ public class Player_Movement : MonoBehaviour
             {
                 transform.rotation = Quaternion.LookRotation(new Vector3(inputVec.x, 0, inputVec.z));
             }
-            
+
+            inputVec = Vector3.ClampMagnitude(inputVec, maxSpeed);
+
             // Moves the character by lerping the velocity variable in rigidbody
             GetComponent<CharacterController>().SimpleMove(new Vector3(Mathf.Lerp(0, inputVec.x * moveSpeed, 0.8f), 0,
             Mathf.Lerp(0, inputVec.z * moveSpeed, 0.8f)));
+
 
             //Debug.Log(Vector3.Distance(transform.position, lastPos));
         }

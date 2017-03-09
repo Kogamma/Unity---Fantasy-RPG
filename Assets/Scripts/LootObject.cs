@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class ItemPair
+{
+    public LootObject.Item item;
+    public int count;
+}
+
 public class LootObject : MonoBehaviour
 {
 
@@ -17,7 +24,9 @@ public class LootObject : MonoBehaviour
 
     public enum Item { Healing_Potion, Mana_Potion, Antidote };
 
-    public Item[] items;
+    public ItemPair[] realItems;
+
+    //public Item[] items;
 
     private string[] itemReferences;
 
@@ -36,9 +45,10 @@ public class LootObject : MonoBehaviour
 
         if (!opened && itemsToLoot.Count <= 0)
         {
-            for (int i = 0; i < items.Length; i++)
+            for (int i = 0; i < realItems.Length; i++)
             {
-                itemsToLoot.Add(itemReferences[(int)items[i]]);
+                for (int j = 0; j < realItems[i].count; j++)
+                    itemsToLoot.Add(itemReferences[(int)realItems[i].item]);
             }
         }
     }
@@ -46,11 +56,12 @@ public class LootObject : MonoBehaviour
     public void OnInteract()
     {
         List<string> text = new List<string>();
-        int hpPotions = 0;
-        int manaPotions = 0;
-        int antidote = 0;
 
         opened = true;
+
+        List<string> lootedItems = new List<string>();
+
+        string itemName = "";
 
         int currentItems = itemsToLoot.Count;
 
@@ -59,58 +70,54 @@ public class LootObject : MonoBehaviour
             gameObject.transform.GetChild(2).GetComponent<Animator>().SetTrigger("Open");
             audioSource.PlayOneShot(openChestSFX);
         }
-
+        
         text.Add("You got ");
         for (int i = 0; i < itemsToLoot.Count; i++)
         {
             if (inventHanlder.AddItem(itemsToLoot[i]))
             {
-                if (itemsToLoot[i] == "HealingPotion")
-                    hpPotions++;
-
-                else if (itemsToLoot[i] == "ManaPotion")
-                    manaPotions++;
-
+                lootedItems.Add(itemsToLoot[i]);
                 itemsToLoot.RemoveAt(i);
                 i--;
             }
+
         }
 
-        Debug.Log(itemsToLoot.Count);
 
-        Debug.Log(currentItems);
-        if (hpPotions > 0)
-            text[0] += "[" + hpPotions + "] Potion of healing ";
-        if (manaPotions > 0)
-            text[0] += "[" + manaPotions + "] Mana Potion ";
+        for (int i = 0; i < lootedItems.Count; i++)
+        {
+            if(itemName != lootedItems[i])
+            {
+                itemName = lootedItems[i]; 
+                text[0] += "[" + lootedItems.FindAll(x => x == itemName).Count + "] " + itemName + " ";
+            }
+        }
+
 
         if (currentItems == itemsToLoot.Count)
             text[0] = "";
 
         if (itemsToLoot.Count != 0)
         {
-            hpPotions = 0;
-            manaPotions = 0;
-            text[0] += (" Your inventory is full, this items will be left behind");
+            text[0] += (" Your inventory is full, this items will be left behind ");
+            itemName = "";
+
             for (int i = 0; i < itemsToLoot.Count; i++)
             {
-                if (itemsToLoot[i] == "HealingPotion")
-                    hpPotions++;
-                else if (itemsToLoot[i] == "ManaPotion")
-                    manaPotions++;
+                if (itemName != itemsToLoot[i])
+                {
+                    itemName = itemsToLoot[i];
+                    text[0] += "[" + itemsToLoot.FindAll(x => x == itemName).Count + "] " + itemName + " ";
+                }
             }
 
-            if (hpPotions > 0)
-                text[0] += "[" + hpPotions + "] Potion of healing ";
-            if (manaPotions > 0)
-                text[0] += "[" + manaPotions + "] Mana Potion ";
-            textBox.PrintMessage(text.ToArray(), "Chest", gameObject, "ReversAnim");
+            textBox.StartMessage(text.ToArray(), "Chest", gameObject, "ReversAnim");
         }
 
         else
         {
             gameObject.tag = "Uninteractable";
-            textBox.PrintMessage(text.ToArray(), "Chest", gameObject, "InActivateTreasure");
+            textBox.StartMessage(text.ToArray(), "Chest", gameObject, "InActivateTreasure");
         }
 
         
