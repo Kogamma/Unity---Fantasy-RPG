@@ -174,6 +174,7 @@ public class PlayerSingleton : MonoBehaviour
             OverworldEnemySingleton.instance.shouldDestroy = data.shouldDestroy;
 
             loaded = true;
+            canMove = true;
             UnityEngine.SceneManagement.SceneManager.LoadScene(currentScene);
         }
     }
