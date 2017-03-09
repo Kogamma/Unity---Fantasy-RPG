@@ -31,7 +31,8 @@ public class Interact : MonoBehaviour
             {
                 
                 interactIcon.SetActive(true);
-                interactIcon.transform.LookAt(camera.transform.position);
+                //interactIcon.transform.LookAt(camera.transform.position);
+                interactIcon.transform.rotation = Quaternion.Euler(new Vector3(-45, 180, 0));
 
                 if (doOnce)
                 {
