@@ -337,6 +337,8 @@ public class InventoryMenu : MonoBehaviour
     // Checks what kind of item we are pressing
     public void ItemButtonPress(int index)
     {
+        PlayerSingleton.instance.gameCanRun = false;
+
         // Checks if the item is equippable
         if (GetComponent<InventoryHandler>().items[currentItemIndexes[currentItems[index]]].equippable)
         {
@@ -503,6 +505,8 @@ public class InventoryMenu : MonoBehaviour
 
         // Makes it so you can use the buttons again
         canClick = true;
+
+        PlayerSingleton.instance.gameCanRun = true;
     }
     
     // Activates the info text box

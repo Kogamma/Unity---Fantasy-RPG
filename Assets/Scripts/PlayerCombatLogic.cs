@@ -44,24 +44,24 @@ public class PlayerCombatLogic : MonoBehaviour {
     public void MeeleAttack()
     {
         notes = 4;          //The combo will have 4 notes
-        noteSpeed = 0.3f * noteSpeedMultiplicator;    //The speed for the notes will be 150
+        noteSpeed = 0.3f * noteSpeedMultiplicator;    //The speed for the notes will be 0.3
         interval = 0.5f;    //They will come 0.5 sec after each other
 
         comboSystem.SetActive(true);                                                                        //Setting the combo system ui to true
         dmg = PlayerSingleton.instance.playerDmg + ((1.4f * (float)PlayerSingleton.instance.playerStr));    //Setting the damage for the player
-        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval);      //Calling the funtion Activatecombo, and placing the parameters in  
+        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval);      //Calling the funtion to actiavte the combo system 
     }
 
     //The ice attack for the player
     public void IceAttack()
     {
         notes = 6;          //The combo will have 6 notes
-        noteSpeed = 0.6f * noteSpeedMultiplicator;    //The speed for the notes will be 200
+        noteSpeed = 0.6f * noteSpeedMultiplicator;    //The speed for the notes will be 0.6
         interval = 0.5f;    //They will come 0.5sec after each other 
 
         comboSystem.SetActive(true);                                                                        //Setting the combo system ui to true
         dmg = PlayerSingleton.instance.playerDmg + ((0.7f * (float)PlayerSingleton.instance.playerInt));    //Setting the damage for the player
-        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval);      //Calling the funtion Activatecombo, and placing the parameters in
+        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval);      //Calling the funtion to actiavte the combo system
 
         PlayerSingleton.instance.playerMana -= 5;
     }
@@ -69,37 +69,39 @@ public class PlayerCombatLogic : MonoBehaviour {
     public void ConfusionAttack()
     {
         notes = 6;          //The combo will have 6 notes
-        noteSpeed = 0.4f * noteSpeedMultiplicator;    //The speed for the notes will be 200
+        noteSpeed = 0.4f * noteSpeedMultiplicator;    //The speed for the notes will be 0.4
         interval = 0.3f;    //They will come 0.3sec after each other
 
         comboSystem.SetActive(true);                                                                        //Setting the combo system ui to true
         dmg = PlayerSingleton.instance.playerDmg + ((0.9f * (float)PlayerSingleton.instance.playerInt));    //Setting the damage for the player
-        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval);      //Calling the funtion Activatecombo, and placing the parameters in
+        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval);      //Calling the funtion to actiavte the combo system
 
         PlayerSingleton.instance.playerMana -= 10;
     }
 
+    //The fire attack for the player
     public void FireAttack()
     {
-        notes = 8;
-        noteSpeed = 0.45f * noteSpeedMultiplicator;
+        notes = 8;      //The combo will have 8 notes
+        noteSpeed = 0.45f * noteSpeedMultiplicator;     //The speed for the notes will be 0.45
         interval = 0.3f;
 
-        comboSystem.SetActive(true);
-        dmg = PlayerSingleton.instance.playerDmg + (1.7f * (float)PlayerSingleton.instance.playerInt);
-        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval);
+        comboSystem.SetActive(true);    //Setting the combo system ui to true
+        dmg = PlayerSingleton.instance.playerDmg + (1.7f * (float)PlayerSingleton.instance.playerInt); //Setting the damge for the player
+        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval); //Calling the funtion to actiavte the combo system
 
         PlayerSingleton.instance.playerMana -= 15;
     }
 
+   
     public void Flee()
     {
-        notes = 6;
-        noteSpeed = 0.4f * noteSpeedMultiplicator;
-        interval = 0.5f;
+        notes = 6; //The combo will have 6 notes
+        noteSpeed = 0.4f * noteSpeedMultiplicator; //The speed for the the notes will be 0.4f
+        interval = 0.5f; //They will come 0.5sec after each other
 
         comboSystem.SetActive(true);
-        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval);
+        comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval);  //Calling the funtion to actiavte the combo system
     }
 
     public void AttackIsDone()
@@ -120,9 +122,12 @@ public class PlayerCombatLogic : MonoBehaviour {
 
             switch(whichAttack)
             {
+                //Check if the player used IceAttack
                 case "IceAttack":
+
                     Instantiate(iceParticle, combatScript.enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
 
+                    //Check if the rng is bigger then chance to freeze the enemy
                     if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().chanceToGetFreeze >=rng)
                     {
                         StartCoroutine(WaitForParticle());
@@ -133,7 +138,9 @@ public class PlayerCombatLogic : MonoBehaviour {
                     }
                     break;
 
+                //Check if the player used ConfusionAttack
                 case "ConfusionAttack":
+                    //Check if the rng is bigger then chance to confuse the enemy
                     if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().chanceToGetConfused >= rng)
                     {
                         combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isConfused = true;
@@ -142,9 +149,12 @@ public class PlayerCombatLogic : MonoBehaviour {
                     }
                     break;
 
+                //Check if the player used FireAttack
                 case "FireAttack":
+                    //Check if the enemy is not frozen so you can set the enemy on fire
                     if (!combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isFrozen)
                     {
+                        //Check if the rng is bigger then chance to set fire on the enemy
                         if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().chanceToGetOnFire >= rng)
                         {
                             combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().onFire = true;
@@ -153,15 +163,19 @@ public class PlayerCombatLogic : MonoBehaviour {
                         }
                     }
                     break;
+                //Check if the player used Flee
                 case "Flee":
                     List<string> text2 = new List<string>();
+                    //Check if the players accuracy is bigger equal or bigger then 0.7
                     if (hitAccuracy >= 0.7)
                     {
                         OverworldEnemySingleton.instance.fled = true;
                         OverworldEnemySingleton.instance.backFromCombat = true;
                         text2.Add("You succeeded to flee!");
+                        //Lets the player flee to the scene again
                         textBox.GetComponent<CombatTextBoxHandler>().PrintMessage(text2,gameObject,"FleeToScene");
                     }
+                    //Check if the failed to flee
                      if(hitAccuracy < 0.7)
                     {
                         text2.Add("You failed to flee!");
@@ -172,6 +186,7 @@ public class PlayerCombatLogic : MonoBehaviour {
                     break;
                    
             }
+            //Check if the player didnt use flee to write out stuff for the other attacks
             if (whichAttack != "Flee")
             {
                 List<string> text = new List<string>();
@@ -190,12 +205,14 @@ public class PlayerCombatLogic : MonoBehaviour {
         }
     }
 
+    //This function will be called when the attack animation is done
     void OnAttackFinished()
     {
         combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().enemyHp -= (int)dmg;
         dmg = 0;
 
         combatScript.ChangeViewPort(CombatScript.cameraState.ENEMY); //Chaning the camerstate to Enemy!
+        //Check if the enemy is not forzen so the attacked animation will be played 
         if (!combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isFrozen)
         {
             combatScript.enemyHolder.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Attacked");

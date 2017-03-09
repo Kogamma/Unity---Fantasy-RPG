@@ -26,14 +26,16 @@ public class EnemyClass : MonoBehaviour
     CombatTextBoxHandler combatTextbox;
     public Vector3 enemyIceBlockMaxSize;
 
-    public AudioSource source;
     public AudioClip attack1;
     public AudioClip attack2;
     public AudioClip damage;
     public AudioClip death;
 
+    public AudioSource source;
+
     void Start ()
     {
+        source = GetComponent<AudioSource>();
         maxHP = enemyHp;
 
         //Getting animator for the enemy
@@ -45,7 +47,6 @@ public class EnemyClass : MonoBehaviour
         //combatTextbox will be equal to the combatsScript object textBox
         combatTextbox = combatScript.textBox;
 
-        source = GetComponent<AudioSource>();
 
     }
     //A normal attack for the enemy
@@ -62,7 +63,7 @@ public class EnemyClass : MonoBehaviour
         //Playing the attack animation
         anim.SetTrigger("Attack");
 
-        source.PlayOneShot(attack1, 1f);
+        AudioHelper.PlaySound(attack1);
     }
 
 
@@ -83,7 +84,7 @@ public class EnemyClass : MonoBehaviour
         //Playing the attack animation
         anim.SetTrigger("Attack2");
 
-        source.PlayOneShot(attack2, 1f);
+        AudioHelper.PlaySound(attack2);
     }
 
 
@@ -107,11 +108,11 @@ public class EnemyClass : MonoBehaviour
 
         if (displayName == "Troll")
         {
-            source.clip = attack2;
-            source.PlayDelayed(1f);
+            AudioHelper.PlayDelayed(attack2, 1f);
         }
         else
-            source.PlayOneShot(attack2, 1f);
+            AudioHelper.PlaySound(attack2);
+
     }
 
 

@@ -27,6 +27,9 @@ public class PlayerSingleton : MonoBehaviour
 
     /* Variables to be saved */
 
+    public float sfxVol = 1;
+    public float musicVol = 1;
+
     // How much damage and magic damage the player does
     public float playerDmg = 1;
     public int playerMagicDmg = 1;

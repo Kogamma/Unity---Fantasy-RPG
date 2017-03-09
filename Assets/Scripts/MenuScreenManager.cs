@@ -19,6 +19,7 @@ public class MenuScreenManager : MonoBehaviour
     // The button that will bring up the playerScreen
     public Button playerScreenButton;
 
+    private GameObject lastOpen;
 
     void Start ()
     {
@@ -30,14 +31,27 @@ public class MenuScreenManager : MonoBehaviour
 
         // Adds the PlayerScreen method to the PlayerScreenButton
         playerScreenButton.onClick.AddListener(OpenPlayerScreen);
+
+        lastOpen = playerScreen;
 	}
 
+    public void OpenMenu()
+    {
+        this.transform.GetChild(0).GetComponent<Canvas>().enabled = true;
+
+        inventoryScreen.SetActive(false);
+        playerScreen.SetActive(false);
+
+        lastOpen.SetActive(true);
+
+        normalCanvas.SetActive(false);
+    }
 
     // Opens the inventory menu and closes the others that are open
     void OpenInventory()
     {
         // Deactivates the inventory button
-        inventoryScreenButton.interactable = false;
+        //inventoryScreenButton.interactable = false;
 
         // Opens the inventory
         inventoryScreen.SetActive(true);
@@ -46,7 +60,7 @@ public class MenuScreenManager : MonoBehaviour
         playerScreen.SetActive(false);
 
         // Activates all the other screens' buttons
-        playerScreenButton.interactable = true;
+        //playerScreenButton.interactable = true;
 
 
         // If we actually have any items in the inventory
@@ -57,6 +71,8 @@ public class MenuScreenManager : MonoBehaviour
         else
             // Instead chooses the first equipment slot
             EventSystem.current.SetSelectedGameObject(inventoryScreen.transform.parent.GetComponent<InventoryMenu>().equipmentSlots[0]);
+
+        lastOpen = inventoryScreen;
     }
 
 
@@ -64,7 +80,7 @@ public class MenuScreenManager : MonoBehaviour
     void OpenPlayerScreen()
     {
         // Deactivates the playerScreen button
-        playerScreenButton.interactable = false;
+        //playerScreenButton.interactable = false;
 
         // Opens the player screen
         playerScreen.SetActive(true);
@@ -72,17 +88,23 @@ public class MenuScreenManager : MonoBehaviour
 
         // Deactivates all the other screens
         inventoryScreen.SetActive(false);
+        inventoryScreen.transform.parent.GetComponent<InventoryMenu>().CancelButton();
 
         // Activates all the other screens' buttons
-        inventoryScreenButton.interactable = true;
+        //inventoryScreenButton.interactable = true;
+
+        lastOpen = playerScreen;
     }
 
 
     // This closes the whole menu 
-    void CloseMenu()
+    public void CloseMenu()
     {
-        this.gameObject.SetActive(false);
+        this.transform.GetChild(0).GetComponent<Canvas>().enabled = false;
 
-        normalCanvas.SetActive(false);
+        inventoryScreen.SetActive(false);
+        playerScreen.SetActive(false);
+
+        normalCanvas.SetActive(true);
     }
 }

@@ -46,8 +46,6 @@ public class TextBoxHandler : MonoBehaviour
     public Image Border;
     public Image Background;
 
-    private AudioSource _audioSource;
-
     // The sound when playing text
     public AudioClip textClip;
     // An audio clip for going to the next page
@@ -72,8 +70,6 @@ public class TextBoxHandler : MonoBehaviour
         _textComponent.text = "";
 
         nameText.text = "";
-
-        _audioSource = GetComponent<AudioSource>();
 
         // Hides start/continue buttons
         ContinueIcon.enabled = false;
@@ -236,8 +232,7 @@ public class TextBoxHandler : MonoBehaviour
             {
                 _soundCounter = 0;
 
-                _audioSource.pitch = Random.Range(0.9f, 1f);
-                _audioSource.PlayOneShot(textClip, 1f);
+                AudioHelper.PlayPitched(textClip, 0.9f, 1f);
             }
             else
                 _soundCounter++;
@@ -307,7 +302,7 @@ public class TextBoxHandler : MonoBehaviour
     // Hides the continue/stop icons
     private void HideIcons()
     {
-        _audioSource.PlayOneShot(nextPageClip, 1f);
+        AudioHelper.PlaySound(nextPageClip);
 
         ContinueIcon.enabled = false;
         StopIcon.enabled = false;
