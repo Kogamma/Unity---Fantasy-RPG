@@ -8,6 +8,12 @@ public class AudioHelper : MonoBehaviour
     void Awake()
     {
         m_Source = GetComponent<AudioSource>();
+        UpdateVolume();
+    }
+
+    public static void UpdateVolume()
+    {
+        m_Source.volume = PlayerSingleton.instance.sfxVol;
     }
 
     public static void PlaySound(AudioClip clip, float volMod = 1)

@@ -7,9 +7,15 @@ public class MusicHelper : MonoBehaviour
     private static AudioSource m_Source;
     void Awake()
     {
-        m_Source.GetComponent<AudioSource>();
+        m_Source = GetComponent<AudioSource>();
+        UpdateVolume();
+    }
+
+    public static void UpdateVolume()
+    {
         m_Source.volume = PlayerSingleton.instance.musicVol;
     }
+
     public static void PlaySound(AudioClip clip, float volMod = 1)
     {
         m_Source.clip = clip;
