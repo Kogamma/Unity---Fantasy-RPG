@@ -31,11 +31,8 @@ public class EnemyClass : MonoBehaviour
     public AudioClip damage;
     public AudioClip death;
 
-    public AudioSource source;
-
     void Start ()
     {
-        source = GetComponent<AudioSource>();
         maxHP = enemyHp;
 
         //Getting animator for the enemy

@@ -24,14 +24,12 @@ public class PlayerCombatLogic : MonoBehaviour {
     [SerializeField] GameObject iceParticle;
     [SerializeField] GameObject iceBlock;
 
-    private AudioSource source;
     [SerializeField] AudioClip attack_sound;
 
     // Use this for initialization
     void Start()
     {
         anim = GetComponent<Animator>();
-        source = GetComponent<AudioSource>();
         combatScript = combatHandler.GetComponent<CombatScript>();
     }
 
@@ -112,7 +110,7 @@ public class PlayerCombatLogic : MonoBehaviour {
             if (whichAttack != "Flee")
             {
                 anim.SetTrigger("MeeleAttack");   //Playing the attack animation
-                source.PlayOneShot(attack_sound, 1f);
+                AudioHelper.PlaySound(attack_sound);
             }
             dmg *= hitAccuracy;             //Multiplay the damge with the combo hit accuracy
 
@@ -216,7 +214,7 @@ public class PlayerCombatLogic : MonoBehaviour {
         if (!combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().isFrozen)
         {
             combatScript.enemyHolder.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Attacked");
-            combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().source.PlayOneShot(combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().damage, 1f);
+            AudioHelper.PlaySound(combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().damage, 1f);
         }
     }
     void ChangeViewToMain()

@@ -12,8 +12,6 @@ public class Player_Movement : MonoBehaviour
     [Range(1f, 50f)]
     public float moveSpeed = 0f;
 
-    public float maxSpeed = 1;
-
     // Modifier to adjust animation speed
     public float animSpeedMod = 0.3f;
 
@@ -29,14 +27,6 @@ public class Player_Movement : MonoBehaviour
         controller = GetComponent<CharacterController>();
 
         _anim = GetComponent<Animator>();
-
-        if (!OverworldEnemySingleton.instance.backFromCombat && PlayerSingleton.instance.entryPos != Vector3.zero)
-        {
-            transform.position = PlayerSingleton.instance.entryPos;
-            transform.rotation = Quaternion.Euler(PlayerSingleton.instance.entryRot);
-        }
-
-        PlayerSingleton.instance.currentScene = Application.loadedLevel;
 
         lastPos = transform.position;
 	}
@@ -63,7 +53,8 @@ public class Player_Movement : MonoBehaviour
                 transform.rotation = Quaternion.LookRotation(new Vector3(inputVec.x, 0, inputVec.z));
             }
 
-            inputVec = Vector3.ClampMagnitude(inputVec, maxSpeed);
+            // Clamps the input magnitude so it can always have a maximum of 1
+            inputVec = Vector3.ClampMagnitude(inputVec, 1);
 
             // Moves the character by lerping the velocity variable in rigidbody
             GetComponent<CharacterController>().SimpleMove(new Vector3(Mathf.Lerp(0, inputVec.x * moveSpeed, 0.8f), 0,
@@ -77,7 +68,7 @@ public class Player_Movement : MonoBehaviour
             // Sets the parameter for the player's walk animation to make it stop whilst not moving
             _anim.SetFloat("Velocity", 0);
         }
-         lastPos = transform.position;
+        //lastPos = transform.position;
     }
 
     /*
