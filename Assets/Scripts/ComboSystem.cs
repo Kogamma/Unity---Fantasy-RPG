@@ -65,7 +65,6 @@ public class ComboSystem : MonoBehaviour
     [SerializeField] private AudioClip hitSound;
     [SerializeField] private AudioClip critHitSound;
     [SerializeField] private AudioClip missSound;
-    private AudioSource audioSource;
 
 
     void Start ()
@@ -75,8 +74,6 @@ public class ComboSystem : MonoBehaviour
         noteRows.Add(notesX);
         noteRows.Add(notesB);
         noteRows.Add(notesA);
-
-        audioSource = GetComponent<AudioSource>();
     }
 	
 
@@ -259,7 +256,7 @@ public class ComboSystem : MonoBehaviour
                     // Instantiates a cross on the left note showing it was missed
                     Instantiate(redCross, notePos, transform.rotation, noteRows[targetIndex][0].transform);
 
-                    audioSource.PlayOneShot(missSound, 1f);
+                    AudioHelper.PlaySound(missSound);
 
                     // Removes the note
                     StartCoroutine(RemoveNote(targetIndex));
@@ -274,8 +271,7 @@ public class ComboSystem : MonoBehaviour
                         // Instantiates a good-text to the left of the target
                         Instantiate(goodText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
 
-                        audioSource.PlayOneShot(hitSound, 1f);
-
+                        AudioHelper.PlayPitched(hitSound, 0.9f, 0.9f);
                         // REmoves note
                         StartCoroutine(RemoveNote(targetIndex));
 
@@ -287,8 +283,7 @@ public class ComboSystem : MonoBehaviour
                         // Instantiates a great-text to the left of the target
                         Instantiate(greatText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
 
-                        audioSource.PlayOneShot(hitSound, 1f);
-
+                        AudioHelper.PlaySound(hitSound);
                         // Removes note
                         StartCoroutine(RemoveNote(targetIndex));
 
@@ -300,8 +295,7 @@ public class ComboSystem : MonoBehaviour
                         // Instantiates an excellent-text to the left of the target
                         Instantiate(excellentText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
 
-                        audioSource.PlayOneShot(hitSound, 1f);
-
+                        AudioHelper.PlayPitched(hitSound, 1.1f, 1.1f);
                         // Removes note
                         StartCoroutine(RemoveNote(targetIndex));
 
@@ -317,7 +311,7 @@ public class ComboSystem : MonoBehaviour
                         // Instantiates an excellent-text to the left of the target
                         Instantiate(critText, new Vector3(leftBorder.position.x - 40f, targetPos.y), transform.rotation, transform);
 
-                        audioSource.PlayOneShot(critHitSound, 1f);
+                        AudioHelper.PlaySound(critHitSound);
 
                         // Removes note
                         StartCoroutine(RemoveNote(targetIndex));

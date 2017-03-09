@@ -36,8 +36,6 @@ public class CombatTextBoxHandler : MonoBehaviour
     public Image Border;
     public Image Background;
 
-
-    private AudioSource _audioSource;
     // The sound when playing text
     public AudioClip textSound;
 
@@ -60,8 +58,6 @@ public class CombatTextBoxHandler : MonoBehaviour
         // Gets our textcomponent and clears it from all text
         _textComponent = GetComponent<Text>();
         _textComponent.text = "";
-
-        _audioSource = GetComponent<AudioSource>();
 
         // Hides textbox
         Border.enabled = false;
@@ -228,8 +224,7 @@ public class CombatTextBoxHandler : MonoBehaviour
             {
                 _soundCounter = 0;
 
-                _audioSource.pitch = Random.Range(0.9f, 1f);
-                _audioSource.PlayOneShot(textSound, 1f);
+                AudioHelper.PlayPitched(textSound,0.9f, 1f);
             }
             else
                 _soundCounter++;

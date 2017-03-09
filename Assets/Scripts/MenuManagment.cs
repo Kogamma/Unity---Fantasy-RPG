@@ -20,12 +20,6 @@ public class MenuManagment : MonoBehaviour
     [SerializeField] Color blueColor;
 
     [SerializeField] AudioClip clickSound;
-    private AudioSource source;
-
-    void Start ()
-    {
-        source = GetComponent<AudioSource>();
-    }
 
     void Update()
     {
@@ -52,7 +46,7 @@ public class MenuManagment : MonoBehaviour
     {
         attackGroup.SetActive(true);
         mainGroup.SetActive(false);
-        source.PlayOneShot(clickSound, 1f);
+        AudioHelper.PlaySound(clickSound);
     }
 
 
@@ -60,7 +54,7 @@ public class MenuManagment : MonoBehaviour
     {
         itemsGroup.SetActive(true);
         mainGroup.SetActive(false);
-        source.PlayOneShot(clickSound, 1f);
+        AudioHelper.PlaySound(clickSound);
     }
 
 
@@ -70,7 +64,8 @@ public class MenuManagment : MonoBehaviour
         mainGroup.SetActive(true);
         itemsGroup.SetActive(false);
         attackGroup.SetActive(false);
-        source.PlayOneShot(clickSound, 1f);
+        AudioHelper.PlaySound(clickSound);
+
     }
 
 

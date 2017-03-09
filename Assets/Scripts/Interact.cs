@@ -7,15 +7,12 @@ public class Interact : MonoBehaviour
     [SerializeField] private GameObject interactIcon;
     private Camera camera;
     [SerializeField] private AudioClip pop;
-    private AudioSource source;
     private bool doOnce = true;
 
 
 
     void Start ()
     {
-        source = GetComponent<AudioSource>();
-
         camera = Camera.main; 
     }
 
@@ -38,7 +35,7 @@ public class Interact : MonoBehaviour
 
                 if (doOnce)
                 {
-                    source.PlayOneShot(pop, 1f);
+                    AudioHelper.PlaySound(pop);
                     doOnce = false;
                 }
 
