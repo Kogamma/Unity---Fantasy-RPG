@@ -66,4 +66,9 @@ public class ButtonManager : MonoBehaviour
         Application.Quit(); //  Quits the game
     }
 
+    public void ExitToMenuBtn()
+    {
+        SceneManager.LoadScene("Main_Menu_Scene");
+    }
+
 }

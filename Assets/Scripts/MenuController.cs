@@ -25,7 +25,7 @@ public class MenuController : MonoBehaviour
                 PauseMenu();
 
             // Brings up the menu for stats, inventory, journal etc.
-            if (Input.GetKeyDown(KeyCode.Tab))
+            if (Input.GetKeyDown(KeyCode.Tab) && !pauseMenuCanvas.activeSelf)
                 ActivateMenu();
         }
 	}
@@ -42,9 +42,10 @@ public class MenuController : MonoBehaviour
         Pause();
     }
 
-    void PauseMenu()
+    public void PauseMenu()
     {
         pauseMenuCanvas.SetActive(!pauseMenuCanvas.activeSelf);
+        pauseMenuCanvas.GetComponent<PauseMenuManager>().Main_SetActive();
 
         // Pauses or unpauses the game
         Pause();
