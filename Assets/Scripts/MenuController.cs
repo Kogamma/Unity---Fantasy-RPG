@@ -33,7 +33,7 @@ public class MenuController : MonoBehaviour
 
     public void ActivateMenu()
     {
-        menuCanvas.enabled = menuCanvas.enabled ? false : true;
+        menuCanvas.enabled = !menuCanvas.enabled;
 
         // Pauses or unpauses the game
         Pause();
@@ -41,7 +41,7 @@ public class MenuController : MonoBehaviour
 
     void PauseMenu()
     {
-        pauseMenuCanvas.SetActive(pauseMenuCanvas.activeSelf ? false : true);
+        pauseMenuCanvas.SetActive(!pauseMenuCanvas.activeSelf);
 
         // Pauses or unpauses the game
         Pause();
@@ -50,11 +50,6 @@ public class MenuController : MonoBehaviour
     public void Pause()
     {
         // Pauses the game if it's not already paused and vice versa
-        PlayerSingleton.instance.canMove = PlayerSingleton.instance.canMove ? false : true;
-
-        /*if (Time.timeScale == 1)
-            Time.timeScale = 0;
-        else if (Time.timeScale == 0)
-            Time.timeScale = 1;*/
+        PlayerSingleton.instance.canMove = !PlayerSingleton.instance.canMove;
     }
 }

@@ -111,13 +111,13 @@ public class LootObject : MonoBehaviour
                 }
             }
 
-            textBox.StartMessage(text.ToArray(), "Chest", gameObject, "ReversAnim");
+            textBox.PrintMessage(text.ToArray(), "Chest", gameObject, "ReversAnim");
         }
 
         else
         {
             gameObject.tag = "Uninteractable";
-            textBox.StartMessage(text.ToArray(), "Chest", gameObject, "InActivateTreasure");
+            textBox.PrintMessage(text.ToArray(), "Chest", gameObject, "InActivateTreasure");
         }
 
         
