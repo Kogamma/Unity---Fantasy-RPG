@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
-    public Canvas menuCanvas;
+    public GameObject menuCanvas;
 
     public GameObject pauseMenuCanvas;
 
@@ -33,8 +33,11 @@ public class MenuController : MonoBehaviour
 
     public void ActivateMenu()
     {
-        menuCanvas.enabled = !menuCanvas.enabled;
-
+        // Checks if the menu is not already activated
+        if(!menuCanvas.transform.GetChild(0).GetComponent<Canvas>().enabled)
+            menuCanvas.GetComponent<MenuScreenManager>().OpenMenu();
+        else if (menuCanvas.transform.GetChild(0).gameObject.GetComponent<Canvas>().enabled)
+            menuCanvas.GetComponent<MenuScreenManager>().CloseMenu();
         // Pauses or unpauses the game
         Pause();
     }
