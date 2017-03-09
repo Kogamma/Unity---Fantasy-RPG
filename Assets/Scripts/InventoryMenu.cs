@@ -54,8 +54,6 @@ public class InventoryMenu : MonoBehaviour
     // Holds the equipment menu
     public GameObject equipmentHolder;
 
-    public GameObject enterInventory;
-
     /* GameObjects that hold the different slots
     of the equipment menu*/
     public GameObject headSlot;
