@@ -96,6 +96,12 @@ public class MenuManagment : MonoBehaviour
     {
         descriptionBox.SetActive(false);
     }
+
+
+    public void ExitToMainMenu()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Main_Menu_Scene");
+    }
 }
 
 

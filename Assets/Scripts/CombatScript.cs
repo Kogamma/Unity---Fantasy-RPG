@@ -296,21 +296,6 @@ public class CombatScript : MonoBehaviour
     }
 
 
-    public void RestartFromCheckpoint()
-    {
-        OverworldEnemySingleton.instance.shouldDestroy.Clear();
-        PlayerSingleton.instance.playerHealth = PlayerSingleton.instance.playerMaxHealth;
-        PlayerSingleton.instance.playerMana = PlayerSingleton.instance.playerMaxMana;
-        SceneManager.LoadScene(PlayerSingleton.instance.currentScene);
-    }
-
-
-    public void LoadGameOver()
-    {
-        SceneManager.LoadScene("DeathScene");
-    }
-
-
     void EndOfCombat ()
     {
         RemovePoison();

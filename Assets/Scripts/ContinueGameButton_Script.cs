@@ -6,11 +6,9 @@ using System.IO;
 
 public class ContinueGameButton_Script : MonoBehaviour
 {
-    
-    
     void Start()
     {
-        if(PlayerSingleton.instance.loaded == false)
+        if(!File.Exists(Application.persistentDataPath + "/playerInfo.dat"))
         {
             GetComponent<Button>().interactable = false;
         }
