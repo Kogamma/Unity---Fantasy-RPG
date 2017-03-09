@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class CombatStart : MonoBehaviour
 {
     public Image blackScreen;
-    public float waitTime = 1.0f;
 
     void Start()
     {
@@ -39,19 +38,20 @@ public class CombatStart : MonoBehaviour
     {
         PlayerSingleton.instance.gameCanRun = false;
         // Pauses the game if it's not already paused and vice versa
-        PlayerSingleton.instance.canMove = PlayerSingleton.instance.canMove ? false : true;
+        PlayerSingleton.instance.canMove = !PlayerSingleton.instance.canMove;
 
         Time.timeScale = 0;
 
         while (blackScreen.fillAmount < 1)
         {
-            blackScreen.fillAmount += 1 * Time.deltaTime;
+            blackScreen.fillAmount += 0.05f;
+
             yield return null;
         }
         PlayerSingleton.instance.gameCanRun = true;
 
         // Pauses the game if it's not already paused and vice versa
-        PlayerSingleton.instance.canMove = PlayerSingleton.instance.canMove ? false : true;
+        PlayerSingleton.instance.canMove = !PlayerSingleton.instance.canMove;
         Time.timeScale = 1;
 
         // Pauses the music before loading new scene
@@ -59,7 +59,10 @@ public class CombatStart : MonoBehaviour
 
         // When the blackscreen is done the battle scene loads
         if (PlayerSingleton.instance.currentScene == 5)
+        {
+            Debug.Log("SKOG");
             SceneManager.LoadScene("Battle_scene");
+        }
         else if (PlayerSingleton.instance.currentScene == 6)
             SceneManager.LoadScene("Battle_Scene_dark");
     }
