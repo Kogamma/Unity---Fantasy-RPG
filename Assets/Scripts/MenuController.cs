@@ -11,6 +11,8 @@ public class MenuController : MonoBehaviour
 
     public Button closeMenuCanvasButton;
 
+    private GameObject lastButton;
+
     void Start()
     {
         closeMenuCanvasButton.onClick.AddListener(ActivateMenu);
@@ -43,12 +45,28 @@ public class MenuController : MonoBehaviour
     }
 
     public void PauseMenu()
-    {
-        pauseMenuCanvas.SetActive(!pauseMenuCanvas.activeSelf);
-        pauseMenuCanvas.GetComponent<PauseMenuManager>().Main_SetActive();
-
+    {  
         // Pauses or unpauses the game
-        Pause();
+        if (!menuCanvas.transform.GetChild(0).GetComponent<Canvas>().enabled)
+        {
+            Pause();
+        }
+        else if (menuCanvas.transform.GetChild(0).GetComponent<Canvas>().enabled)
+        {
+            if(pauseMenuCanvas.activeSelf)
+            {
+                UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(lastButton);
+            }
+            else
+            {
+                lastButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+            }
+        }
+
+        pauseMenuCanvas.SetActive(!pauseMenuCanvas.activeSelf);
+
+        if(pauseMenuCanvas.activeSelf)
+            pauseMenuCanvas.GetComponent<PauseMenuManager>().Main_SetActive();
     }
 
     public void Pause()
