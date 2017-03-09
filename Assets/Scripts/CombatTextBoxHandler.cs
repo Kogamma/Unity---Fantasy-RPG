@@ -41,8 +41,6 @@ public class CombatTextBoxHandler : MonoBehaviour
     // The sound when playing text
     public AudioClip textSound;
 
-    bool playSound = true;
-
     bool finishedText = false;
 
     private GameObject _methodCaller;
