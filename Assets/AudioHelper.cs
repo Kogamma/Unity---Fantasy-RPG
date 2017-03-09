@@ -15,9 +15,14 @@ public class AudioHelper : MonoBehaviour
         m_Source.pitch = 1;
         m_Source.PlayOneShot(clip, PlayerSingleton.instance.sfxVol * volMod);
     }
-    public static void PlaySoundRandomPitch(AudioClip clip, float minPitch, float maxPitch, float volMod = 1)
+    public static void PlayPitched(AudioClip clip, float minPitch, float maxPitch, float volMod = 1)
     {
         m_Source.pitch = Random.Range(minPitch, maxPitch);
         m_Source.PlayOneShot(clip, PlayerSingleton.instance.sfxVol * volMod);
+    }
+    public static void PlayDelayed(AudioClip clip, float delay)
+    {
+        m_Source.clip = clip;
+        m_Source.PlayDelayed(delay);
     }
 }

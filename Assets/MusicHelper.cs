@@ -16,4 +16,9 @@ public class MusicHelper : MonoBehaviour
         m_Source.volume = PlayerSingleton.instance.musicVol * volMod;
         m_Source.Play();
     }
+
+    public static void Stop()
+    {
+        m_Source.Stop();
+    }
 }
