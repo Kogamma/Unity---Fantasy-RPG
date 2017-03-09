@@ -115,43 +115,57 @@ public class CombatScript : MonoBehaviour
                 else
                 {
                     List<string> text = new List<string>();
+                    //Check if the player is poisoned
                     if (PlayerSingleton.instance.poisoned)
                     {
+                        //Start the poisoned particlesystem
                         player.transform.GetChild(4).GetComponent<ParticleSystem>().Play();
                         player.transform.GetChild(4).GetComponent<ParticleSystem>().loop = true;
 
+                        //Random poison damage between 1 and 4 to players health.
                         int rndDamage = Random.Range(1, 4);
                         PlayerSingleton.instance.playerHealth -= rndDamage;
                         playerPoisonedTurns++;
 
                         text.Add("You are poisoned, you took " + rndDamage + " damage.");
 
+                        //Check if the player had posion for 3 turns
                         if (playerPoisonedTurns == maxPoisonedTurns)
                         {
+                            //Stopping the poison particle effect
                             player.transform.GetChild(4).GetComponent<ParticleSystem>().loop = false;
                             text[0] += ("\n\nYou are no longer poisoned!");
+                            //Setting poisoned to false
                             PlayerSingleton.instance.poisoned = false;
+                            //resetting the playerPoisonedTurns to zero
                             playerPoisonedTurns = 0;
                         }
 
                         textBox.PrintMessage(text, menuManager, "MainSelect");
                     }
 
+                    //Check if the player is confused
                     else if (PlayerSingleton.instance.confused)
                     {
+                        //Start the confused particlesystem
                         player.transform.GetChild(5).GetComponent<ParticleSystem>().Play();
                         player.transform.GetChild(5).GetComponent<ParticleSystem>().loop = true;
 
+                        //Speed up the notes for the combo system
                         player.GetComponent<PlayerCombatLogic>().noteSpeedMultiplicator = 2;
                         playerConfusedTurns++;
+                        //Check if the player had confused for 3 turns
                         if (playerConfusedTurns == maxConfusedTurns)
                         {
+                            //Stop the particle effect
                             player.transform.GetChild(5).GetComponent<ParticleSystem>().loop = false;
                             PlayerSingleton.instance.confused = false;
                             playerConfusedTurns = 0;
+                            //Set the notespeed to the normal speed
                             player.GetComponent<PlayerCombatLogic>().noteSpeedMultiplicator = 1;
                             text.Add("You are no longer confused!");
                         }
+                        //Check if the player is still confused
                         else
                         {
                             text.Add("You are confused!");
@@ -188,31 +202,38 @@ public class CombatScript : MonoBehaviour
 
                     PlayerSingleton.instance.playerExp += enemyClass.enemyExp;
                 }
+                //Check if the is not frozen, so the other effects can start. 
                 else if (enemyClass.isStunned == false)
                 {
+                    //Check if the enemy is confused
                     if (enemyClass.isConfused)
                     {
                         enemyConfusedTurns++;
-
+                        //Check if the enemy have been confused in 3 turns 
                         if (enemyConfusedTurns == maxConfusedTurns)
                         {
+                            //Stopping the particle system.
                             enemyHolder.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().loop = false;
+                            //Reset the confused turns
                             enemyConfusedTurns = 0;
+                            //Setting confused to false
                             enemyClass.isConfused = false;
                             text2.Add("The Enemy is no longer confused!");
                         }
                     }
-
+                    //Check if the enemy is on fire
                     if (enemyClass.onFire)
                     {
                         enemyFireTurns++;
+                        //Random fire damage  between 1 and 4 that multiplie with the players int
                         int rndDamage = Random.Range(1, 4) * (PlayerSingleton.instance.playerInt / 5);
                         enemyClass.enemyHp -= rndDamage;
 
                         text2.Add("The enemy took " + rndDamage + " fire damage!");
-
+                        //Check if the enemy have been on fire for 3 turns
                         if (enemyFireTurns == maxFireTurns)
                         {
+                            //Stop the particle system for the fire
                             enemyHolder.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>().loop = false;
                             enemyFireTurns = 0;
                             enemyClass.onFire = false;
