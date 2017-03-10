@@ -39,10 +39,6 @@ public class Level_Stats_Script : MonoBehaviour
 
     void LateUpdate()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            PlayerSingleton.instance.skillPoints += 1; 
-        }
         playerExp = PlayerSingleton.instance.playerExp;
         level = PlayerSingleton.instance.level;
         playerLuck = PlayerSingleton.instance.playerLuck;

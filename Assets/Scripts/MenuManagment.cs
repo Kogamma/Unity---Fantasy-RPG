@@ -22,8 +22,6 @@ public class MenuManagment : MonoBehaviour
     [SerializeField] Color redColor;
     [SerializeField] Color blueColor;
 
-    [SerializeField] AudioClip clickSound;
-
     void Update()
     {
         for(int i = 0; i < attackButtons.Length; i++)
@@ -49,7 +47,6 @@ public class MenuManagment : MonoBehaviour
     {
         attackGroup.SetActive(true);
         mainGroup.SetActive(false);
-        AudioHelper.PlaySound(clickSound);
 
         EventSystem.current.SetSelectedGameObject(attackGroup.transform.GetChild(0).gameObject);
     }
@@ -59,7 +56,6 @@ public class MenuManagment : MonoBehaviour
     {
         itemsGroup.SetActive(true);
         mainGroup.SetActive(false);
-        AudioHelper.PlaySound(clickSound);
 
         EventSystem.current.SetSelectedGameObject(crossButton);
     }
@@ -71,7 +67,6 @@ public class MenuManagment : MonoBehaviour
         mainGroup.SetActive(true);
         itemsGroup.SetActive(false);
         attackGroup.SetActive(false);
-        AudioHelper.PlaySound(clickSound);
 
         EventSystem.current.SetSelectedGameObject(mainButton);
     }
