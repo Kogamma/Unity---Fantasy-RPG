@@ -37,7 +37,7 @@ public class Level_Stats_Script : MonoBehaviour
         expSlider.maxValue = PlayerSingleton.instance.currentXPNeeded;
     }
 
-    void LateUpdate()
+    void Update()
     {
         playerExp = PlayerSingleton.instance.playerExp;
         level = PlayerSingleton.instance.level;
@@ -62,7 +62,7 @@ public class Level_Stats_Script : MonoBehaviour
 
         add.text = statTotal.ToString();
 
-        if (statTotal >= 1)
+        if (PlayerSingleton.instance.skillPoints >= 1)
         {
             for (int i = 0; i < addButtons.Length; i++)
             {

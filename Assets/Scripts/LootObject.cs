@@ -14,6 +14,8 @@ public class LootObject : MonoBehaviour
 
     public InventoryHandler inventHanlder;
 
+    public OverworldManager ovManager;
+
     public TextBoxHandler textBox;
 
     public AudioClip openChestSFX;
@@ -110,7 +112,7 @@ public class LootObject : MonoBehaviour
         //Check if the object still have items to loot
         if (itemsToLoot.Count != 0)
         {
-            text[0] += (" Your inventory is full, this items will be left behind ");
+            text[0] += (" Your inventory is full, these items will be thrown away: ");
             itemName = "";
 
             for (int i = 0; i < itemsToLoot.Count; i++)
@@ -122,32 +124,28 @@ public class LootObject : MonoBehaviour
                     text[0] += "[" + itemsToLoot.FindAll(x => x == itemName).Count + "] " + itemName + " ";
                 }
             }
-
-            textBox.PrintMessage(text.ToArray(), "Chest", gameObject, "ReversAnim");
         }
 
-        //Doing this when all the items are picked up
-        else
-        {
-            //Setting the obects tag to Uninteractable
-            gameObject.tag = "Uninteractable";
-            textBox.PrintMessage(text.ToArray(), "Chest", gameObject, "InActivateTreasure");
-        }
+        //Setting the obects tag to Uninteractable
+        gameObject.tag = "Uninteractable";
+        textBox.PrintMessage(text.ToArray(), "Chest", gameObject, "InActivateTreasure");
 
-        
-
-        
+        if (PlayerSingleton.instance.currentScene == 5)
+            PlayerSingleton.instance.chestOpen_lightForest[ovManager.chests.IndexOf(gameObject.GetComponent<LootObject>())] = true;
+        else if (PlayerSingleton.instance.currentScene == 6)
+            PlayerSingleton.instance.chestOpen_darkForest[ovManager.chests.IndexOf(gameObject.GetComponent<LootObject>())] = true;
     }
 
-    //Playing the close animation if their still are items in the chest 
-    void ReversAnim()
-    {
-        gameObject.transform.GetChild(2).GetComponent<Animator>().SetTrigger("Close");
-    }
+
     //Setting the treasure inactive in the chest 
-    void InActivateTreasure()
+    public void InActivateTreasure()
     {
         gameObject.transform.GetChild(0).gameObject.SetActive(false);
     }
 
+    public void OpenAnim()
+    {
+        //Playing an animation to open the chest
+        gameObject.transform.GetChild(2).GetComponent<Animator>().SetTrigger("Open");
+    }
 }

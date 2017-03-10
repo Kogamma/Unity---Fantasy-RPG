@@ -13,6 +13,8 @@ public class PauseMenuManager : MonoBehaviour
     public GameObject exitToDesktopWarningGroup;
     public GameObject exitToMenuWarningGroup;
 
+    public AudioClip clickSound;
+
 
     public void Main_SetActive ()
     {
@@ -29,8 +31,6 @@ public class PauseMenuManager : MonoBehaviour
         exitToDesktopWarningGroup.SetActive(false);
         exitToMenuWarningGroup.SetActive(false);
         mainGroup.SetActive(true);
-
-
     }
 
     public void DesktopWarning_SetActive()

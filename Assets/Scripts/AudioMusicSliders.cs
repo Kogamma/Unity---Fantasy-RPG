@@ -8,6 +8,12 @@ public class AudioMusicSliders : MonoBehaviour
     public Slider musicSlider;
     public Slider sfxSlider;
 
+    void Start()
+    {
+        musicSlider.value = PlayerSingleton.instance.musicVol;
+        sfxSlider.value = PlayerSingleton.instance.sfxVol;
+    }
+
     public void MusicSlider()
     {
         PlayerSingleton.instance.musicVol = musicSlider.value;

@@ -71,6 +71,7 @@ public class InventoryMenu : MonoBehaviour
 	void Start ()
     {
         // Sets both components to be those that the EventSystem object in the scene has
+        eventObj = EventSystem.current.gameObject;
         _inputModule = eventObj.GetComponent<StandaloneInputModule>();
 
         // How many buttons we will iterate
