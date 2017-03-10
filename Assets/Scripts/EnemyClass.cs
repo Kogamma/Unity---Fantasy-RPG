@@ -49,7 +49,7 @@ public class EnemyClass : MonoBehaviour
     //A normal attack for the enemy
     public void NormalAttack()
     {
-        int enemyRngDmg = Random.RandomRange(enemyDmgMin, enemyDmgMax + 1);
+        int enemyRngDmg = Random.Range(enemyDmgMin, enemyDmgMax + 1);
         enemyDmgDealt = enemyRngDmg;
 
         if (isConfused)
@@ -66,7 +66,7 @@ public class EnemyClass : MonoBehaviour
 
     public void PoisonAttack()
     {
-        int enemyRngDmg = Random.RandomRange(enemyDmgMin, enemyDmgMax + 1);
+        int enemyRngDmg = Random.Range(enemyDmgMin, enemyDmgMax + 1);
         enemyDmgDealt = enemyRngDmg / 2;
 
         if (isConfused)
@@ -87,7 +87,7 @@ public class EnemyClass : MonoBehaviour
 
     public void ConfusionAttack()
     {
-        int enemyRngDmg = Random.RandomRange(enemyDmgMin, enemyDmgMax + 1);
+        int enemyRngDmg = Random.Range(enemyDmgMin, enemyDmgMax + 1);
         // Calculates what damage to deal
         enemyDmgDealt = Mathf.RoundToInt(enemyRngDmg * 0.75f);
 
