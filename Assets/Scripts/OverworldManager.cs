@@ -21,18 +21,20 @@ public class OverworldManager : MonoBehaviour
     // The buttons for choosing yes or no in the save window
     public GameObject choiceButtons;
 
+    public List<LootObject> chests;
+
     void Awake()
     {
-        if (!OverworldEnemySingleton.instance.backFromCombat && PlayerSingleton.instance.entryPos != Vector3.zero)
-        {
-            player.transform.position = PlayerSingleton.instance.entryPos;
-            player.transform.rotation = Quaternion.Euler(PlayerSingleton.instance.entryRot);
-        }
-        else if (PlayerSingleton.instance.loaded)
+        if (PlayerSingleton.instance.loaded)
         {
             player.transform.position = new Vector3(PlayerSingleton.instance.savePosX, PlayerSingleton.instance.savePosY, PlayerSingleton.instance.savePosZ);
             player.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
             PlayerSingleton.instance.loaded = false;
+        }
+        else if (!OverworldEnemySingleton.instance.backFromCombat && PlayerSingleton.instance.entryPos != Vector3.zero)
+        {
+            player.transform.position = PlayerSingleton.instance.entryPos;
+            player.transform.rotation = Quaternion.Euler(PlayerSingleton.instance.entryRot);
         }
 
         PlayerSingleton.instance.currentScene = Application.loadedLevel;
@@ -47,6 +49,10 @@ public class OverworldManager : MonoBehaviour
         OverworldEnemySingleton.instance.enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList<GameObject>();
         // Sorts the enemies by their names so that everyone will have the same index everytime the scene is entered
         OverworldEnemySingleton.instance.enemies = OverworldEnemySingleton.instance.enemies.OrderBy(enemy => enemy.name).ToList();
+        
+        chests = (FindObjectsOfType(typeof(LootObject)) as LootObject[]).ToList();
+        chests = chests.OrderBy(chest => chest.name).ToList();
+
 
         // If the player hasn't returned from combat, the list with bools will have the same amount of items as the enemy-list
         // This makes sure that the list isn't reset and that the amount of enemies can vary from scene to scene
@@ -69,6 +75,35 @@ public class OverworldManager : MonoBehaviour
             OverworldEnemySingleton.instance.fled = false;
         }
 
+        if (PlayerSingleton.instance.currentScene == 5)
+        {
+            System.Array.Resize(ref PlayerSingleton.instance.chestOpen_lightForest, chests.Count);
+
+            for (int i = 0; i < PlayerSingleton.instance.chestOpen_lightForest.Length; i++)
+            {
+                if (PlayerSingleton.instance.chestOpen_lightForest[i])
+                {
+                    chests[i].OpenAnim();
+                    chests[i].InActivateTreasure();
+                    chests[i].gameObject.tag = "Uninteractable";
+                }
+            }
+        }
+        else if (PlayerSingleton.instance.currentScene == 6)
+        {
+            System.Array.Resize(ref PlayerSingleton.instance.chestOpen_darkForest, chests.Count);
+
+            for (int i = 0; i < PlayerSingleton.instance.chestOpen_darkForest.Length; i++)
+            {
+                if (PlayerSingleton.instance.chestOpen_darkForest[i])
+                {
+                    chests[i].OpenAnim();
+                    chests[i].InActivateTreasure();
+                    chests[i].gameObject.tag = "Uninteractable";
+                }
+            }
+        }
+        
         // Starts removing the black screen
         StartCoroutine(RemoveBlackScreen());
     }

@@ -76,6 +76,10 @@ public class PlayerSingleton : MonoBehaviour
     public float savePosY = -34.632f;
     public float savePosZ = -69.54f;
 
+    // Arrays containing bools that tells which chests is open
+    public bool[] chestOpen_lightForest;
+    public bool[] chestOpen_darkForest;
+
     #region In-game variables
 
     // Variables used for in-combat purposes to see what the current damage of the player is,
@@ -136,7 +140,8 @@ public class PlayerSingleton : MonoBehaviour
         data.savePosX = savePosX;
         data.savePosY = savePosY;
         data.savePosZ = savePosZ;
-        data.shouldDestroy = OverworldEnemySingleton.instance.shouldDestroy;
+        data.chestOpen_lightForest = chestOpen_lightForest;
+        data.chestOpen_darkForest = chestOpen_darkForest;
 
         bf.Serialize(file, data);
         file.Close();
@@ -174,7 +179,8 @@ public class PlayerSingleton : MonoBehaviour
             savePosX = data.savePosX;
             savePosY = data.savePosY;
             savePosZ = data.savePosZ;
-            OverworldEnemySingleton.instance.shouldDestroy = data.shouldDestroy;
+            chestOpen_lightForest = data.chestOpen_lightForest;
+            chestOpen_darkForest = data.chestOpen_lightForest;
 
             loaded = true;
             canMove = true;
@@ -194,7 +200,7 @@ public class PlayerSingleton : MonoBehaviour
         public int playerHealth;
 
         public int level;
-        public int currentXPNeeded;
+        public int currentXPNeeded = 100;
         public int skillPoints;
 
         // How much experience points the player has in total
@@ -231,8 +237,8 @@ public class PlayerSingleton : MonoBehaviour
         public float savePosY;
         public float savePosZ;
 
-        // List of bools telling if an enemy should be dead
-        // Since the enemy list will be sorted, these bools will share the index with the enemies
-        public List<bool> shouldDestroy;
+        // Arrays containing bools that tells which chests is open
+        public bool[] chestOpen_lightForest;
+        public bool[] chestOpen_darkForest;
     }
  }
