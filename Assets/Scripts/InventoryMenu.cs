@@ -403,6 +403,16 @@ public class InventoryMenu : MonoBehaviour
                 textPages.Clear();
                 textPages.Add("You are not poisoned, you don't need any antidote!");
             }
+            else if (textPages[0].Contains("Confusion"))
+            {
+                textPages.Clear();
+                textPages.Add("You are not confused, you don't need any confusion healing!");
+            }
+            else if (textPages[0].Contains("Clairvoyance"))
+            {
+                textPages.Clear();
+                textPages.Add("You can only use this in combat!");
+            }
 
             usedItem = false;
         }

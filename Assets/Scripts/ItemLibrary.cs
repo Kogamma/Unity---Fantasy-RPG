@@ -7,7 +7,7 @@ public class ItemLibrary : MonoBehaviour
 {
     InventoryHandler invHandler;
 
-    public LibraryItem[] items;
+    //public LibraryItem[] items;
 
     public ItemSprites sprites;
 
@@ -26,6 +26,10 @@ public class ItemLibrary : MonoBehaviour
             newItem = NewManaPotion();
         else if (item == "Antidote")
             newItem = NewAntidote();
+        else if (item == "ConfusionHeal")
+            newItem = NewConfusionHeal();
+        else if (item == "ClairvoyancePotion")
+            newItem = NewClaivoyancePotion();
         else if (item == "BasicSword")
             newItem = NewBasicSword();
         else if (item == "IronHelmet")
@@ -143,6 +147,74 @@ public class ItemLibrary : MonoBehaviour
         // Returns the item we just created
         return item;
     }
+    
+    // Confusion Heal
+    public InventoryItem NewConfusionHeal()
+    {
+        // Name of the item we're creating
+        string itemName = "Confusion Healing";
+
+        // If this item is stackable or if we can only have one in each slot
+        bool stackable = true;
+
+        // If you can equip this item
+        bool equippable = false;
+
+        // Which slot this item will equip in
+        int equipSlot = -1;
+
+        // The image that will represent the item in menu's and such
+        Sprite itemImage = sprites.confusionHealSprite;
+
+        // How much the item is worth in a shop
+        int value = 15;
+
+        // Info text about the item
+        string infoText = "When you use this potion it will remove a confusion effect";
+
+        // The method to invoke when you use the item
+        string method = "ConfusionHeal";
+
+        // Creates a new inventoryitem
+        InventoryItem item = new InventoryItem(itemName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
+
+        // Returns the item we just created
+        return item;
+    }
+
+    // Clairvoyance
+    public InventoryItem NewClaivoyancePotion()
+    {
+        // Name of the item we're creating
+        string itemName = "Clairvoyance Potion";
+
+        // If this item is stackable or if we can only have one in each slot
+        bool stackable = true;
+
+        // If you can equip this item
+        bool equippable = false;
+
+        // Which slot this item will equip in
+        int equipSlot = -1;
+
+        // The image that will represent the item in menu's and such
+        Sprite itemImage = sprites.clairvoyancePotionSprite;
+
+        // How much the item is worth in a shop
+        int value = 15;
+
+        // Info text about the item
+        string infoText = "When you use this potion the number of notes of your next attack will be halved";
+
+        // The method to invoke when you use the item
+        string method = "ClairvoyancePotion";
+
+        // Creates a new inventoryitem
+        InventoryItem item = new InventoryItem(itemName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
+
+        // Returns the item we just created
+        return item;
+    }
     #endregion
 
     #region Equippable Items
@@ -252,6 +324,10 @@ public class ItemSprites
     public Sprite manaPotionSprite;
 
     public Sprite antidoteSprite;
+
+    public Sprite confusionHealSprite;
+
+    public Sprite clairvoyancePotionSprite;
 
     public Sprite ironHelmetSprite;
 

@@ -344,6 +344,11 @@ public class CombatInventory : MonoBehaviour
                 textPages.Clear();
                 textPages.Add("You are not poisoned, you don't need any antidote!");
             }
+            else if (textPages[0].Contains("Confusion"))
+            {
+                textPages.Clear();
+                textPages.Add("You are not confused, you don't need any confusion healing!");
+            }
 
             goToNextTurn = false;
         }
@@ -351,6 +356,16 @@ public class CombatInventory : MonoBehaviour
         else if (textPages[0] == "Antidote")
         {
             combatScript.RemovePoison();
+            textPages.RemoveAt(0);
+        }
+        else if (textPages[0] == "ConfusionHealing")
+        {
+            combatScript.RemoveConfusion();
+            textPages.RemoveAt(0);
+        }
+        else if (textPages[0] == "ClairvoyancePotion")
+        {
+            combatScript.ActivateClairvoyance();
             textPages.RemoveAt(0);
         }
         // Hides the info box
