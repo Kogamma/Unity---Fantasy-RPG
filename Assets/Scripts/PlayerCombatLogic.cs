@@ -12,6 +12,7 @@ public class PlayerCombatLogic : MonoBehaviour
     Animator anim;                                              //Using the get the animator player
     int notes;                                                  //Using to set how many notes
     public float notesNrMult = 1;
+    public bool goldenHitActivated = false;
     float noteSpeed;                                            //Using to set the notespeed for the attacks
     public float noteSpeedMultiplicator = 1;
     float interval;                                             //Using to set the interval for the notes on the diffrent attacks
@@ -205,6 +206,7 @@ public class PlayerCombatLogic : MonoBehaviour
 
             comboIsDone = false;                            //Setting combo is done to false;
             notesNrMult = 1;
+            goldenHitActivated = false;
         }
     }
 
@@ -237,7 +239,7 @@ public class PlayerCombatLogic : MonoBehaviour
 
     IEnumerator TurnDelay()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         combatHandler.GetComponent<CombatScript>().UpdateTurn("Enemy");
     }
 

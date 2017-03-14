@@ -135,8 +135,8 @@ public class OverworldManager : MonoBehaviour
 
     public void SaveChoice(bool yes)
     {
-        Debug.Log(name);
         choiceButtons.SetActive(false);
+        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
         PlayerSingleton.instance.gameCanRun = true;
         PlayerSingleton.instance.canMove = true;
 
