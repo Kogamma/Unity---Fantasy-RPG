@@ -368,6 +368,11 @@ public class CombatInventory : MonoBehaviour
             combatScript.ActivateClairvoyance();
             textPages.RemoveAt(0);
         }
+        else if (textPages[0] == "GoldenHitPotion")
+        {
+            combatScript.ActivateGoldenHit();
+            textPages.RemoveAt(0);
+        }
         // Hides the info box
         itemInfoText.transform.parent.gameObject.SetActive(false);
 

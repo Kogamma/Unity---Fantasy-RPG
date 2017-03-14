@@ -90,6 +90,8 @@ public class InventoryItem : MonoBehaviour
             textPages = ConfusionHeal();
         else if (methodName == "ClairvoyancePotion")
             textPages = ClairvoyancePotion();
+        else if (methodName == "GoldenHitPotion")
+            textPages = GoldenHitPotion();
 
         // Returns the text to the call
         return textPages;
@@ -105,12 +107,12 @@ public class InventoryItem : MonoBehaviour
         }
         else
         {
-            // Heals the player for 5 HP
-            PlayerSingleton.instance.playerHealth += 5;
+            // Heals the player for 10 HP
+            PlayerSingleton.instance.playerHealth += 10;
 
             PlayerSingleton.instance.playerHealth = Mathf.Clamp(PlayerSingleton.instance.playerHealth, 0, PlayerSingleton.instance.playerMaxHealth);
             
-            textPages.Add("You were healed! You got 5 HP back!");
+            textPages.Add("You were healed! You got 10 HP back!");
         }
 
         return textPages;
@@ -175,6 +177,20 @@ public class InventoryItem : MonoBehaviour
             textPages.Insert(0, "NotClairvoyance");
         else
             textPages.Add("You used the clairvoyance potion! The number of notes will be halved in your next attack!");
+
+        return textPages;
+    }
+
+    public List<string> GoldenHitPotion()
+    {
+        List<string> textPages = new List<string>();
+
+        textPages.Add("GoldenHitPotion");
+
+        if (!UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.Contains("Battle"))
+            textPages.Insert(0, "NotGoldenHit");
+        else
+            textPages.Add("You used the Golden Hit potion! The combo of your next attack will only have golden notes!");
 
         return textPages;
     }

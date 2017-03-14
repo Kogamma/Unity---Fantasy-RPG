@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class SaveGame : MonoBehaviour
 {
@@ -13,7 +12,7 @@ public class SaveGame : MonoBehaviour
         choiceButtons.SetActive(true);
         PlayerSingleton.instance.gameCanRun = false;
         PlayerSingleton.instance.canMove = false;
-        EventSystem.current.SetSelectedGameObject(choiceButtons.transform.GetChild(0).transform.GetChild(1).gameObject);
+        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(choiceButtons.transform.GetChild(0).GetChild(0).gameObject);
         ovManager.interactedSaveStation = gameObject;
     }
 }

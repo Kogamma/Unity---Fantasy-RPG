@@ -18,11 +18,13 @@ public class PauseMenuManager : MonoBehaviour
 
     public void Main_SetActive ()
     {
+        GameObject buttonToHighlight = null;
+
         // Checks if we were in some other pause menu screen before this to know what button to highlight
-        if(optionsGroup.activeSelf)
-            EventSystem.current.SetSelectedGameObject(mainGroup.transform.GetChild(2).gameObject);
-        else 
-            EventSystem.current.SetSelectedGameObject(mainGroup.transform.GetChild(0).gameObject);
+        if (optionsGroup.activeSelf)
+            buttonToHighlight = mainGroup.transform.GetChild(2).gameObject;
+        else
+            buttonToHighlight = mainGroup.transform.GetChild(0).gameObject;
 
         optionsGroup.SetActive(false);
         audioGroup.SetActive(false);
@@ -31,6 +33,8 @@ public class PauseMenuManager : MonoBehaviour
         exitToDesktopWarningGroup.SetActive(false);
         exitToMenuWarningGroup.SetActive(false);
         mainGroup.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(buttonToHighlight);
     }
 
     public void DesktopWarning_SetActive()
@@ -51,21 +55,28 @@ public class PauseMenuManager : MonoBehaviour
 
     public void Options_SetActive()
     {
+        GameObject buttonToHighlight = null;
+
         // Checks what menu screen we we're in last to highlight the right button
-        if(resolutionGroup.activeSelf)
-            EventSystem.current.SetSelectedGameObject(optionsGroup.transform.GetChild(0).gameObject);
+        if (resolutionGroup.activeSelf)
+            buttonToHighlight = optionsGroup.transform.GetChild(0).gameObject;
         else if (audioGroup.activeSelf)
-            EventSystem.current.SetSelectedGameObject(optionsGroup.transform.GetChild(1).gameObject);
+        {
+            buttonToHighlight = optionsGroup.transform.GetChild(1).gameObject;
+            PlayerSingleton.instance.SaveOptions();
+        }
         else if (howToPlayGroup.activeSelf)
-            EventSystem.current.SetSelectedGameObject(optionsGroup.transform.GetChild(2).gameObject);
+            buttonToHighlight = optionsGroup.transform.GetChild(2).gameObject;
         else if (mainGroup.activeSelf)
-            EventSystem.current.SetSelectedGameObject(optionsGroup.transform.GetChild(3).gameObject);
+            buttonToHighlight = optionsGroup.transform.GetChild(3).gameObject;
 
         mainGroup.SetActive(false);
         audioGroup.SetActive(false);
         howToPlayGroup.SetActive(false);
         resolutionGroup.SetActive(false);
         optionsGroup.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(buttonToHighlight);
     }
 
     public void Audio_SetActive()

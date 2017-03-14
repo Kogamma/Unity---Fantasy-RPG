@@ -13,12 +13,20 @@ public class ButtonManager : MonoBehaviour
     public GameObject howToPlay;
     public GameObject credits;
 
+<<<<<<< HEAD
     private AutoCredits autoCred;
 
     void Start()
     {
         autoCred = GetComponent<AutoCredits>();
     }
+=======
+
+    void Awake ()
+    {
+        PlayerSingleton.instance.LoadOptions();
+    } 
+>>>>>>> d27d807dd54c099a1b24191849da035a98cd1288
 
 
     public void NewPlayBtn(string newPlayLevel)
@@ -57,21 +65,28 @@ public class ButtonManager : MonoBehaviour
     }
     public void ReturnToOption()
     {
+        GameObject buttonToHighlight = null;
+
         // Checks what button to highlight based on what menu we we're in
-        if(resolution.activeSelf)
-            EventSystem.current.SetSelectedGameObject(option.transform.GetChild(0).gameObject);
+        if (resolution.activeSelf)
+            buttonToHighlight = option.transform.GetChild(0).gameObject;
         else if (audio.activeSelf)
-            EventSystem.current.SetSelectedGameObject(option.transform.GetChild(1).gameObject);
+        {
+            buttonToHighlight = option.transform.GetChild(1).gameObject;
+            PlayerSingleton.instance.SaveOptions();
+        }
         else if (howToPlay.activeSelf)
-            EventSystem.current.SetSelectedGameObject(option.transform.GetChild(2).gameObject);
+            buttonToHighlight = option.transform.GetChild(2).gameObject;
         else if (main.activeSelf)
-            EventSystem.current.SetSelectedGameObject(option.transform.GetChild(3).gameObject);
+            buttonToHighlight = option.transform.GetChild(3).gameObject;
 
 
         resolution.SetActive(false);
         howToPlay.SetActive(false);
         audio.SetActive(false);
         option.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(buttonToHighlight);
     }
     public void Resolution()
     {
