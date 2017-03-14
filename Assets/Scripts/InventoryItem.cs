@@ -86,6 +86,10 @@ public class InventoryItem : MonoBehaviour
             textPages = ManaPotion();
         else if (methodName == "Antidote")
             textPages = Antidote();
+        else if (methodName == "ConfusionHeal")
+            textPages = ConfusionHeal();
+        else if (methodName == "ClairvoyancePotion")
+            textPages = ClairvoyancePotion();
 
         // Returns the text to the call
         return textPages;
@@ -143,6 +147,34 @@ public class InventoryItem : MonoBehaviour
             textPages.Insert(0, "NotAntidote");
         else
             textPages.Add("You used the antidote and your poison effect was cured!");
+
+        return textPages;
+    }
+
+    public List<string> ConfusionHeal()
+    {
+        List<string> textPages = new List<string>();
+
+        textPages.Add("ConfusionHealing");
+
+        if (!PlayerSingleton.instance.confused)
+            textPages.Insert(0, "NotConfusion");
+        else
+            textPages.Add("You used the confusion healing and your confusion effect was cured!");
+
+        return textPages;
+    }
+
+    public List<string> ClairvoyancePotion()
+    {
+        List<string> textPages = new List<string>();
+
+        textPages.Add("ClairvoyancePotion");
+
+        if (!UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.Contains("Battle")) 
+            textPages.Insert(0, "NotClairvoyance");
+        else
+            textPages.Add("You used the clairvoyance potion! The number of notes will be halved in your next attack!");
 
         return textPages;
     }

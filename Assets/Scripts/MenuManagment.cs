@@ -10,12 +10,13 @@ public class MenuManagment : MonoBehaviour
     [SerializeField] GameObject attackGroup;
     [SerializeField] GameObject itemsGroup;
     [SerializeField] GameObject uiBox;
-    public GameObject returnButton;
-    [SerializeField] GameObject restartButton;
+    [SerializeField] GameObject deathGroup;
     [SerializeField] GameObject descriptionBox;
 
     public GameObject mainButton;
     public GameObject crossButton;
+    public GameObject returnButton;
+    public GameObject restartFromSaveButton;
 
     public AttackButton[] attackButtons;
 
@@ -84,7 +85,9 @@ public class MenuManagment : MonoBehaviour
     {
         attackGroup.SetActive(false);
         uiBox.SetActive(true);
-        restartButton.SetActive(true);
+        deathGroup.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(restartFromSaveButton);
     }
 
 

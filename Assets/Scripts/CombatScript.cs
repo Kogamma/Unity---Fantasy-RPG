@@ -262,6 +262,7 @@ public class CombatScript : MonoBehaviour
                 break;
         }
     }
+    
 
     public void RemovePoison()
     {
@@ -269,6 +270,21 @@ public class CombatScript : MonoBehaviour
         PlayerSingleton.instance.poisoned = false;
         playerPoisonedTurns = 0;
     }
+    
+
+    public void RemoveConfusion()
+    {
+        player.transform.GetChild(5).GetComponent<ParticleSystem>().loop = false;
+        PlayerSingleton.instance.confused = false;
+        playerConfusedTurns = 0;
+    }
+
+
+    public void ActivateClairvoyance()
+    {
+        player.GetComponent<PlayerCombatLogic>().notesNrMult = 0.5f;
+    }
+
 
     //This function will check which attack the player will use,
     public void PlayerAttack(string attack)
@@ -304,6 +320,7 @@ public class CombatScript : MonoBehaviour
     void EndOfCombat ()
     {
         RemovePoison();
+        RemoveConfusion();
         player.transform.GetChild(5).GetComponent<ParticleSystem>().loop = false;
         PlayerSingleton.instance.confused = false;
 
@@ -327,6 +344,7 @@ public class CombatScript : MonoBehaviour
 
         menuManager.GetComponent<MenuManagment>().ReturnToWorldSelect();
     }
+
 
     IEnumerator FillBlackScreen()
     {

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCombatLogic : MonoBehaviour {
-
+public class PlayerCombatLogic : MonoBehaviour
+{
     //GameObject enemyHolder;
     public GameObject combatHandler;                            //Using this to set the diffrent camera states
     public float hitAccuracy;                                   //Using to see the accuarcy for the player
@@ -11,6 +11,7 @@ public class PlayerCombatLogic : MonoBehaviour {
     public string whichAttack;
     Animator anim;                                              //Using the get the animator player
     int notes;                                                  //Using to set how many notes
+    public float notesNrMult = 1;
     float noteSpeed;                                            //Using to set the notespeed for the attacks
     public float noteSpeedMultiplicator = 1;
     float interval;                                             //Using to set the interval for the notes on the diffrent attacks
@@ -36,12 +37,15 @@ public class PlayerCombatLogic : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        AttackIsDone();        
+        AttackIsDone();
+
+        if (PlayerSingleton.instance.playerHealth <= 0)
+            PlayerSingleton.instance.playerHealth = 0;
     }
     //The normal attack for the player
     public void MeeleAttack()
     {
-        notes = 4;          //The combo will have 4 notes
+        notes = (int)(4 * notesNrMult);          //The combo will have 4 notes
         noteSpeed = 0.3f * noteSpeedMultiplicator;    //The speed for the notes will be 0.3
         interval = 0.5f;    //They will come 0.5 sec after each other
 
@@ -53,7 +57,7 @@ public class PlayerCombatLogic : MonoBehaviour {
     //The ice attack for the player
     public void IceAttack()
     {
-        notes = 6;          //The combo will have 6 notes
+        notes = (int)(6 * notesNrMult);          //The combo will have 6 notes
         noteSpeed = 0.6f * noteSpeedMultiplicator;    //The speed for the notes will be 0.6
         interval = 0.5f;    //They will come 0.5sec after each other 
 
@@ -66,7 +70,7 @@ public class PlayerCombatLogic : MonoBehaviour {
 
     public void ConfusionAttack()
     {
-        notes = 6;          //The combo will have 6 notes
+        notes = (int)(6 * notesNrMult);          //The combo will have 6 notes
         noteSpeed = 0.4f * noteSpeedMultiplicator;    //The speed for the notes will be 0.4
         interval = 0.3f;    //They will come 0.3sec after each other
 
@@ -80,7 +84,7 @@ public class PlayerCombatLogic : MonoBehaviour {
     //The fire attack for the player
     public void FireAttack()
     {
-        notes = 8;      //The combo will have 8 notes
+        notes = (int)(8 * notesNrMult);      //The combo will have 8 notes
         noteSpeed = 0.45f * noteSpeedMultiplicator;     //The speed for the notes will be 0.45
         interval = 0.3f;
 
@@ -94,7 +98,7 @@ public class PlayerCombatLogic : MonoBehaviour {
    
     public void Flee()
     {
-        notes = 6; //The combo will have 6 notes
+        notes = (int)(6 * notesNrMult); //The combo will have 6 notes
         noteSpeed = 0.4f * noteSpeedMultiplicator; //The speed for the the notes will be 0.4f
         interval = 0.5f; //They will come 0.5sec after each other
 
@@ -200,6 +204,7 @@ public class PlayerCombatLogic : MonoBehaviour {
             }
 
             comboIsDone = false;                            //Setting combo is done to false;
+            notesNrMult = 1;
         }
     }
 
@@ -217,6 +222,7 @@ public class PlayerCombatLogic : MonoBehaviour {
             AudioHelper.PlaySound(combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().damage, 1f);
         }
     }
+
     void ChangeViewToMain()
     {
         combatHandler.GetComponent<CombatScript>().ChangeViewPort(CombatScript.cameraState.MAIN);
@@ -234,6 +240,7 @@ public class PlayerCombatLogic : MonoBehaviour {
         yield return new WaitForSeconds(1);
         combatHandler.GetComponent<CombatScript>().UpdateTurn("Enemy");
     }
+
     IEnumerator WaitForParticle()
     {
         yield return new WaitForSeconds(1f);

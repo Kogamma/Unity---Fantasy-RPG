@@ -89,6 +89,7 @@ public class PlayerSingleton : MonoBehaviour
 
     public bool poisoned = false;
     public bool confused = false;
+    public bool clairvoyance = false;
 
     // Saves the position and rotation of the player when they go into battle to know where to spawn when we come out of battle
     public Vector3 overWorldPos;
