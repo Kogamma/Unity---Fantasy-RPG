@@ -11,6 +11,7 @@ public class ButtonManager : MonoBehaviour
     public GameObject resolution;
     public GameObject audio;
     public GameObject howToPlay;
+    public GameObject credits;
 
     public void NewPlayBtn(string newPlayLevel)
     {
@@ -39,6 +40,7 @@ public class ButtonManager : MonoBehaviour
     {
         resolution.SetActive(false);
         option.SetActive(false);
+        credits.SetActive(false);
         main.SetActive(true);
 
         EventSystem.current.SetSelectedGameObject(main.transform.GetChild(2).gameObject);
@@ -81,6 +83,11 @@ public class ButtonManager : MonoBehaviour
         howToPlay.SetActive(true);
 
         EventSystem.current.SetSelectedGameObject(howToPlay.transform.GetChild(howToPlay.transform.childCount - 1).gameObject);
+    }
+    public void Credits()
+    {
+        main.SetActive(false);
+        credits.SetActive(true);
     }
 
     public void ExitBtn()
