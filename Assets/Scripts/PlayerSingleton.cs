@@ -90,6 +90,7 @@ public class PlayerSingleton : MonoBehaviour
     public bool poisoned = false;
     public bool confused = false;
     public bool clairvoyance = false;
+    public bool onFire = false;
 
     // Saves the position and rotation of the player when they go into battle to know where to spawn when we come out of battle
     public Vector3 overWorldPos;
@@ -188,6 +189,28 @@ public class PlayerSingleton : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.LoadScene(currentScene);
         }
     }
+
+
+    public void SaveOptions()
+    {
+        PlayerPrefs.SetInt("HasOptionsSave", 1);
+
+        PlayerPrefs.SetFloat("MusicVolume", musicVol);
+        PlayerPrefs.SetFloat("sfxVolume", sfxVol);
+
+    }
+
+
+    public void LoadOptions()
+    {
+        if (PlayerPrefs.HasKey("HasOptionsSave"))
+        {
+            musicVol = PlayerPrefs.GetFloat("MusicVolume");
+            MusicHelper.UpdateVolume();
+            sfxVol = PlayerPrefs.GetFloat("sfxVolume");
+        }
+    }
+
 
     [System.Serializable]
     class PlayerData
