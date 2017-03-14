@@ -26,6 +26,8 @@ public class ItemLibrary : MonoBehaviour
             newItem = NewManaPotion();
         else if (item == "Antidote")
             newItem = NewAntidote();
+        else if (item == "Ointment")
+            newItem = NewOintment();
         else if (item == "ConfusionHeal")
             newItem = NewConfusionHeal();
         else if (item == "ClairvoyancePotion")
@@ -149,7 +151,41 @@ public class ItemLibrary : MonoBehaviour
         // Returns the item we just created
         return item;
     }
-    
+
+    // Ointment/Burn Heal
+    public InventoryItem NewOintment()
+    {
+        // Name of the item we're creating
+        string itemName = "Ointment";
+
+        // If this item is stackable or if we can only have one in each slot
+        bool stackable = true;
+
+        // If you can equip this item
+        bool equippable = false;
+
+        // Which slot this item will equip in
+        int equipSlot = -1;
+
+        // The image that will represent the item in menu's and such
+        Sprite itemImage = sprites.ointmentSprite;
+
+        // How much the item is worth in a shop
+        int value = 15;
+
+        // Info text about the item
+        string infoText = "When you use this ointment it will remove a burn effect";
+
+        // The method to invoke when you use the item
+        string method = "Ointment";
+
+        // Creates a new inventoryitem
+        InventoryItem item = new InventoryItem(itemName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
+
+        // Returns the item we just created
+        return item;
+    }
+
     // Confusion Heal
     public InventoryItem NewConfusionHeal()
     {
@@ -234,7 +270,7 @@ public class ItemLibrary : MonoBehaviour
         int equipSlot = -1;
 
         // The image that will represent the item in menu's and such
-        Sprite itemImage = sprites.clairvoyancePotionSprite;
+        Sprite itemImage = sprites.goldenHitSprite;
 
         // How much the item is worth in a shop
         int value = 15;
@@ -360,6 +396,8 @@ public class ItemSprites
     public Sprite manaPotionSprite;
 
     public Sprite antidoteSprite;
+
+    public Sprite ointmentSprite;
 
     public Sprite confusionHealSprite;
 

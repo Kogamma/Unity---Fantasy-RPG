@@ -13,21 +13,17 @@ public class ButtonManager : MonoBehaviour
     public GameObject howToPlay;
     public GameObject credits;
 
-<<<<<<< HEAD
     private AutoCredits autoCred;
 
     void Start()
     {
         autoCred = GetComponent<AutoCredits>();
     }
-=======
 
     void Awake ()
     {
         PlayerSingleton.instance.LoadOptions();
-    } 
->>>>>>> d27d807dd54c099a1b24191849da035a98cd1288
-
+    }
 
     public void NewPlayBtn(string newPlayLevel)
     {
@@ -43,6 +39,7 @@ public class ButtonManager : MonoBehaviour
         PlayerSingleton.instance.Save();
         SceneManager.LoadScene(newPlayLevel);   // starts the game
     }
+
     //Go to Options menu
     public void OptionBtn()
     {
@@ -51,6 +48,7 @@ public class ButtonManager : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(option.transform.GetChild(option.transform.childCount - 1).gameObject);
     }
+
     //Return to Main menu
     public void ReturnToMain ()
     {
@@ -63,6 +61,7 @@ public class ButtonManager : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(main.transform.GetChild(2).gameObject);
     }
+
     public void ReturnToOption()
     {
         GameObject buttonToHighlight = null;
@@ -88,6 +87,7 @@ public class ButtonManager : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(buttonToHighlight);
     }
+
     public void Resolution()
     {
         option.SetActive(false);
@@ -95,6 +95,7 @@ public class ButtonManager : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(resolution.transform.GetChild(resolution.transform.childCount - 1).gameObject);
     }
+
     public void Audio()
     {
         option.SetActive(false);
@@ -102,6 +103,7 @@ public class ButtonManager : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(audio.transform.GetChild(audio.transform.childCount - 1).gameObject);
     }
+
     public void HowToPlay()
     {
         option.SetActive(false);
@@ -109,11 +111,14 @@ public class ButtonManager : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(howToPlay.transform.GetChild(howToPlay.transform.childCount - 1).gameObject);
     }
+
     public void Credits()
     {
         main.SetActive(false);
         credits.SetActive(true);
         autoCred.credBool = true;
+
+        EventSystem.current.SetSelectedGameObject(credits.transform.GetChild(credits.transform.childCount - 1).gameObject);
     }
 
     public void ExitBtn()

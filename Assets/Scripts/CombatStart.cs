@@ -14,7 +14,6 @@ public class CombatStart : MonoBehaviour
         {
             transform.position = PlayerSingleton.instance.overWorldPos;
             transform.rotation = PlayerSingleton.instance.overWorldRot;
-            OverworldEnemySingleton.instance.backFromCombat = false;
         }
     }
 

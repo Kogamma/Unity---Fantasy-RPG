@@ -31,6 +31,8 @@ public class CombatScript : MonoBehaviour
 
     private int playerPoisonedTurns = 0;
     private int maxPoisonedTurns = 3;
+
+    private int playerFireTurns = 0;
     private int enemyFireTurns = 0;
     private int maxFireTurns = 3;
 
@@ -277,6 +279,14 @@ public class CombatScript : MonoBehaviour
         player.transform.GetChild(5).GetComponent<ParticleSystem>().loop = false;
         PlayerSingleton.instance.confused = false;
         playerConfusedTurns = 0;
+    }
+
+
+    public void RemoveBurn()
+    {
+        player.transform.GetChild(6).GetComponent<ParticleSystem>().loop = false;
+        PlayerSingleton.instance.onFire = false;
+        playerFireTurns = 0;
     }
 
 

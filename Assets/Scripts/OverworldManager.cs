@@ -58,6 +58,7 @@ public class OverworldManager : MonoBehaviour
         // This makes sure that the list isn't reset and that the amount of enemies can vary from scene to scene
         if (!OverworldEnemySingleton.instance.backFromCombat)
         {
+            Debug.Log("Not back from combat");
             OverworldEnemySingleton.instance.shouldDestroy = new List<bool>(new bool[OverworldEnemySingleton.instance.enemies.Count]);
             OverworldEnemySingleton.instance.backFromCombat = false;
         }
@@ -103,7 +104,9 @@ public class OverworldManager : MonoBehaviour
                 }
             }
         }
-        
+
+        OverworldEnemySingleton.instance.backFromCombat = false;
+
         // Starts removing the black screen
         StartCoroutine(RemoveBlackScreen());
     }
