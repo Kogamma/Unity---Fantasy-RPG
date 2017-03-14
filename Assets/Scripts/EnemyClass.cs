@@ -112,6 +112,25 @@ public class EnemyClass : MonoBehaviour
 
     }
 
+    public void FireAttack()
+    {
+        int enemyRngDmg = Random.Range(enemyDmgMin, enemyDmgMax + 1);
+        // Calculates what damage to deal
+        enemyDmgDealt = Mathf.RoundToInt(enemyRngDmg * 0.75f);
+
+        if (isConfused)
+            enemyDmgDealt = Mathf.RoundToInt(enemyDmgDealt * 0.67f);
+
+        // Decreases player health with damage dealt
+        PlayerSingleton.instance.playerHealth -= enemyDmgDealt;
+
+        // Plays second attack animation
+        anim.SetTrigger("Attack2");
+
+        AudioHelper.PlaySound(attack2);
+
+
+    }
 
     //This function will play when the attack animation is done
     void AttackIsDone()
