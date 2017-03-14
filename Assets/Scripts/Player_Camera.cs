@@ -2,66 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class Player_Camera : MonoBehaviour
 {
-    /*public Transform player;   // Public variable to store a reference to the player game object
-
-    public Vector3 offset;  // Public variable to store the offset distance between the player and camera
-
-    private Vector3 currentOffset;
-
-    public float smooth = 1;
-
-    private RaycastHit hitInfo;
-
-    private float maxDist;
-
-    void Start()
-    {
-        maxDist = Vector3.Distance(Vector3.zero, offset);
-    }
-
-    void LateUpdate()
-    {
-        currentOffset = offset;
-        //transform.position = player.position + offset;
-
-        Vector3 heading =  (player.position + offset) - player.position;
-        float dist = heading.magnitude;
-
-        Vector3 dir = heading / dist;
-        /*if(Physics.Raycast(player.position, dir, maxDist))
-        {
-            transform.position = new Vector3(transform.position.x,
-                Mathf.Lerp(transform.position.y, player.transform.position.y, smooth),
-                Mathf.Lerp(transform.position.y, player.transform.position.z, smooth));
-        }
-
-        transform.position = new Vector3(transform.position.x,
-            Mathf.Clamp(transform.position.y, minDistance.y, player.position.y + offset.y),
-            Mathf.Clamp(transform.position.z, minDistance.z, player.position.z + offset.z));
-
-        transform.LookAt(player.position);
-
-        if (Physics.Raycast(player.position, dir, out hitInfo, maxDist))
-        {
-            currentOffset.z = hitInfo.point.z - player.position.z;
-        }
-        else
-            currentOffset.z = offset.z;
-
-        //currentOffset.z = Mathf.Clamp(currentOffset.z, offset.z, offset.z/2);
-        Debug.Log(currentOffset.z);
-        Vector3 newPos = player.position + (Vector3.forward * currentOffset.z);
-        newPos = newPos + (Vector3.up * currentOffset.y);
-        transform.position = new Vector3(player.position.x, 
-            Mathf.Lerp(transform.position.y , newPos.y, Time.deltaTime * smooth),
-            Mathf.Lerp(transform.position.z, newPos.z, Time.deltaTime * smooth));
-
-        transform.LookAt(player.position);
-    }
-}*/
-
     [Header("Camera Properties")]
     public float DistanceAway;                     //how far the camera is from the player.
     public float DistanceUp;                    //how high the camera is above the player
@@ -79,12 +22,7 @@ public class Player_Camera : MonoBehaviour
     Vector3 camPosition;
     Vector3 camMask;
     Vector3 followMask;
-    // Use this for initialization
-    void Start()
-    {
-        //the statement below automatically positions the camera behind the target.
-        rotateAround = target.eulerAngles.y - 45f;
-    }
+
     void Update()
     {
 

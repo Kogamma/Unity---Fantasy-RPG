@@ -13,20 +13,18 @@ public class ButtonManager : MonoBehaviour
     public GameObject howToPlay;
     public GameObject credits;
 
-<<<<<<< HEAD
     private AutoCredits autoCred;
 
     void Start()
     {
         autoCred = GetComponent<AutoCredits>();
     }
-=======
 
     void Awake ()
     {
         PlayerSingleton.instance.LoadOptions();
     } 
->>>>>>> d27d807dd54c099a1b24191849da035a98cd1288
+
 
 
     public void NewPlayBtn(string newPlayLevel)
