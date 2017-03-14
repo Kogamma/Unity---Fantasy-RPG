@@ -70,7 +70,7 @@ public class ItemLibrary : MonoBehaviour
         int value = 10;
 
         // Info text about the item
-        string infoText = "This potion will heal you when it's used. It restores 5 HP";
+        string infoText = "This potion will heal you when it's used. It restores 10 HP";
 
         // The method to invoke when you use the item
         string method = "HealingPotion";
