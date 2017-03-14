@@ -12,23 +12,23 @@ public class ComboSystem : MonoBehaviour
     private int excellentDist = 0;          // The minimum distance between notes and targets that gives a 'excellent'
     private int notesInPlay = 0;            // The amounts of notes active in the combo
     private int notesFinished = 0;          // Number of notes that is either hit or missed
-    private int critChance = 10;            // The probability of a crit note appears
-    private int rndPath = -1;               // The randomized path that a nothe will follow
+    private int critChance = 10;            // The probability of a crit note appearing
+    private int rndPath = -1;               // The randomized path that a note will follow
     private int rndHolder = 0;              // Will hold the randomized number before it is set to the 'rndPath'
     private int rndResetCount = 0;          // Number of times that the randomization will be reset
     private float noteSpeed = 0.3f;         // Speed of the notes
     private float baseInterval = 0.5f;      // The base value of the amount of time that the notes will spawn between eachother
     private float interval = 0.5f;          // The actual amount of time that the notes will spawn between eachother
-    private float goodHit = 0;              // Number of notes hit by the player with an 'good' score
+    private float goodHit = 0;              // Number of notes hit by the player with a 'good' score
     private float greatHit = 0;             // Number of notes hit by the player with a 'great' score
-    private float excellentHit = 0;         // Number of notes hit by the player with a 'excellent' score
+    private float excellentHit = 0;         // Number of notes hit by the player with an 'excellent' score
     private float critHit = 0;              // Number of crit-notes hit by the player
     private float hitAccuracy = 0f;         // The percentage of how many notes the player hit and how well they were hit
     private float timer = 0;                // A timer that counts the time for spawning the notes
     private float removeDelay = 2.1f;       // The delay time before removing the combo system and adding accuracy to the player
     private float removeTimer = 0f;         // A timer that counts time for when to remove the combo system
     private float leftBorderPos;            // The left side of the note background
-    private bool shouldSpawn = true;        // Should more notes be spawned
+    private bool shouldSpawn = true;        // Should more notes be spawned?
 
     private GameObject noteInstance;                // The note gameobject that will be instantiated
     [SerializeField] private GameObject note;       // A normal note that the player must hit
@@ -228,7 +228,11 @@ public class ComboSystem : MonoBehaviour
         nrOfNotes = _nrOfNotes;
         noteSpeed = _noteSpeed;
         baseInterval = _interval;
-        critChance = PlayerSingleton.instance.playerLuck;
+
+        if (player.GetComponent<PlayerCombatLogic>().goldenHitActivated)
+            critChance = 100;
+        else
+            critChance = PlayerSingleton.instance.playerLuck;
     }
 
 

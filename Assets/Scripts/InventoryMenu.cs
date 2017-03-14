@@ -408,7 +408,7 @@ public class InventoryMenu : MonoBehaviour
                 textPages.Clear();
                 textPages.Add("You are not confused, you don't need any confusion healing!");
             }
-            else if (textPages[0].Contains("Clairvoyance"))
+            else if (textPages[0].Contains("Clairvoyance") || textPages[0].Contains("GoldenHit"))
             {
                 textPages.Clear();
                 textPages.Add("You can only use this in combat!");

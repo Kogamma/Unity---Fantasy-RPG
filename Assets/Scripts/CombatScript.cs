@@ -286,6 +286,12 @@ public class CombatScript : MonoBehaviour
     }
 
 
+    public void ActivateGoldenHit()
+    {
+        player.GetComponent<PlayerCombatLogic>().goldenHitActivated = true;
+    }
+
+
     //This function will check which attack the player will use,
     public void PlayerAttack(string attack)
     {

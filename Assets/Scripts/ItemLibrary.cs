@@ -30,6 +30,8 @@ public class ItemLibrary : MonoBehaviour
             newItem = NewConfusionHeal();
         else if (item == "ClairvoyancePotion")
             newItem = NewClaivoyancePotion();
+        else if (item == "GoldenHitPotion")
+            newItem = NewGoldenHitPotion();
         else if (item == "BasicSword")
             newItem = NewBasicSword();
         else if (item == "IronHelmet")
@@ -204,10 +206,44 @@ public class ItemLibrary : MonoBehaviour
         int value = 15;
 
         // Info text about the item
-        string infoText = "When you use this potion the number of notes of your next attack will be halved";
+        string infoText = "When you use this potion, the number of notes of your next attack will be halved";
 
         // The method to invoke when you use the item
         string method = "ClairvoyancePotion";
+
+        // Creates a new inventoryitem
+        InventoryItem item = new InventoryItem(itemName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
+
+        // Returns the item we just created
+        return item;
+    }
+
+    // Golden hit
+    public InventoryItem NewGoldenHitPotion()
+    {
+        // Name of the item we're creating
+        string itemName = "Golden Hit Potion";
+
+        // If this item is stackable or if we can only have one in each slot
+        bool stackable = true;
+
+        // If you can equip this item
+        bool equippable = false;
+
+        // Which slot this item will equip in
+        int equipSlot = -1;
+
+        // The image that will represent the item in menu's and such
+        Sprite itemImage = sprites.clairvoyancePotionSprite;
+
+        // How much the item is worth in a shop
+        int value = 15;
+
+        // Info text about the item
+        string infoText = "When you use this potion, the combo of your next attack will only have golden notes";
+
+        // The method to invoke when you use the item
+        string method = "GoldenHitPotion";
 
         // Creates a new inventoryitem
         InventoryItem item = new InventoryItem(itemName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
@@ -328,6 +364,8 @@ public class ItemSprites
     public Sprite confusionHealSprite;
 
     public Sprite clairvoyancePotionSprite;
+
+    public Sprite goldenHitSprite;
 
     public Sprite ironHelmetSprite;
 
