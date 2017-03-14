@@ -13,6 +13,14 @@ public class ButtonManager : MonoBehaviour
     public GameObject howToPlay;
     public GameObject credits;
 
+    private AutoCredits autoCred;
+
+    void Start()
+    {
+        autoCred = GetComponent<AutoCredits>();
+    }
+
+
     public void NewPlayBtn(string newPlayLevel)
     {
         PlayerSingleton.instance.playerInventory.Add("HealingPotion");
@@ -42,6 +50,8 @@ public class ButtonManager : MonoBehaviour
         option.SetActive(false);
         credits.SetActive(false);
         main.SetActive(true);
+
+        autoCred.credBool = false;
 
         EventSystem.current.SetSelectedGameObject(main.transform.GetChild(2).gameObject);
     }
@@ -88,6 +98,7 @@ public class ButtonManager : MonoBehaviour
     {
         main.SetActive(false);
         credits.SetActive(true);
+        autoCred.credBool = true;
     }
 
     public void ExitBtn()
