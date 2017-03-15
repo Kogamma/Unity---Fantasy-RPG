@@ -49,11 +49,9 @@ public class CombatStart : MonoBehaviour
         MusicHelper.Stop();
 
         // When the blackscreen is done the battle scene loads
-        if (PlayerSingleton.instance.currentScene == 5)
-        {
+        if (PlayerSingleton.instance.currentScene == "Forest_Scene_1")
             SceneManager.LoadScene("Battle_scene");
-        }
-        else if (PlayerSingleton.instance.currentScene == 6)
+        else if (PlayerSingleton.instance.currentScene == "dark_forest_1")
             SceneManager.LoadScene("Battle_Scene_dark");
     }
 }
