@@ -13,6 +13,7 @@ public class EnemyClass : MonoBehaviour
     public int enemyArmorClass;
     public int enemyDmgMax;
     public int enemyDmgMin;
+    public int enemyHeal;
     protected int enemyDmgDealt;
     public string displayName = "enemy";
     public bool isStunned;
@@ -30,6 +31,9 @@ public class EnemyClass : MonoBehaviour
     public AudioClip attack2;
     public AudioClip damage;
     public AudioClip death;
+
+    public GameObject healingParticle;
+    public GameObject fireParticle;
 
     void Start ()
     {
@@ -127,9 +131,20 @@ public class EnemyClass : MonoBehaviour
         // Plays second attack animation
         anim.SetTrigger("Attack2");
 
+        Instantiate(fireParticle, transform.position, Quaternion.identity);
+
+        PlayerSingleton.instance.onFire = true;
+
         AudioHelper.PlaySound(attack2);
+    }
 
+    public void Healing()
+    {
+        enemyHp += enemyHeal;
 
+        anim.SetTrigger("Attack2");
+
+        Instantiate(healingParticle, transform.position, Quaternion.identity);
     }
 
     //This function will play when the attack animation is done

@@ -9,16 +9,24 @@ public class ForestBossScript : EnemyClass
     bool canFireAttack = false;
     bool haveHealed = false; 
 
-
-	// Use this for initialization
-	void Start ()
-    {
-
-	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-		
+        if (enemyHp <= maxHP * 0.75f)
+            canFireAttack = true;
 	}
+
+    public override void AttackPattern()
+    {
+        if (enemyHp < 15 && !haveHealed)
+        {
+            base.Healing();
+            haveHealed = true;
+        }
+        if (canFireAttack && Random.Range(0, 100) < fireAttack)
+            base.FireAttack();
+        else
+            base.NormalAttack();
+    }
 }
