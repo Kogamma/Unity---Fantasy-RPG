@@ -151,6 +151,32 @@ public class CombatScript : MonoBehaviour
                         textBox.PrintMessage(text, menuManager, "MainSelect");
                     }
 
+                    else if(PlayerSingleton.instance.onFire)
+                    {
+                        player.transform.GetChild(6).GetComponent<ParticleSystem>().Play();
+                        player.transform.GetChild(6).GetComponent<ParticleSystem>().loop = true;
+
+                        //Setting how much fire damage the player will take this turn.
+                        int rndDmg = Random.Range(2, 5);
+                        PlayerSingleton.instance.playerHealth -= rndDmg;
+                        playerFireTurns++;
+
+                        text.Add("You are on fire, you took, " + rndDmg + " damage!");
+
+                        //Check if the player have been on fire for 3 turns
+                        if(playerFireTurns == maxFireTurns)
+                        {
+                            player.transform.GetChild(6).GetComponent<ParticleSystem>().loop = false;
+                            text[0] += ("\n\nYou are no longer on fire!");
+
+                            PlayerSingleton.instance.onFire = false;
+
+                            playerFireTurns = 0;
+                        }
+
+
+                    }
+
                     //Check if the player is confused
                     else if (PlayerSingleton.instance.confused)
                     {
