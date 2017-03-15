@@ -24,7 +24,7 @@ public class AutoCredits : MonoBehaviour
         {
             moveObject.transform.Translate(Vector3.up * speed * Time.deltaTime);
 
-            if(moveObject.transform.position.y >= 1800)
+            if(moveObject.transform.position.y >= 2300)
             {
                 moveObject.transform.position = reset;
             }
