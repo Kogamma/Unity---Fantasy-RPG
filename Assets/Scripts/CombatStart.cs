@@ -7,15 +7,7 @@ using UnityEngine.UI;
 public class CombatStart : MonoBehaviour
 {
     public Image blackScreen;
-
-    void Start()
-    {
-        if(PlayerSingleton.instance.overWorldPos != Vector3.zero && OverworldEnemySingleton.instance.backFromCombat)
-        {
-            transform.position = PlayerSingleton.instance.overWorldPos;
-            transform.rotation = PlayerSingleton.instance.overWorldRot;
-        }
-    }
+    
 
     //When an object has the tag "Player" and touch an enemy
     //with the "enemyOverworld" tag, "fill" is true

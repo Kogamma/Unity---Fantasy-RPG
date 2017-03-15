@@ -31,6 +31,11 @@ public class OverworldManager : MonoBehaviour
             player.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
             PlayerSingleton.instance.loaded = false;
         }
+        else if (PlayerSingleton.instance.overWorldPos != Vector3.zero && OverworldEnemySingleton.instance.backFromCombat)
+        {
+            player.transform.position = PlayerSingleton.instance.overWorldPos;
+            player.transform.rotation = PlayerSingleton.instance.overWorldRot;
+        }
         else if (!OverworldEnemySingleton.instance.backFromCombat && PlayerSingleton.instance.entryPos != Vector3.zero)
         {
             player.transform.position = PlayerSingleton.instance.entryPos;
@@ -58,7 +63,6 @@ public class OverworldManager : MonoBehaviour
         // This makes sure that the list isn't reset and that the amount of enemies can vary from scene to scene
         if (!OverworldEnemySingleton.instance.backFromCombat)
         {
-            Debug.Log("Not back from combat");
             OverworldEnemySingleton.instance.shouldDestroy = new List<bool>(new bool[OverworldEnemySingleton.instance.enemies.Count]);
             OverworldEnemySingleton.instance.backFromCombat = false;
         }
