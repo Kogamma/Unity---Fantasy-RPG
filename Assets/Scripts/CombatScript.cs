@@ -161,7 +161,7 @@ public class CombatScript : MonoBehaviour
                         PlayerSingleton.instance.playerHealth -= rndDmg;
                         playerFireTurns++;
 
-                        text.Add("You are on fire, you took, " + rndDmg + " damage!");
+                        text.Add("You are on fire, you took " + rndDmg + " damage!");
 
                         //Check if the player have been on fire for 3 turns
                         if(playerFireTurns == maxFireTurns)

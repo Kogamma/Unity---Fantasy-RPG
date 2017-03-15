@@ -24,7 +24,7 @@ public class ForestBossScript : EnemyClass
             base.Healing();
             haveHealed = true;
         }
-        if (canFireAttack && Random.Range(0, 100 / fireAttack) == 0)
+        if (canFireAttack && Random.Range(0, 100) < fireAttack)
             base.FireAttack();
         else
             base.NormalAttack();
