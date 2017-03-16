@@ -47,11 +47,13 @@ public class MapScript : MonoBehaviour
         fogs[4] = darkForestFog;
 
         // Assigns all names in the array
-        sceneNames[0] = "Town_Scene_1";
+        sceneNames[0] = "Town_Scene";
         sceneNames[1] = "Starting_Gate";
         sceneNames[2] = "HubWorld_Scene";
         sceneNames[3] = "Forest_Scene_1";
         sceneNames[4] = "dark_forest_1";
+        
+        System.Array.Resize(ref PlayerSingleton.instance.areaExplored, 5);
     }
 
 
@@ -63,18 +65,21 @@ public class MapScript : MonoBehaviour
         // Goes through every points
         for (int i = 0; i < points.Length; i++)
         {
-            // Deactivates all points
-            points[i].SetActive(false);
+            // Stops all animations
+            points[i].GetComponent<Animator>().speed = 0;
+
+            print("Current Scene: " + currentScene);
+            print("SceneNames[i]: " + sceneNames[i]);
 
             // Checks if the active scene has the same name as the one in the array
             if (currentScene == sceneNames[i])
             {
-                // Activates the point with the same index as the name in the other array
-                points[i].SetActive(true);
+                // Starts the blinking animation of the point point with the same index as the name in the other array
+                points[i].GetComponent<Animator>().speed = 1;
                 // This area is now exlored
                 PlayerSingleton.instance.areaExplored[i] = true;
             }
-
+            
             // Removes the fogs for the explored areas
             if (PlayerSingleton.instance.areaExplored[i])
                 fogs[i].SetActive(false);

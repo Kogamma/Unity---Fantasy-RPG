@@ -43,7 +43,7 @@ public class OverworldManager : MonoBehaviour
         }
 
         PlayerSingleton.instance.currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-
+        
         // Resets the black screen so we can remove it with fillamount
         blackScreen.fillAmount = 1;
     }
