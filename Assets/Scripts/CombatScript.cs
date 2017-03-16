@@ -174,7 +174,7 @@ public class CombatScript : MonoBehaviour
                             playerFireTurns = 0;
                         }
 
-
+                        textBox.PrintMessage(text, menuManager, "MainSelect");
                     }
 
                     //Check if the player is confused

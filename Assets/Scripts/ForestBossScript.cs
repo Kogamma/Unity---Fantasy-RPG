@@ -5,7 +5,7 @@ using UnityEngine;
 public class ForestBossScript : EnemyClass
 {
     [SerializeField]
-    int fireAttack = 20;
+    int fireAttack = 100;
     bool canFireAttack = false;
     bool haveHealed = false; 
 
@@ -24,7 +24,7 @@ public class ForestBossScript : EnemyClass
             base.Healing();
             haveHealed = true;
         }
-        if (canFireAttack && Random.Range(0, 100) < fireAttack)
+        else if (canFireAttack && Random.Range(0, 100 / fireAttack) == 0)
             base.FireAttack();
         else
             base.NormalAttack();
