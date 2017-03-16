@@ -31,6 +31,7 @@ public class EnemyClass : MonoBehaviour
     public AudioClip attack2;
     public AudioClip damage;
     public AudioClip death;
+    public AudioClip healingSound;
 
     public GameObject healingParticle;
     public GameObject fireParticle;
@@ -131,7 +132,7 @@ public class EnemyClass : MonoBehaviour
         // Plays second attack animation
         anim.SetTrigger("Attack2");
 
-        Instantiate(fireParticle, transform.position, Quaternion.identity);
+        fireParticle.GetComponent<ParticleSystem>().Play();
 
         PlayerSingleton.instance.onFire = true;
 
@@ -142,9 +143,13 @@ public class EnemyClass : MonoBehaviour
     {
         enemyHp += enemyHeal;
 
-        anim.SetTrigger("Attack2");
-
         Instantiate(healingParticle, transform.position, Quaternion.identity);
+        List<string> text = new List<string>();
+        text.Add("The Dragon Boar healed for " + enemyHeal);
+
+        AudioHelper.PlaySound(healingSound);
+
+        combatTextbox.PrintMessage(text, gameObject, "ChangeViewToMain");
     }
 
     //This function will play when the attack animation is done
@@ -159,6 +164,11 @@ public class EnemyClass : MonoBehaviour
         combatScript.player.GetComponent<Animator>().SetTrigger("Attacked");
         //Check when the textbox is done and change the camerstate to main
         combatTextbox.PrintMessage(text, gameObject, "ChangeViewToMain");
+        if (tag == "DragonBoar")
+        {
+            if (fireParticle.GetComponent<ParticleSystem>().isPlaying)
+                fireParticle.GetComponent<ParticleSystem>().Stop();
+        }
     }
 
     public virtual void AttackPattern()
@@ -170,5 +180,10 @@ public class EnemyClass : MonoBehaviour
     {
         combatScript.ChangeViewPort(CombatScript.cameraState.MAIN);
         combatScript.UpdateTurn("Player");
+        if (tag == "DragonBoar")
+        {
+            if (healingParticle.GetComponent<ParticleSystem>().isPlaying)
+                Destroy(healingParticle);
+        }
     }
 }
