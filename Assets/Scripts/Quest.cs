@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Quest : MonoBehaviour {
 
@@ -11,15 +12,34 @@ public class Quest : MonoBehaviour {
 
     //The texture
     [SerializeField]
-    Texture objective;
+    Image questBox;
+    [SerializeField]
+    Image questBorder;
+    [SerializeField]
+    Text questText;
+
+    [TextArea]
+    public string questInfo;
 
     //Check if we have already been in the trigger
-    [SerializeField]
     private int collision;
 
     void Start ()
     {
         showObjective = false;
+	}
+
+    void Update()
+    {
+		if (Input.GetKey(KeyCode.Q) && collision == 1)
+        {
+            showObjective = true;
+        }
+
+        if (Input.GetKeyUp(KeyCode.Q) && collision == 1)
+        {
+            showObjective = false;
+        }
 	}
 
     //When you enter the trigger
@@ -28,7 +48,7 @@ public class Quest : MonoBehaviour {
         //This if statement will run
         if (other.gameObject.tag == "Player" && showObjective == false && collision == 0)
         {
-            showObjective = true;
+            StartCoroutine(UpdateQuest());
         }
     }
 
@@ -46,24 +66,38 @@ public class Quest : MonoBehaviour {
     }
 	
     //This is the size of the trigger
-    void OnGUI()
+    IEnumerator UpdateQuest()
     {
-        if (showObjective == true)
+        questBox.color = new Color(questBox.color.r, questBox.color.g, questBox.color.b, 0);
+        questBorder.color = new Color(questBorder.color.r, questBorder.color.g, questBorder.color.b, 0);
+
+        questText.text = questInfo;
+        questBox.gameObject.SetActive(true);
+
+        float alpha = 0;
+
+        while(questBox.color.a < 1)
         {
-            GUI.DrawTexture(new Rect(Screen.width / 1.5f, Screen.height / 1.4f, 178, 178), objective);
-        }
-    }
-	
-	void Update()
-    {
-		if (Input.GetButton("showObj")&& collision == 1)
-        {
-            showObjective = true;
+            alpha += 0.001f * Time.deltaTime;
+
+            questBox.color = new Color(questBox.color.r, questBox.color.g, questBox.color.b, alpha);
+            questBorder.color = new Color(questBorder.color.r, questBorder.color.g, questBorder.color.b, alpha);
         }
 
-        if (Input.GetButtonUp("showObj")&& collision == 1)
+        yield return new WaitForSeconds(1.5f);
+
+        while (questBox.color.a > 0)
         {
-            showObjective = false;
+            alpha -= 0.001f * Time.deltaTime;
+
+            questBox.color = new Color(questBox.color.r, questBox.color.g, questBox.color.b, alpha);
+            questBorder.color = new Color(questBorder.color.r, questBorder.color.g, questBorder.color.b, alpha);
         }
-	}
+
+        questBox.gameObject.SetActive(false);
+        questText.text = null;
+
+    }
+	
+
 }
