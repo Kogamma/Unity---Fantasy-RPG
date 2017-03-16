@@ -24,7 +24,7 @@ public class LootObject : MonoBehaviour
 
     private bool opened;
 
-    public enum Item { Healing_Potion, Mana_Potion, Antidote };
+    public enum Item { Healing_Potion, Mana_Potion, Antidote, Confusion_Heal, Clairvoyance_Potion, Golden_Hit_Potion, Ointment };
 
     public ItemPair[] realItems;
 
@@ -36,15 +36,18 @@ public class LootObject : MonoBehaviour
 
     void Start()
     {
-        itemReferences = new string[3];
+        itemReferences = new string[7];
         itemReferences[0] = "HealingPotion";
         itemReferences[1] = "ManaPotion";
         itemReferences[2] = "Antidote";
+        itemReferences[3] = "ConfusionHeal";
+        itemReferences[4] = "ClairvoyancePotion";
+        itemReferences[5] = "GoldenHitPotion";
+        itemReferences[6] = "Ointment";
         //itemReference[2] = "BasicSword";
         //itemReference[2] = "IronHelmet";
-        
-        audioSource = GetComponent<AudioSource>();
 
+        audioSource = GetComponent<AudioSource>();
         
         if (!opened && itemsToLoot.Count <= 0)
         {
