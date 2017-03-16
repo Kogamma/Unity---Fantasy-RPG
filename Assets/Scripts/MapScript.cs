@@ -54,6 +54,7 @@ public class MapScript : MonoBehaviour
         sceneNames[4] = "dark_forest_1";
     }
 
+
 	void Start ()
     {
         // Gets the current active scene from the singleton
@@ -78,5 +79,8 @@ public class MapScript : MonoBehaviour
             if (PlayerSingleton.instance.areaExplored[i])
                 fogs[i].SetActive(false);
         }
+
+        // Deactivates the map since it had to be active to run this script
+        gameObject.SetActive(false);
 	}
 }
