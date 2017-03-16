@@ -31,13 +31,18 @@ public class OverworldManager : MonoBehaviour
             player.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
             PlayerSingleton.instance.loaded = false;
         }
+        else if (PlayerSingleton.instance.overWorldPos != Vector3.zero && OverworldEnemySingleton.instance.backFromCombat)
+        {
+            player.transform.position = PlayerSingleton.instance.overWorldPos;
+            player.transform.rotation = PlayerSingleton.instance.overWorldRot;
+        }
         else if (!OverworldEnemySingleton.instance.backFromCombat && PlayerSingleton.instance.entryPos != Vector3.zero)
         {
             player.transform.position = PlayerSingleton.instance.entryPos;
             player.transform.rotation = Quaternion.Euler(PlayerSingleton.instance.entryRot);
         }
 
-        PlayerSingleton.instance.currentScene = Application.loadedLevel;
+        PlayerSingleton.instance.currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 
         // Resets the black screen so we can remove it with fillamount
         blackScreen.fillAmount = 1;
@@ -75,7 +80,7 @@ public class OverworldManager : MonoBehaviour
             OverworldEnemySingleton.instance.fled = false;
         }
 
-        if (PlayerSingleton.instance.currentScene == 5)
+        if (PlayerSingleton.instance.currentScene == "Forest_Scene_1")
         {
             System.Array.Resize(ref PlayerSingleton.instance.chestOpen_lightForest, chests.Count);
 
@@ -89,7 +94,7 @@ public class OverworldManager : MonoBehaviour
                 }
             }
         }
-        else if (PlayerSingleton.instance.currentScene == 6)
+        else if (PlayerSingleton.instance.currentScene == "dark_forest_1")
         {
             System.Array.Resize(ref PlayerSingleton.instance.chestOpen_darkForest, chests.Count);
 
@@ -103,7 +108,9 @@ public class OverworldManager : MonoBehaviour
                 }
             }
         }
-        
+
+        OverworldEnemySingleton.instance.backFromCombat = false;
+
         // Starts removing the black screen
         StartCoroutine(RemoveBlackScreen());
     }

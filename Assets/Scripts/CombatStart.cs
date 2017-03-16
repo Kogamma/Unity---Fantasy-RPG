@@ -7,16 +7,7 @@ using UnityEngine.UI;
 public class CombatStart : MonoBehaviour
 {
     public Image blackScreen;
-
-    void Start()
-    {
-        if(PlayerSingleton.instance.overWorldPos != Vector3.zero && OverworldEnemySingleton.instance.backFromCombat)
-        {
-            transform.position = PlayerSingleton.instance.overWorldPos;
-            transform.rotation = PlayerSingleton.instance.overWorldRot;
-            OverworldEnemySingleton.instance.backFromCombat = false;
-        }
-    }
+    
 
     //When an object has the tag "Player" and touch an enemy
     //with the "enemyOverworld" tag, "fill" is true
@@ -58,11 +49,9 @@ public class CombatStart : MonoBehaviour
         MusicHelper.Stop();
 
         // When the blackscreen is done the battle scene loads
-        if (PlayerSingleton.instance.currentScene == 5)
-        {
+        if (PlayerSingleton.instance.currentScene == "Forest_Scene_1")
             SceneManager.LoadScene("Battle_scene");
-        }
-        else if (PlayerSingleton.instance.currentScene == 6)
+        else if (PlayerSingleton.instance.currentScene == "dark_forest_1")
             SceneManager.LoadScene("Battle_Scene_dark");
     }
 }

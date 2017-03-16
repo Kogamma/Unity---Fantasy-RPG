@@ -86,6 +86,8 @@ public class InventoryItem : MonoBehaviour
             textPages = ManaPotion();
         else if (methodName == "Antidote")
             textPages = Antidote();
+        else if (methodName == "Ointment")
+            textPages = Ointment();
         else if (methodName == "ConfusionHeal")
             textPages = ConfusionHeal();
         else if (methodName == "ClairvoyancePotion")
@@ -149,6 +151,20 @@ public class InventoryItem : MonoBehaviour
             textPages.Insert(0, "NotAntidote");
         else
             textPages.Add("You used the antidote and your poison effect was cured!");
+
+        return textPages;
+    }
+
+    public List<string> Ointment()
+    {
+        List<string> textPages = new List<string>();
+
+        textPages.Add("Ointment");
+
+        if (!PlayerSingleton.instance.poisoned)
+            textPages.Insert(0, "NotOintment");
+        else
+            textPages.Add("You used the ointment and your burn effect was cured!");
 
         return textPages;
     }

@@ -344,6 +344,11 @@ public class CombatInventory : MonoBehaviour
                 textPages.Clear();
                 textPages.Add("You are not poisoned, you don't need any antidote!");
             }
+            else if (textPages[0].Contains("Ointment"))
+            {
+                textPages.Clear();
+                textPages.Add("You are not burning, you don't need any ointment!");
+            }
             else if (textPages[0].Contains("Confusion"))
             {
                 textPages.Clear();
@@ -356,6 +361,11 @@ public class CombatInventory : MonoBehaviour
         else if (textPages[0] == "Antidote")
         {
             combatScript.RemovePoison();
+            textPages.RemoveAt(0);
+        }
+        else if (textPages[0] == "Ointment")
+        {
+            combatScript.RemoveBurn();
             textPages.RemoveAt(0);
         }
         else if (textPages[0] == "ConfusionHealing")

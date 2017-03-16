@@ -68,7 +68,7 @@ public class PlayerSingleton : MonoBehaviour
     public string[] equippedItems = new string[6] {"null", "null", "null", "null", "null", "null"};
 
     // The non-combat scene that the player is in, used for returning after combat and after the save file is loaded
-    public int currentScene = 1;
+    public string currentScene = "Town_Scene";
 
     // The spawn coordinates of the save station that the player has saved to, used for positioning the player at the right statue after load of save file
     // All coordinates are save separatly since Vector3 isn't serializable
@@ -79,6 +79,9 @@ public class PlayerSingleton : MonoBehaviour
     // Arrays containing bools that tells which chests is open
     public bool[] chestOpen_lightForest;
     public bool[] chestOpen_darkForest;
+
+    // Array containing bools that tells which areas of the game that has been explored
+    public bool[] areaExplored = new bool[5];
 
     #region In-game variables
 
@@ -144,6 +147,7 @@ public class PlayerSingleton : MonoBehaviour
         data.savePosZ = savePosZ;
         data.chestOpen_lightForest = chestOpen_lightForest;
         data.chestOpen_darkForest = chestOpen_darkForest;
+        data.areaExplored = areaExplored;
 
         bf.Serialize(file, data);
         file.Close();
@@ -183,6 +187,7 @@ public class PlayerSingleton : MonoBehaviour
             savePosZ = data.savePosZ;
             chestOpen_lightForest = data.chestOpen_lightForest;
             chestOpen_darkForest = data.chestOpen_lightForest;
+            areaExplored = data.areaExplored;
 
             loaded = true;
             canMove = true;
@@ -253,7 +258,7 @@ public class PlayerSingleton : MonoBehaviour
         public string[] equippedItems;
 
         // The non-combat scene that the player is in, used for returning after combat and after the save file is loaded
-        public int currentScene;
+        public string currentScene;
 
         // The coordinates to spawn at of the save station that the player has saved to, used for positioning the player at the right statue after load of save file
         // All coordinates are save separatly since Vector3 isn't serializable
@@ -264,5 +269,8 @@ public class PlayerSingleton : MonoBehaviour
         // Arrays containing bools that tells which chests is open
         public bool[] chestOpen_lightForest;
         public bool[] chestOpen_darkForest;
+
+        // Array containing bools that tells which areas of the game that has been explored
+        public bool[] areaExplored;
     }
  }

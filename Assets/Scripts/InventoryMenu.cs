@@ -403,6 +403,11 @@ public class InventoryMenu : MonoBehaviour
                 textPages.Clear();
                 textPages.Add("You are not poisoned, you don't need any antidote!");
             }
+            else if (textPages[0].Contains("Ointment"))
+            {
+                textPages.Clear();
+                textPages.Add("You are not burning, you don't need any ointment!");
+            }
             else if (textPages[0].Contains("Confusion"))
             {
                 textPages.Clear();
