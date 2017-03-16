@@ -15,8 +15,8 @@ public class CombatStart : MonoBehaviour
     {
         if (enemy.gameObject.layer == 8 && PlayerSingleton.instance.canMove)
         {
-            StartCoroutine(FillScreen());
             PlayerSingleton.instance.attackingEnemy = enemy.tag;
+            StartCoroutine(FillScreen());
             PlayerSingleton.instance.overWorldPos = this.transform.position;
             PlayerSingleton.instance.overWorldRot = this.transform.rotation;
 
@@ -51,6 +51,8 @@ public class CombatStart : MonoBehaviour
         // When the blackscreen is done the battle scene loads
         if (PlayerSingleton.instance.currentScene == "Forest_Scene_1")
             SceneManager.LoadScene("Battle_scene");
+        else if (PlayerSingleton.instance.currentScene == "dark_forest_1" && PlayerSingleton.instance.attackingEnemy == "DragonBoar")
+            SceneManager.LoadScene("Boss_Battle_Scene");
         else if (PlayerSingleton.instance.currentScene == "dark_forest_1")
             SceneManager.LoadScene("Battle_Scene_dark");
     }
