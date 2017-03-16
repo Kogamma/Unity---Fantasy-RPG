@@ -31,7 +31,7 @@ public class Player_Camera : MonoBehaviour
 
     void LateUpdate()
     {
-        //Offset of the targets transform (Since the pivot point is usually at the feet).
+        /*//Offset of the targets transform (Since the pivot point is usually at the feet).
         Vector3 targetOffset = new Vector3(target.position.x, (target.position.y + 2f), target.position.z);
         Quaternion rotation = Quaternion.Euler(cameraHeight, rotateAround, cameraPan);
         Vector3 vectorMask = Vector3.one;
@@ -42,7 +42,9 @@ public class Player_Camera : MonoBehaviour
         camMask = targetOffset + Vector3.up * DistanceUp - rotateVector * DistanceAway;
 
         occludeRay(ref targetOffset);
-        smoothCamMethod();
+        smoothCamMethod();*/
+
+        transform.position = target.position + new Vector3(0, DistanceUp, DistanceAway);
 
         transform.LookAt(target);
     }
