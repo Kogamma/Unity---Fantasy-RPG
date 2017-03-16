@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MapScript : MonoBehaviour
+public class WorldMap : MonoBehaviour
 {
     // All points for all areas
     public GameObject townPoint;
@@ -67,9 +67,6 @@ public class MapScript : MonoBehaviour
         {
             // Stops all animations
             points[i].GetComponent<Animator>().speed = 0;
-
-            print("Current Scene: " + currentScene);
-            print("SceneNames[i]: " + sceneNames[i]);
 
             // Checks if the active scene has the same name as the one in the array
             if (currentScene == sceneNames[i])
