@@ -48,7 +48,7 @@ public class CombatSceneStart : MonoBehaviour
         else if (PlayerSingleton.instance.attackingEnemy == "Troll")
             enemy = Instantiate(enemies[4], enemies[4].transform.position, enemies[4].transform.rotation, enemyHolder.transform);
 
-        else if (PlayerSingleton.instance.attackingEnemy == "Boss")
+        else if (PlayerSingleton.instance.attackingEnemy == "DragonBoar")
             enemy = Instantiate(enemies[5], enemies[5].transform.position, enemies[5].transform.rotation, enemyHolder.transform);
 
         textPages = new List<string>();
