@@ -26,6 +26,8 @@ public class CombatSceneStart : MonoBehaviour
     {
         blackScreen.fillAmount = 1;
 
+        MusicHelper.UpdateVolume();
+
         StartCoroutine(RemoveBlackScreen());
     }
 

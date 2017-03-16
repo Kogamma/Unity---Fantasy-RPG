@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 
 public class MenuScreenManager : MonoBehaviour
 {
-
     public GameObject normalCanvas;
 
     // The screen where the inventory will be visible
@@ -19,7 +18,18 @@ public class MenuScreenManager : MonoBehaviour
     // The button that will bring up the playerScreen
     public Button playerScreenButton;
 
+    // The screen where the map will be visible
+    public GameObject mapScreen;
+    // The button that will bring up the mapScreen
+    public Button mapScreenButton;
+
+    // The screen where the quest journal will be visible
+    public GameObject questScreen;
+    // The button that will bring up the questScreen
+    public Button questScreenButton;
+
     private GameObject lastOpen;
+
 
     void Start()
     {
@@ -30,7 +40,14 @@ public class MenuScreenManager : MonoBehaviour
 
         // Adds the PlayerScreen method to the PlayerScreenButton
         playerScreenButton.onClick.AddListener(OpenPlayerScreen);
+
+        // Adds the OpenMapScreen method to the mapButton
+        mapScreenButton.onClick.AddListener(OpenMapScreen);
+
+        // Adds the OpenQuestScreen method to the questScreenButton
+        questScreenButton.onClick.AddListener(OpenQuestScreen);
 	}
+
 
     public void OpenMenu()
     {
@@ -46,6 +63,7 @@ public class MenuScreenManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(playerScreenButton.gameObject);
     }
 
+
     // Opens the inventory menu and closes the others that are open
     void OpenInventory()
     {
@@ -59,6 +77,8 @@ public class MenuScreenManager : MonoBehaviour
 
         // Deactivates all the other screens
         playerScreen.SetActive(false);
+        mapScreen.SetActive(false);
+        questScreen.SetActive(false);
 
         EventSystem.current.SetSelectedGameObject(inventoryScreenButton.gameObject);
 
@@ -80,9 +100,62 @@ public class MenuScreenManager : MonoBehaviour
         
         // Deactivates all the other screens
         inventoryScreen.SetActive(false);
+        mapScreen.SetActive(false);
+        questScreen.SetActive(false);
+
         inventoryScreen.transform.parent.GetComponent<InventoryMenu>().CancelButton();
 
         EventSystem.current.SetSelectedGameObject(playerScreenButton.gameObject);
+
+        // Activates all the other screens' buttons
+        //inventoryScreenButton.interactable = true;
+    }
+
+
+    // Opens the mapScreen menu and closes the others that are open
+    void OpenMapScreen()
+    {
+        // Deactivates the playerScreen button
+        //playerScreenButton.interactable = false;
+
+        // Opens the player screen
+        mapScreen.SetActive(true);
+
+        lastOpen = mapScreen;
+
+        // Deactivates all the other screens
+        inventoryScreen.SetActive(false);
+        playerScreen.SetActive(false);
+        questScreen.SetActive(false);
+
+        inventoryScreen.transform.parent.GetComponent<InventoryMenu>().CancelButton();
+
+        EventSystem.current.SetSelectedGameObject(mapScreenButton.gameObject);
+
+        // Activates all the other screens' buttons
+        //inventoryScreenButton.interactable = true;
+    }
+
+
+    // Opens the questScreen menu and closes the others that are open
+    void OpenQuestScreen()
+    {
+        // Deactivates the playerScreen button
+        //playerScreenButton.interactable = false;
+
+        // Opens the player screen
+        questScreen.SetActive(true);
+
+        lastOpen = questScreen;
+
+        // Deactivates all the other screens
+        inventoryScreen.SetActive(false);
+        playerScreen.SetActive(false);
+        mapScreen.SetActive(false);
+
+        inventoryScreen.transform.parent.GetComponent<InventoryMenu>().CancelButton();
+
+        EventSystem.current.SetSelectedGameObject(questScreenButton.gameObject);
 
         // Activates all the other screens' buttons
         //inventoryScreenButton.interactable = true;
@@ -100,6 +173,12 @@ public class MenuScreenManager : MonoBehaviour
 
         // Deactivates the leveling/player menu
         playerScreen.SetActive(false);
+
+        // Deactivates the map screen
+        mapScreen.SetActive(false);
+
+        // Deactivates the quest log screen
+        questScreen.SetActive(false);
 
         // Hides the info window in the player menu if it's up when we close the menu
         playerScreen.GetComponent<Level_Stats_Script>().HideInfo();

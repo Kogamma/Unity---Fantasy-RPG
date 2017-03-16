@@ -130,9 +130,9 @@ public class LootObject : MonoBehaviour
         gameObject.tag = "Uninteractable";
         textBox.PrintMessage(text.ToArray(), "Chest", gameObject, "InActivateTreasure");
 
-        if (PlayerSingleton.instance.currentScene == 5)
+        if (PlayerSingleton.instance.currentScene == "Forest_Scene_1")
             PlayerSingleton.instance.chestOpen_lightForest[ovManager.chests.IndexOf(gameObject.GetComponent<LootObject>())] = true;
-        else if (PlayerSingleton.instance.currentScene == 6)
+        else if (PlayerSingleton.instance.currentScene == "dark_forest_1")
             PlayerSingleton.instance.chestOpen_darkForest[ovManager.chests.IndexOf(gameObject.GetComponent<LootObject>())] = true;
     }
 
