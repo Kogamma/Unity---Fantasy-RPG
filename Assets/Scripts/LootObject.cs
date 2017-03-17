@@ -11,7 +11,6 @@ public class ItemPair
 
 public class LootObject : MonoBehaviour
 {
-
     public InventoryHandler inventHanlder;
 
     public OverworldManager ovManager;
@@ -24,7 +23,16 @@ public class LootObject : MonoBehaviour
 
     private bool opened;
 
-    public enum Item { Healing_Potion, Mana_Potion, Antidote, Confusion_Heal, Clairvoyance_Potion, Golden_Hit_Potion, Ointment };
+    public enum Item
+    {
+        Healing_Potion,
+        Mana_Potion,
+        Antidote,
+        Confusion_Heal,
+        Clairvoyance_Potion,
+        Golden_Hit_Potion,
+        Ointment
+    };
 
     public ItemPair[] realItems;
 
