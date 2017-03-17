@@ -14,6 +14,12 @@ public class AudioHelper : MonoBehaviour
     public static void UpdateVolume()
     {
         m_Source.volume = PlayerSingleton.instance.sfxVol;
+        if (m_Source.volume <= 0)
+        {
+            m_Source.mute = true;
+        }
+        else
+            m_Source.mute = false;
     }
 
     public static void PlaySound(AudioClip clip, float volMod = 1)
