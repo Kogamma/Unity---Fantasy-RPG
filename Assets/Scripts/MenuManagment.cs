@@ -84,6 +84,7 @@ public class MenuManagment : MonoBehaviour
     public void RestartGameSelect()
     {
         attackGroup.SetActive(false);
+        mainGroup.SetActive(false);
         uiBox.SetActive(true);
         deathGroup.SetActive(true);
 
