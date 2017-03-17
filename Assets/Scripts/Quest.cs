@@ -27,7 +27,8 @@ public class Quest : MonoBehaviour {
     void Start ()
     {
         showObjective = false;
-	}
+        
+    }
 
     void Update()
     {

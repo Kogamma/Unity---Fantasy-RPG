@@ -83,6 +83,14 @@ public class PlayerSingleton : MonoBehaviour
     // Array containing bools that tells which areas of the game that has been explored
     public bool[] areaExplored = new bool[5];
 
+    //Quest section
+    public bool questNotStarted;
+    public bool questInProgress;
+    public bool questDone;
+
+
+
+
     #region In-game variables
 
     // Variables used for in-combat purposes to see what the current damage of the player is,
