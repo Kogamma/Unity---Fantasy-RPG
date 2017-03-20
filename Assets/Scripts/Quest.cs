@@ -96,7 +96,6 @@ public class Quest : MonoBehaviour {
         }
 
         questBox.gameObject.SetActive(false);
-        questText.text = null;
 
     }
 	
