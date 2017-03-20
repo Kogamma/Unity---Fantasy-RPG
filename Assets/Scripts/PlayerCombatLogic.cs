@@ -25,6 +25,8 @@ public class PlayerCombatLogic : MonoBehaviour
     [SerializeField] GameObject textBox;
     [SerializeField] GameObject iceParticle;
     [SerializeField] GameObject iceBlock;
+    [SerializeField]
+    AudioClip iceAttack_clip;
 
     [SerializeField] AudioClip attack_sound;
 
@@ -129,7 +131,7 @@ public class PlayerCombatLogic : MonoBehaviour
                 case "IceAttack":
 
                     Instantiate(iceParticle, combatScript.enemyHolder.transform.GetChild(0).transform.position, Quaternion.identity);
-
+                    AudioHelper.PlaySound(iceAttack_clip);
                     //Check if the rng is bigger then chance to freeze the enemy
                     if (combatScript.enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().chanceToGetFreeze >=rng)
                     {
