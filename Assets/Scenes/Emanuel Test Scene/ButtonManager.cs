@@ -36,6 +36,18 @@ public class ButtonManager : MonoBehaviour
         PlayerSingleton.instance.playerInventory.Add("Antidote");
         PlayerSingleton.instance.inventoryAmounts.Add(5);
 
+        PlayerSingleton.instance.playerInventory.Add("ClairvoyancePotion");
+        PlayerSingleton.instance.inventoryAmounts.Add(5);
+
+        PlayerSingleton.instance.playerInventory.Add("Ointment");
+        PlayerSingleton.instance.inventoryAmounts.Add(5);
+
+        PlayerSingleton.instance.playerInventory.Add("GoldenHitPotion");
+        PlayerSingleton.instance.inventoryAmounts.Add(5);
+
+        PlayerSingleton.instance.playerInventory.Add("ConfusionHeal");
+        PlayerSingleton.instance.inventoryAmounts.Add(5);
+
         PlayerSingleton.instance.Save();
         SceneManager.LoadScene(newPlayLevel);   // starts the game
     }

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class MusicHelper : MonoBehaviour
 {
-    private static AudioSource m_Source;
+    [System.NonSerialized]
+    public static AudioSource m_Source;
     void Awake()
     {
         m_Source = GetComponent<AudioSource>();

@@ -25,14 +25,14 @@ public class CombatSceneStart : MonoBehaviour
     private void Awake()
     {
         blackScreen.fillAmount = 1;
-
-        MusicHelper.UpdateVolume();
-
-        StartCoroutine(RemoveBlackScreen());
+        //MusicHelper.UpdateVolume();
+        MusicHelper.m_Source.volume = PlayerSingleton.instance.musicVol;
     }
 
     void Start ()
     {
+        StartCoroutine(RemoveBlackScreen());
+
         if (PlayerSingleton.instance.attackingEnemy == "Slime")
             enemy = Instantiate(enemies[0], enemies[0].transform.position, enemies[0].transform.rotation, enemyHolder.transform);
 
@@ -70,6 +70,7 @@ public class CombatSceneStart : MonoBehaviour
 
             yield return null;
         }
+        
         blackScreen.gameObject.SetActive(false);
 
         textBox.PrintMessage(textPages, this.gameObject, "ActivateUI");
