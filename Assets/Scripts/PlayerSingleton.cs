@@ -39,7 +39,7 @@ public class PlayerSingleton : MonoBehaviour
     public int playerHealth = 10;
 
     public int level = 1;
-    public int currentXPNeeded = 50;
+    public int currentXPNeeded = 100;
     public int skillPoints = 0;
 
     // How much experience points the player has in total
