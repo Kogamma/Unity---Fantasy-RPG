@@ -83,13 +83,8 @@ public class PlayerSingleton : MonoBehaviour
     // Array containing bools that tells which areas of the game that has been explored
     public bool[] areaExplored = new bool[5];
 
-    //Quest section
-    public bool questNotStarted;
-    public bool questInProgress;
-    public bool questDone;
-
-
-
+    public int activeQuestIndex = 0;
+    
 
     #region In-game variables
 
@@ -156,6 +151,7 @@ public class PlayerSingleton : MonoBehaviour
         data.chestOpen_lightForest = chestOpen_lightForest;
         data.chestOpen_darkForest = chestOpen_darkForest;
         data.areaExplored = areaExplored;
+        data.activeQuestIndex = activeQuestIndex;
 
         bf.Serialize(file, data);
         file.Close();
@@ -196,6 +192,7 @@ public class PlayerSingleton : MonoBehaviour
             chestOpen_lightForest = data.chestOpen_lightForest;
             chestOpen_darkForest = data.chestOpen_lightForest;
             areaExplored = data.areaExplored;
+            activeQuestIndex = data.activeQuestIndex;
 
             loaded = true;
             canMove = true;
@@ -280,5 +277,7 @@ public class PlayerSingleton : MonoBehaviour
 
         // Array containing bools that tells which areas of the game that has been explored
         public bool[] areaExplored;
+
+        public int activeQuestIndex;
     }
  }
