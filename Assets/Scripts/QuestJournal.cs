@@ -13,7 +13,6 @@ public class QuestJournal : MonoBehaviour
 
 	void Start ()
     {
-
         // Add listeners for the OnSelect event so they call OnQuestButtonSelect
         for (int i = 0; i < questButtons.Length; i++)
         {
@@ -30,7 +29,7 @@ public class QuestJournal : MonoBehaviour
     {
         for (int i = 0; i < questButtons.Length; i++)
         {
-            if(i <= PlayerSingleton.instance.activeQuestIndex)
+            if(i <= PlayerSingleton.instance.activeQuestIndex && PlayerSingleton.instance.activeQuestIndex >= 0)
             {
                 questButtons[i].interactable = true;
 

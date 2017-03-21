@@ -61,7 +61,7 @@ public class QuestDisplay : MonoBehaviour
 
         questBox.SetActive(true);
 
-        if (PlayerSingleton.instance.activeQuestIndex > 0)
+        if (PlayerSingleton.instance.activeQuestIndex >= 0)
         {
             completedQuestText.text = "Quest: " + QuestDatabase.quests[PlayerSingleton.instance.activeQuestIndex - 1].title;
 

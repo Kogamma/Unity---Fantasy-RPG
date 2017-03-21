@@ -134,9 +134,15 @@ public class OverworldManager : MonoBehaviour
         }
 
         // Unpauses the game
-        PlayerSingleton.instance.canMove = !PlayerSingleton.instance.canMove;        
+        PlayerSingleton.instance.canMove = true;        
         // Sets it so the game can start running
         PlayerSingleton.instance.gameCanRun = true;
+
+        if (GetComponent<StoryEvent_Gate>())
+        {
+            if(GetComponent<StoryEvent_Gate>().questGiver.activeSelf)
+                GetComponent<StoryEvent_Gate>().QuestGiverMessage();
+        }
     }
 
 

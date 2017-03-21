@@ -83,7 +83,7 @@ public class PlayerSingleton : MonoBehaviour
     // Array containing bools that tells which areas of the game that has been explored
     public bool[] areaExplored = new bool[5];
 
-    public int activeQuestIndex = 0;
+    public int activeQuestIndex = -1;
     
 
     #region In-game variables
@@ -112,7 +112,7 @@ public class PlayerSingleton : MonoBehaviour
     public string attackingEnemy;
 
     // Controls if the game can start doing stuff yet or not
-    public bool gameCanRun;
+    public bool gameCanRun = false;
 
 
     // Used to check if the game recently was loaded, then the player will be moved to the proper position.

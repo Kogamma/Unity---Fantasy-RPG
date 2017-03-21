@@ -12,8 +12,6 @@ public class QuestDatabase : MonoBehaviour
 
     void Awake()
     {
-        PlayerSingleton.instance.activeQuestIndex = 0;
-
         quests.Add(new Quest("Get to the forest",
             "The Mysterious Man told you that a beast inside the dark forest holds the key to The Gate Between Worlds.\nGet to the light side of the forest first."));
         quests.Add(new Quest("Get the lumberjack",
