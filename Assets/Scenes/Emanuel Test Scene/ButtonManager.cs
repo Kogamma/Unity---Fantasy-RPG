@@ -64,6 +64,13 @@ public class ButtonManager : MonoBehaviour
     //Return to Main menu
     public void ReturnToMain ()
     {
+        GameObject buttonToHighlight = null;
+
+        if (option.activeSelf)
+            buttonToHighlight = main.transform.GetChild(2).gameObject;
+        else if(credits.activeSelf)
+            buttonToHighlight = main.transform.GetChild(3).gameObject;
+
         resolution.SetActive(false);
         option.SetActive(false);
         credits.SetActive(false);
@@ -71,7 +78,7 @@ public class ButtonManager : MonoBehaviour
 
         autoCred.credBool = false;
 
-        EventSystem.current.SetSelectedGameObject(main.transform.GetChild(2).gameObject);
+        EventSystem.current.SetSelectedGameObject(buttonToHighlight);
     }
 
     public void ReturnToOption()
@@ -130,7 +137,7 @@ public class ButtonManager : MonoBehaviour
         credits.SetActive(true);
         autoCred.credBool = true;
 
-        EventSystem.current.SetSelectedGameObject(credits.transform.GetChild(credits.transform.childCount - 1).gameObject);
+        EventSystem.current.SetSelectedGameObject(credits.transform.GetChild(0).gameObject);
     }
 
     public void ExitBtn()

@@ -7,6 +7,7 @@ public enum completionStatusEnum { HIDDEN, ACTIVE, COMPLETED };
 
 public class QuestDatabase : MonoBehaviour
 {
+    [System.NonSerialized]
     public static List<Quest> quests = new List<Quest>();
 
     void Awake()

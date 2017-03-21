@@ -23,6 +23,29 @@ public class MenuManagment : MonoBehaviour
     [SerializeField] Color redColor;
     [SerializeField] Color blueColor;
 
+    void Start()
+    {
+        Button[] buttons = new Button[attackButtons.Length];
+
+        /*for (int i = 0; i < attackButtons.Length; i++)
+        {
+            buttons[i] = attackButtons[i].button;
+
+            EventTrigger trigger = buttons[i].GetComponent<EventTrigger>();
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.Select;
+            entry.callback.AddListener((eventData) => { DisplayDescription((BaseEventData)eventData, i); });
+
+            trigger.triggers.Add(entry);
+        }
+
+        // Add listeners for the OnSelect event so they call OnQuestButtonSelect
+        for (int i = 0; i < questButtons.Length; i++)
+        {
+            
+        }*/
+    }
+
     void Update()
     {
         for(int i = 0; i < attackButtons.Length; i++)

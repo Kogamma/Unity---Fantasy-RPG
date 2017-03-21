@@ -10,8 +10,21 @@ public class ButtonSetup : MonoBehaviour
 
     public AudioClip clickSound;
 
-	void Start ()
+	void Awake ()
     {
+        Button[] allObjects = Resources.FindObjectsOfTypeAll(typeof(Button)) as Button[];
+        // Do not activate if absolutely necessary, ask Oskar and Dennis first!
+        for (int i = 0; i < allObjects.Length; i++)
+        {
+            EventTrigger[] triggers = allObjects[i].GetComponents<EventTrigger>();
+
+            for (int j = 0; j < triggers.Length; j++)
+            {
+                DestroyImmediate(triggers[j], true);
+            }
+        }
+
+
         // Gets all objects with the button component in scene
         allButtonsInScene = Resources.FindObjectsOfTypeAll(typeof(Button)) as Button[];
 
@@ -19,13 +32,17 @@ public class ButtonSetup : MonoBehaviour
         {
             allButtonsInScene[i].onClick.AddListener(() => AudioHelper.PlaySound(clickSound));
 
-            allButtonsInScene[i].gameObject.AddComponent<EventTrigger>();
+            if(allButtonsInScene[i].gameObject.GetComponent<EventTrigger>() == null)
+                allButtonsInScene[i].gameObject.AddComponent<EventTrigger>();
 
             EventTrigger trigger = allButtonsInScene[i].GetComponent<EventTrigger>();
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.Select;
             entry.callback.AddListener((eventData) => { OnSelect((BaseEventData) eventData); });
-            trigger.triggers.Add(entry);
+
+            //trigger.triggers[0] = entry;
+            if (trigger.triggers.Count <= 1)
+                trigger.triggers.Add(entry);
         }
 	}
 	

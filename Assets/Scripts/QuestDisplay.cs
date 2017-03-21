@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class QuestHandler : MonoBehaviour
+public class QuestDisplay : MonoBehaviour
 {
     
     public Text completedText;
@@ -12,13 +12,12 @@ public class QuestHandler : MonoBehaviour
     public Text currentQuest;
     public GameObject questBox;
 
-    private bool _hideQuestBox = false;
     private bool canInput = true;
 
 
     void Update()
     {
-        if (_hideQuestBox)
+        if (!PlayerSingleton.instance.canMove)
         {
             questBox.SetActive(false);
             StopCoroutine(DisplayQuestUpdate());
@@ -55,12 +54,6 @@ public class QuestHandler : MonoBehaviour
     }
 
 
-    public void HideQuestBox ()
-    {
-        _hideQuestBox = true;
-    }
-
-
     public IEnumerator DisplayQuestUpdate()
     {
         canInput = false;
@@ -73,12 +66,17 @@ public class QuestHandler : MonoBehaviour
 
             completedQuestText.enabled = true;
 
-            yield return new WaitForSeconds(1f);
-
+            if (PlayerSingleton.instance.canMove)
+                yield return new WaitForSeconds(1f);
+            else
+                yield return null;
             completedText.enabled = true;
         }
 
-        yield return new WaitForSeconds(2f);
+        if (PlayerSingleton.instance.canMove)
+            yield return new WaitForSeconds(2f);
+        else
+            yield return null;
 
         completedQuestText.enabled = false;
         completedText.enabled = false;
@@ -86,7 +84,10 @@ public class QuestHandler : MonoBehaviour
         newQuestText.text = "New Quest:\n" + QuestDatabase.quests[PlayerSingleton.instance.activeQuestIndex].title;
         newQuestText.enabled = true;
 
-        yield return new WaitForSeconds(2f);
+        if (PlayerSingleton.instance.canMove)
+            yield return new WaitForSeconds(2f);
+        else
+            yield return null;
 
         questBox.SetActive(false);
         newQuestText.enabled = false;

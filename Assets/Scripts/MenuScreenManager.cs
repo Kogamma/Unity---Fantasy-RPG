@@ -58,7 +58,7 @@ public class MenuScreenManager : MonoBehaviour
 
         lastOpen.SetActive(true);
 
-        normalCanvas.SetActive(false);
+        normalCanvas.GetComponent<Canvas>().enabled = false;
 
         EventSystem.current.SetSelectedGameObject(playerScreenButton.gameObject);
     }
@@ -184,7 +184,7 @@ public class MenuScreenManager : MonoBehaviour
         playerScreen.GetComponent<Level_Stats_Script>().HideInfo();
 
         // Activates the normal canvas again
-        normalCanvas.SetActive(true);
+        normalCanvas.GetComponent<Canvas>().enabled = true;
 
         EventSystem.current.SetSelectedGameObject(null);
     }
