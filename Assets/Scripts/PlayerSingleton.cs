@@ -50,7 +50,7 @@ public class PlayerSingleton : MonoBehaviour
     // How much of the strength stat the player has
     public int playerStr = 5;
     // How much of the dexterity stat the player has
-    public int playerDex = 5;
+    public int playerVit = 5;
     // How much of the luck stat the player has
     public int playerLuck = 5;
 
@@ -137,7 +137,7 @@ public class PlayerSingleton : MonoBehaviour
         data.currentXPNeeded = currentXPNeeded;
         data.skillPoints = skillPoints;
         data.playerInt = playerInt;
-        data.playerDex = playerDex;
+        data.playerVit = playerVit;
         data.playerStr = playerStr;
         data.playerLuck = playerLuck;
         data.playerInventory= playerInventory;
@@ -178,7 +178,7 @@ public class PlayerSingleton : MonoBehaviour
             currentXPNeeded = data.currentXPNeeded;
             skillPoints = data.skillPoints;
             playerInt = data.playerInt;
-            playerDex = data.playerDex;
+            playerVit = data.playerVit;
             playerStr = data.playerStr;
             playerLuck = data.playerLuck;
             playerInventory = data.playerInventory;
@@ -245,7 +245,7 @@ public class PlayerSingleton : MonoBehaviour
         // How much of the strength stat the player has
         public int playerStr;
         // How much of the dexterity stat the player has
-        public int playerDex;
+        public int playerVit;
         // How much of the luck stat the player has
         public int playerLuck;
 
