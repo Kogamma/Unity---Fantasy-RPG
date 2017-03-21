@@ -12,6 +12,8 @@ public class QuestDisplay : MonoBehaviour
     public Text currentQuest;
     public GameObject questBox;
 
+    public AudioClip completeSound;
+
     private bool canInput = true;
 
 
@@ -69,6 +71,8 @@ public class QuestDisplay : MonoBehaviour
                 yield return new WaitForSeconds(1f);
             else
                 yield return null;
+
+            AudioHelper.PlaySound(completeSound, 10f);
             completedText.enabled = true;
         }
 
