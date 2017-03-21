@@ -236,7 +236,7 @@ public class PlayerCombatLogic : MonoBehaviour
 
     void FleeToScene()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(PlayerSingleton.instance.currentScene);
+        combatHandler.GetComponent<CombatScript>().ReturnToTheWorld();
     }
 
     IEnumerator TurnDelay()

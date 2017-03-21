@@ -354,12 +354,14 @@ public class CombatScript : MonoBehaviour
 
     public void ReturnToTheWorld()
     {
+        RemovePoison();
+        RemoveConfusion();
         menuManager.GetComponent<MenuManagment>().returnButton.SetActive(false);
         StartCoroutine(FillBlackScreen());
     }
 
 
-    void EndOfCombat ()
+    public void EndOfCombat ()
     {
         RemovePoison();
         RemoveConfusion();

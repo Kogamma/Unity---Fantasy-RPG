@@ -25,12 +25,13 @@ public class CombatSceneStart : MonoBehaviour
     private void Awake()
     {
         blackScreen.fillAmount = 1;
-        //MusicHelper.UpdateVolume();
-        MusicHelper.m_Source.volume = PlayerSingleton.instance.musicVol;
     }
 
     void Start ()
     {
+        //MusicHelper.UpdateVolume();
+        MusicHelper.m_Source.volume = PlayerSingleton.instance.musicVol;
+
         StartCoroutine(RemoveBlackScreen());
 
         if (PlayerSingleton.instance.attackingEnemy == "Slime")
