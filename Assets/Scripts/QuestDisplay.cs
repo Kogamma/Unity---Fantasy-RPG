@@ -20,7 +20,6 @@ public class QuestDisplay : MonoBehaviour
         if (!PlayerSingleton.instance.canMove)
         {
             questBox.SetActive(false);
-            StopCoroutine(DisplayQuestUpdate());
         }
 
         if (canInput)
