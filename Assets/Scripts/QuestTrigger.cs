@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class QuestTrigger : MonoBehaviour
 {
     public int questToComplete;
-    public QuestHandler questHandler;
+    public QuestDisplay questDisplay;
 
     //When you enter the trigger
     void OnTriggerEnter(Collider other)
@@ -14,7 +14,7 @@ public class QuestTrigger : MonoBehaviour
         //This if statement will run
         if (other.gameObject.tag == "Player" && PlayerSingleton.instance.activeQuestIndex == questToComplete)
         {
-            questHandler.CompleteQuest();
+            questDisplay.CompleteQuest();
             Destroy(this.gameObject);
         }
     }

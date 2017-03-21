@@ -8,7 +8,7 @@ public class Level_Stats_Script : MonoBehaviour
 {
     int playerExp;
     int level;
-    int playerDex;
+    int playerVit;
     int playerLuck;
     int playerStr;
     int playerInt;
@@ -20,7 +20,7 @@ public class Level_Stats_Script : MonoBehaviour
     public Text lucky;
     public Text str;
     public Text Int;
-    public Text dex;
+    public Text vit;
     public Text currentLevel;
     public Text add;
     public Text XPtext;
@@ -42,7 +42,7 @@ public class Level_Stats_Script : MonoBehaviour
         playerExp = PlayerSingleton.instance.playerExp;
         level = PlayerSingleton.instance.level;
         playerLuck = PlayerSingleton.instance.playerLuck;
-        playerDex = PlayerSingleton.instance.playerDex;
+        playerVit = PlayerSingleton.instance.playerVit;
         playerStr = PlayerSingleton.instance.playerStr;
         playerInt = PlayerSingleton.instance.playerInt;
         playerMaxHealth = PlayerSingleton.instance.playerMaxHealth;
@@ -56,7 +56,7 @@ public class Level_Stats_Script : MonoBehaviour
         lucky.text = playerLuck.ToString();
         str.text = playerStr.ToString();
         Int.text = playerInt.ToString();
-        dex.text = playerDex.ToString();
+        vit.text = playerVit.ToString();
 
         currentLevel.text = level.ToString();
 
@@ -88,7 +88,7 @@ public class Level_Stats_Script : MonoBehaviour
         playerExp = PlayerSingleton.instance.playerExp;
         level = PlayerSingleton.instance.level;
         playerLuck = PlayerSingleton.instance.playerLuck;
-        playerDex = PlayerSingleton.instance.playerDex;
+        playerVit = PlayerSingleton.instance.playerVit;
         playerStr = PlayerSingleton.instance.playerStr;
         playerInt = PlayerSingleton.instance.playerInt;
         playerMaxHealth = PlayerSingleton.instance.playerMaxHealth;
@@ -108,7 +108,7 @@ public class Level_Stats_Script : MonoBehaviour
             expSlider.maxValue = 200;
 
             //Add 1 plus on every stat 
-            playerDex++;
+            playerVit++;
             playerLuck++;
             playerInt++;
             playerStr++;
@@ -134,7 +134,7 @@ public class Level_Stats_Script : MonoBehaviour
             expSlider.maxValue = 300;
 
             //Add 1 plus on every stat 
-            playerDex++;
+            playerVit++;
             playerLuck++;
             playerInt++;
             playerStr++;
@@ -160,7 +160,7 @@ public class Level_Stats_Script : MonoBehaviour
             expSlider.maxValue = 400;
 
             //Add 1 plus on every stat 
-            playerDex++;
+            playerVit++;
             playerLuck++;
             playerInt++;
             playerStr++;
@@ -186,7 +186,7 @@ public class Level_Stats_Script : MonoBehaviour
             expSlider.maxValue = 500;
 
             //Add 1 plus on every stat 
-            playerDex++;
+            playerVit++;
             playerLuck++;
             playerInt++;
             playerStr++;
@@ -212,7 +212,7 @@ public class Level_Stats_Script : MonoBehaviour
             expSlider.maxValue = 600;
 
             //Add 1 plus on every stat 
-            playerDex++;
+            playerVit++;
             playerLuck++;
             playerInt++;
             playerStr++;
@@ -238,7 +238,7 @@ public class Level_Stats_Script : MonoBehaviour
             expSlider.maxValue = 700;
 
             //Add 1 plus on every stat 
-            playerDex++;
+            playerVit++;
             playerLuck++;
             playerInt++;
             playerStr++;
@@ -264,7 +264,7 @@ public class Level_Stats_Script : MonoBehaviour
             expSlider.maxValue = 800;
 
             //Add 1 plus on every stat 
-            playerDex++;
+            playerVit++;
             playerLuck++;
             playerInt++;
             playerStr++;
@@ -290,7 +290,7 @@ public class Level_Stats_Script : MonoBehaviour
             expSlider.maxValue = 900;
 
             //Add 1 plus on every stat 
-            playerDex++;
+            playerVit++;
             playerLuck++;
             playerInt++;
             playerStr++;
@@ -316,7 +316,7 @@ public class Level_Stats_Script : MonoBehaviour
             expSlider.maxValue = 1000;
 
             //Add 1 plus on every stat 
-            playerDex++;
+            playerVit++;
             playerLuck++;
             playerInt++;
             playerStr++;
@@ -342,7 +342,7 @@ public class Level_Stats_Script : MonoBehaviour
             expSlider.maxValue = 1100;
 
             //Add 1 plus on every stat 
-            playerDex++;
+            playerVit++;
             playerLuck++;
             playerInt++;
             playerStr++;
@@ -368,7 +368,7 @@ public class Level_Stats_Script : MonoBehaviour
             expSlider.maxValue = 1200;
 
             //Add 1 plus on every stat 
-            playerDex++;
+            playerVit++;
             playerLuck++;
             playerInt++;
             playerStr++;
@@ -394,7 +394,7 @@ public class Level_Stats_Script : MonoBehaviour
             expSlider.maxValue = 1300;
 
             //Add 1 plus on every stat 
-            playerDex++;
+            playerVit++;
             playerLuck++;
             playerInt++;
             playerStr++;
@@ -420,7 +420,7 @@ public class Level_Stats_Script : MonoBehaviour
             expSlider.maxValue = 1400;
 
             //Add 1 plus on every stat 
-            playerDex++;
+            playerVit++;
             playerLuck++;
             playerInt++;
             playerStr++;
@@ -446,7 +446,7 @@ public class Level_Stats_Script : MonoBehaviour
             //expSlider.maxValue = 750;
 
             //Add 1 plus on every stat 
-            playerDex++;
+            playerVit++;
             playerLuck++;
             playerInt++;
             playerStr++;
@@ -467,7 +467,7 @@ public class Level_Stats_Script : MonoBehaviour
         PlayerSingleton.instance.playerExp = playerExp;
         PlayerSingleton.instance.level = level;
         PlayerSingleton.instance.playerLuck = playerLuck;
-        PlayerSingleton.instance.playerDex = playerDex;
+        PlayerSingleton.instance.playerVit = playerVit;
         PlayerSingleton.instance.playerStr = playerStr;
         PlayerSingleton.instance.playerInt = playerInt;
         PlayerSingleton.instance.playerMaxHealth = playerMaxHealth;
@@ -478,17 +478,19 @@ public class Level_Stats_Script : MonoBehaviour
 
         return true;
     }
-    //Allow the player to add Dex, Luck, Int or Str
-    public void AddDex()
+    //Allow the player to add Vit, Luck, Int or Str
+    public void AddVit()
     {
         statTotal = PlayerSingleton.instance.skillPoints;
         if (statTotal >= 1)
         {
-            playerDex++;
+            playerVit++;
             statTotal--;
             
-            PlayerSingleton.instance.playerDex = playerDex;
+            PlayerSingleton.instance.playerVit = playerVit;
             PlayerSingleton.instance.skillPoints = statTotal;
+            PlayerSingleton.instance.playerHealth += 3;
+            PlayerSingleton.instance.playerMaxHealth += 3;
         }
     }
     public void AddLuck()
@@ -535,7 +537,7 @@ public class Level_Stats_Script : MonoBehaviour
     {
         if (index == 0)
         {
-            statInfo.text = "Dexterity - Make attacks more likely to hit and make you more likely to evade attacks";
+            statInfo.text = "Defence - Make enemy attacks hurt less";
         }
         else if(index == 1)
         {
