@@ -14,7 +14,7 @@ public class QuestDisplay : MonoBehaviour
 
     public AudioClip completeSound;
 
-    private bool canInput = true;
+    public bool canInput = true;
 
 
     void Update()
