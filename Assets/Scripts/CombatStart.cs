@@ -52,7 +52,10 @@ public class CombatStart : MonoBehaviour
         if (PlayerSingleton.instance.currentScene == "Forest_Scene_1")
             SceneManager.LoadScene("Battle_scene");
         else if (PlayerSingleton.instance.currentScene == "dark_forest_1" && PlayerSingleton.instance.attackingEnemy == "DragonBoar")
+        {
             SceneManager.LoadScene("Boss_Battle_Scene");
+            PlayerSingleton.instance.canMove = false;
+        }
         else if (PlayerSingleton.instance.currentScene == "dark_forest_1")
             SceneManager.LoadScene("Battle_Scene_dark");
     }

@@ -31,7 +31,6 @@ public class StoryEvent_Hub : MonoBehaviour
     void RemoveInvisibleWall()
     {
         invisibleWall.SetActive(false);
-        PlayerSingleton.instance.questStages[0]++;
-        questDisplay.DisplayQuestUpdate();
+        questDisplay.UpdateQuest();
     }
 }

@@ -8,7 +8,6 @@ public class QuestEvent_Town : MonoBehaviour
     public GameObject lumberjack_birch;
     public Image blackScreen;
     public QuestDisplay questDisplay;
-    
 
 	// Use this for initialization
 	void Start ()
@@ -20,6 +19,7 @@ public class QuestEvent_Town : MonoBehaviour
 
     public void StartRemoveLumberjack()
     {
+        lumberjack_birch.transform.GetChild(0).gameObject.SetActive(false);
         StartCoroutine(RemoveLumberjack());
     }
 
@@ -50,8 +50,7 @@ public class QuestEvent_Town : MonoBehaviour
 
         PlayerSingleton.instance.canMove = true;
         PlayerSingleton.instance.gameCanRun = true;
-
-        PlayerSingleton.instance.questStages[0] = 2;
-        StartCoroutine(questDisplay.DisplayQuestUpdate());
+        
+        questDisplay.UpdateQuest();
     }
 }

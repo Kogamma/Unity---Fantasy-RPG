@@ -143,6 +143,11 @@ public class OverworldManager : MonoBehaviour
             if(GetComponent<StoryEvent_Gate>().questGiver.activeSelf)
                 GetComponent<StoryEvent_Gate>().QuestGiverMessage();
         }
+        else if (GetComponent<QuestEvent_DarkForest>())
+        {
+            if (PlayerSingleton.instance.activeQuestIndex == 2 && PlayerSingleton.instance.questStages[2] >= 2)
+                GetComponent<QuestEvent_DarkForest>().GadhaGozMessage();
+        }
     }
 
 

@@ -97,6 +97,13 @@ public class QuestDisplay : MonoBehaviour
     }
 
 
+    public void UpdateQuest()
+    {
+        PlayerSingleton.instance.questStages[PlayerSingleton.instance.activeQuestIndex]++;
+
+        StartCoroutine(DisplayQuestUpdate());
+    }
+
     public IEnumerator DisplayQuestUpdate()
     {
         canInput = false;

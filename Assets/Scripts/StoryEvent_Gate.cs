@@ -34,7 +34,7 @@ public class StoryEvent_Gate : MonoBehaviour
     public void CompleteQuest()
     {
         PlayerSingleton.instance.activeQuestIndex = 0;
-
+        PlayerSingleton.instance.questStages.Add(0);
         StartCoroutine(FirstQuestUpdate());
     }
 
