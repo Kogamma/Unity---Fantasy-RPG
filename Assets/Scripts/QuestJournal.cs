@@ -29,7 +29,7 @@ public class QuestJournal : MonoBehaviour
     {
         for (int i = 0; i < questButtons.Length; i++)
         {
-            if(i <= PlayerSingleton.instance.activeQuestIndex && PlayerSingleton.instance.activeQuestIndex >= 0)
+            if (i <= PlayerSingleton.instance.activeQuestIndex && PlayerSingleton.instance.activeQuestIndex >= 0)
             {
                 questButtons[i].interactable = true;
 
@@ -40,7 +40,6 @@ public class QuestJournal : MonoBehaviour
                 }
                 else
                     questButtons[i].transform.GetChild(0).GetComponent<Text>().text = QuestDatabase.quests[i].title;
-
             }
             else
             {
@@ -54,7 +53,19 @@ public class QuestJournal : MonoBehaviour
     void OnQuestButtonSelect(BaseEventData eventData)
     {
         int index = questButtons.ToList().IndexOf(eventData.selectedObject.GetComponent<Button>());
-        questInfoText.text = QuestDatabase.quests[index].description;
+
+        questInfoText.text = "";
+
+        for (int i = 0; i < QuestDatabase.quests[index].description.Length; i++)
+        {
+            if (i <= QuestDatabase.quests[index].questStage)
+            {
+                if(i > 0)
+                    questInfoText.text += "\n\n";
+                questInfoText.text += QuestDatabase.quests[index].description[i];
+            }
+        }
+        
     }
 
 }

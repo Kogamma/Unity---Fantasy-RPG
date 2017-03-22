@@ -28,6 +28,39 @@ public class StoryEvent_Gate : MonoBehaviour
             "To get to The Dark Forest you must first get through The Light Forest which is just east from here.",
             "This world is full of monsters so be careful!"
         };
-        textBox.PrintMessage(text, "Mysterious Man", questDisplay.gameObject, "CompleteQuest");
+        textBox.PrintMessage(text, "Mysterious Man", this.gameObject, "CompleteQuest");
+    }
+
+    public void CompleteQuest()
+    {
+        PlayerSingleton.instance.activeQuestIndex = 0;
+
+        QuestDatabase.UpdateQuestLog();
+
+        StartCoroutine(FirstQuestUpdate());
+    }
+
+
+    public IEnumerator FirstQuestUpdate()
+    {
+        questDisplay.canInput = false;
+
+        questDisplay.questBox.SetActive(true);
+
+        questDisplay.completedQuestText.enabled = false;
+        questDisplay.completedText.enabled = false;
+
+        questDisplay.newQuestText.text = "New Quest:\n" + QuestDatabase.quests[PlayerSingleton.instance.activeQuestIndex].title;
+        questDisplay.newQuestText.enabled = true;
+
+        if (PlayerSingleton.instance.canMove)
+            yield return new WaitForSeconds(2f);
+        else
+            yield return null;
+
+        questDisplay.questBox.SetActive(false);
+        questDisplay.newQuestText.enabled = false;
+
+        questDisplay.canInput = true;
     }
 }

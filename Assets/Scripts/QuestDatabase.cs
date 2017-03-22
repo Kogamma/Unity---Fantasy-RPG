@@ -12,12 +12,12 @@ public class QuestDatabase : MonoBehaviour
 
     void Awake()
     {
-        quests.Add(new Quest("Get to the forest",
-            "The Mysterious Man told you that a beast inside the dark forest holds the key to The Gate Between Worlds.\nGet to the light side of the forest first."));
-        quests.Add(new Quest("Get the lumberjack",
-            "A tree is blocking the path to the forest.\nA lumberjack asked you to get his friend so that they can take care of the tree.\nHe should be in Cinderella Town."));
-        quests.Add(new Quest("Get to the forest, for real",
-            "You asked the lumberjack to take care of the tree.\nIt should be removed now."));
+        quests.Add(new Quest("Get to the forest", new string[] {
+            "The Mysterious Man told you that a beast inside the dark forest holds the key to The Gate Between Worlds.\nGet to the light side of the forest first.",
+        "A tree is blocking the path to the forest.\nA lumberjack asked you to get his friend so that they can take care of the tree.\nHe should be in Cinderella Town."}));
+
+        quests.Add(new Quest("Get to the forest, for real", new string[] {
+            "You asked the lumberjack to take care of the tree.\nIt should be removed now." }));
 
         UpdateQuestLog();
     }
@@ -41,10 +41,11 @@ public class QuestDatabase : MonoBehaviour
 public class Quest
 {
     public string title;
-    public string description;
+    public string[] description;
+    public int questStage = 0;
     public int completionStatus = (int)completionStatusEnum.HIDDEN;
 
-    public Quest(string _title, string _description)
+    public Quest(string _title, string[] _description)
     {
         title = _title;
         description = _description;
