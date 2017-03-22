@@ -5,15 +5,17 @@ using UnityEngine;
 public class StoryEvent_Gate : MonoBehaviour
 {
     public GameObject questGiver;
+    public GameObject gateExit;
     public TextBoxHandler textBox;
     public QuestDisplay questDisplay;
-  
-
-	// Use this for initialization
+    
+    
 	void Start ()
     {
         if (PlayerSingleton.instance.activeQuestIndex >= 0)
             questGiver.SetActive(false);
+        else if (PlayerSingleton.instance.activeQuestIndex >= 3)
+            gateExit.SetActive(true);
 	}
 
 
@@ -30,6 +32,7 @@ public class StoryEvent_Gate : MonoBehaviour
         };
         textBox.PrintMessage(text, "Mysterious Man", this.gameObject, "CompleteQuest");
     }
+
 
     public void CompleteQuest()
     {
