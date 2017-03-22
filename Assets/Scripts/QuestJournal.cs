@@ -58,14 +58,12 @@ public class QuestJournal : MonoBehaviour
 
         for (int i = 0; i < QuestDatabase.quests[index].description.Length; i++)
         {
-            if (i <= QuestDatabase.quests[index].questStage)
+            if (i <= PlayerSingleton.instance.questStages[index])
             {
                 if(i > 0)
                     questInfoText.text += "\n\n";
                 questInfoText.text += QuestDatabase.quests[index].description[i];
             }
         }
-        
     }
-
 }

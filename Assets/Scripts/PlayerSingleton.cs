@@ -84,6 +84,8 @@ public class PlayerSingleton : MonoBehaviour
     public bool[] areaExplored = new bool[5];
 
     public int activeQuestIndex = -1;
+
+    public List<int> questStages;
     
 
     #region In-game variables
@@ -140,7 +142,7 @@ public class PlayerSingleton : MonoBehaviour
         data.playerVit = playerVit;
         data.playerStr = playerStr;
         data.playerLuck = playerLuck;
-        data.playerInventory= playerInventory;
+        data.playerInventory = playerInventory;
         data.inventoryAmounts= inventoryAmounts;
         data.equippedItems = equippedItems;
         data.inventorySize = inventorySize;
@@ -152,6 +154,7 @@ public class PlayerSingleton : MonoBehaviour
         data.chestOpen_darkForest = chestOpen_darkForest;
         data.areaExplored = areaExplored;
         data.activeQuestIndex = activeQuestIndex;
+        data.questStages = questStages;
 
         bf.Serialize(file, data);
         file.Close();
@@ -193,6 +196,7 @@ public class PlayerSingleton : MonoBehaviour
             chestOpen_darkForest = data.chestOpen_lightForest;
             areaExplored = data.areaExplored;
             activeQuestIndex = data.activeQuestIndex;
+            questStages = data.questStages;
 
             loaded = true;
             canMove = true;
@@ -279,5 +283,7 @@ public class PlayerSingleton : MonoBehaviour
         public bool[] areaExplored;
 
         public int activeQuestIndex;
+
+        public List<int> questStages;
     }
  }

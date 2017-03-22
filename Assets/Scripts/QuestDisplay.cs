@@ -46,19 +46,17 @@ public class QuestDisplay : MonoBehaviour
     public void CompleteQuest()
     {
         PlayerSingleton.instance.activeQuestIndex++;
+        PlayerSingleton.instance.questStages.Add(0);
 
         PlayerSingleton.instance.activeQuestIndex = Mathf.Clamp(PlayerSingleton.instance.activeQuestIndex, 0, QuestDatabase.quests.Count);
 
-        QuestDatabase.UpdateQuestLog();
-
-        StartCoroutine(DisplayQuestUpdate());
+        StartCoroutine(DisplayNewQuest());
     }
 
 
-    public IEnumerator DisplayQuestUpdate()
+    public IEnumerator DisplayNewQuest()
     {
         canInput = false;
-
         questBox.SetActive(true);
 
         if (PlayerSingleton.instance.activeQuestIndex >= 0)
@@ -86,6 +84,26 @@ public class QuestDisplay : MonoBehaviour
 
         newQuestText.text = "New Quest:\n" + QuestDatabase.quests[PlayerSingleton.instance.activeQuestIndex].title;
         newQuestText.enabled = true;
+
+        if (PlayerSingleton.instance.canMove)
+            yield return new WaitForSeconds(2f);
+        else
+            yield return null;
+
+        questBox.SetActive(false);
+        newQuestText.enabled = false;
+
+        canInput = true;
+    }
+
+
+    public IEnumerator DisplayQuestUpdate()
+    {
+        canInput = false;
+
+        newQuestText.text = "Quest Updated";
+        newQuestText.enabled = true;
+        questBox.SetActive(true);
 
         if (PlayerSingleton.instance.canMove)
             yield return new WaitForSeconds(2f);

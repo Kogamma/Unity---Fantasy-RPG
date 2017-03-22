@@ -16,10 +16,10 @@ public class StoryEvent_Hub : MonoBehaviour
     {
         if (PlayerSingleton.instance.activeQuestIndex >= 0)
         {
-            if(QuestDatabase.quests[0].questStage >= 1 || PlayerSingleton.instance.activeQuestIndex > 0)
+            if(PlayerSingleton.instance.questStages[0] >= 1 || PlayerSingleton.instance.activeQuestIndex > 0)
                 invisibleWall.SetActive(false);
         }
-		if (PlayerSingleton.instance.activeQuestIndex > 1)
+		if (PlayerSingleton.instance.questStages[0] >= 2 || PlayerSingleton.instance.activeQuestIndex > 0)
         {
             questGiver.SetActive(false);
             trees.SetActive(false);
@@ -31,6 +31,7 @@ public class StoryEvent_Hub : MonoBehaviour
     void RemoveInvisibleWall()
     {
         invisibleWall.SetActive(false);
-        QuestDatabase.quests[0].questStage++;
+        PlayerSingleton.instance.questStages[0]++;
+        questDisplay.DisplayQuestUpdate();
     }
 }
