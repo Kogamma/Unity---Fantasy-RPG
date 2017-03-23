@@ -35,8 +35,8 @@ public class CombatStart : MonoBehaviour
 
         while (blackScreen.fillAmount < 1)
         {
-            blackScreen.fillAmount += 0.05f;
-
+            blackScreen.fillAmount += 1f * Time.unscaledDeltaTime;
+           
             yield return null;
         }
         PlayerSingleton.instance.gameCanRun = true;
