@@ -174,6 +174,16 @@ public class CombatScript : MonoBehaviour
                             playerFireTurns = 0;
                         }
 
+                        if (PlayerSingleton.instance.playerHealth <= 0)
+                        {
+                            //If it is a textbox will show, a death animation for the player will be played
+                            player.GetComponent<Animator>().SetTrigger("Dead");
+                            text.Add("The enemy defeated you and you died!");
+                            text.Add("GAME OVER");
+                            textBox.PrintMessage(text, menuManager, "RestartGameSelect");
+                        }
+
+                        else
                         textBox.PrintMessage(text, menuManager, "MainSelect");
                     }
 
