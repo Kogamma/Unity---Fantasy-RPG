@@ -12,6 +12,9 @@ public class ButtonSetup : MonoBehaviour
 
 	void Awake ()
     {
+        // Makes the mouse cursor invisible
+        Cursor.visible = false;
+
         Button[] allObjects = Resources.FindObjectsOfTypeAll(typeof(Button)) as Button[];
         // Do not activate if absolutely necessary, ask Oskar and Dennis first!
         for (int i = 0; i < allObjects.Length; i++)
