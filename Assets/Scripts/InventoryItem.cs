@@ -8,6 +8,9 @@ public class InventoryItem : MonoBehaviour
     // The name of the item
     public string itemName = "default";
 
+    // The name that is used in code i.e it has no Rich Text with <color=red>color</color> like that 
+    public string codeName = "default";
+
     // If the item is stackable, as in a consumable such as a potion or other heal items
     public bool stackable = false;
 
@@ -40,9 +43,11 @@ public class InventoryItem : MonoBehaviour
     public string methodName = "";
 
     // Constructor
-    public InventoryItem(string name, bool stack, bool equip, int eqSlot, Sprite img, int val, string info, string method)
+    public InventoryItem(string name, string codingName, bool stack, bool equip, int eqSlot, Sprite img, int val, string info, string method)
     {
         itemName = name;
+
+        codeName = codingName;
 
         stackable = stack;
 
@@ -110,7 +115,7 @@ public class InventoryItem : MonoBehaviour
         else
         {
             // Heals the player for 10 HP
-            PlayerSingleton.instance.playerHealth += 10;
+            PlayerSingleton.instance.playerHealth += 15;
 
             PlayerSingleton.instance.playerHealth = Mathf.Clamp(PlayerSingleton.instance.playerHealth, 0, PlayerSingleton.instance.playerMaxHealth);
             
@@ -131,7 +136,7 @@ public class InventoryItem : MonoBehaviour
         else
         {
             // Gives the player 5 mana back
-            PlayerSingleton.instance.playerMana += 5;
+            PlayerSingleton.instance.playerMana += 15;
 
             PlayerSingleton.instance.playerMana = Mathf.Clamp(PlayerSingleton.instance.playerMana, 0, 10);
             

@@ -7,15 +7,28 @@ public class ItemLibrary : MonoBehaviour
 {
     InventoryHandler invHandler;
 
-    //public LibraryItem[] items;
+    public static List<InventoryItem> itemReferences = new List<InventoryItem>();
 
     public ItemSprites sprites;
 
     void Start()
     {
         invHandler = GetComponent<InventoryHandler>();
+
+        // Adds one of each item to a static reference list
+        itemReferences.Add(NewHealingPotion());
+        itemReferences.Add(NewManaPotion());
+        itemReferences.Add(NewAntidote());
+        itemReferences.Add(NewOintment());
+        itemReferences.Add(NewConfusionHeal());
+        itemReferences.Add(NewClaivoyancePotion());
+        itemReferences.Add(NewGoldenHitPotion());
+
+        itemReferences.Add(NewBasicSword());
+        itemReferences.Add(NewIronHelmet());
+
     }
-    
+
     public InventoryItem AddItem(string item)
     {
         InventoryItem newItem = null;
@@ -42,6 +55,32 @@ public class ItemLibrary : MonoBehaviour
         return newItem;
     }
 
+    public static InventoryItem GetReferenceItem(string item)
+    {
+        InventoryItem newItem = null;
+
+        if (item == "HealingPotion")
+            newItem = itemReferences[0];
+        else if (item == "ManaPotion")
+            newItem = itemReferences[1];
+        else if (item == "Antidote")
+            newItem = itemReferences[2];
+        else if (item == "Ointment")
+            newItem = itemReferences[3];
+        else if (item == "ConfusionHeal")
+            newItem = itemReferences[4];
+        else if (item == "ClairvoyancePotion")
+            newItem = itemReferences[5];
+        else if (item == "GoldenHitPotion")
+            newItem = itemReferences[6];
+        else if (item == "BasicSword")
+            newItem = itemReferences[7];
+        else if (item == "IronHelmet")
+            newItem = itemReferences[8];
+
+        return newItem;
+    }
+
     /*
     Down below are methods that hold all the different inventory
     items in the game, the first item will have comments on what 
@@ -55,6 +94,8 @@ public class ItemLibrary : MonoBehaviour
     {
         // Name of the item we're creating
         string itemName = "Potion of <color=red>Healing</color>";
+
+        string codeName = "Potion of Healing";
 
         // If this item is stackable or if we can only have one in each slot
         bool stackable = true;
@@ -78,7 +119,7 @@ public class ItemLibrary : MonoBehaviour
         string method = "HealingPotion";
 
         // Creates a new inventoryitem     
-        InventoryItem item = new InventoryItem(itemName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
+        InventoryItem item = new InventoryItem(itemName, codeName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
         
         // Returns the item we just created
         return item;
@@ -89,6 +130,8 @@ public class ItemLibrary : MonoBehaviour
     {
         // Name of the item we're creating
         string itemName = "<color=blue>Mana</color> Potion";
+
+        string codeName = "Mana Potion";
 
         // If this item is stackable or if we can only have one in each slot
         bool stackable = true;
@@ -112,7 +155,7 @@ public class ItemLibrary : MonoBehaviour
         string method = "ManaPotion";
 
         // Creates a new inventoryitem
-        InventoryItem item = new InventoryItem(itemName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
+        InventoryItem item = new InventoryItem(itemName, codeName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
 
         // Returns the item we just created
         return item;
@@ -123,6 +166,8 @@ public class ItemLibrary : MonoBehaviour
     {
         // Name of the item we're creating
         string itemName = "Antidote";
+
+        string codeName = "Antidote";
 
         // If this item is stackable or if we can only have one in each slot
         bool stackable = true;
@@ -146,7 +191,7 @@ public class ItemLibrary : MonoBehaviour
         string method = "Antidote";
 
         // Creates a new inventoryitem
-        InventoryItem item = new InventoryItem(itemName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
+        InventoryItem item = new InventoryItem(itemName, codeName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
 
         // Returns the item we just created
         return item;
@@ -157,6 +202,8 @@ public class ItemLibrary : MonoBehaviour
     {
         // Name of the item we're creating
         string itemName = "Ointment";
+
+        string codeName = "Ointment";
 
         // If this item is stackable or if we can only have one in each slot
         bool stackable = true;
@@ -180,7 +227,7 @@ public class ItemLibrary : MonoBehaviour
         string method = "Ointment";
 
         // Creates a new inventoryitem
-        InventoryItem item = new InventoryItem(itemName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
+        InventoryItem item = new InventoryItem(itemName, codeName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
 
         // Returns the item we just created
         return item;
@@ -190,7 +237,9 @@ public class ItemLibrary : MonoBehaviour
     public InventoryItem NewConfusionHeal()
     {
         // Name of the item we're creating
-        string itemName = "Confusion Healing";
+        string itemName = "Confusion Heal";
+
+        string codeName = "Confusion Heal";
 
         // If this item is stackable or if we can only have one in each slot
         bool stackable = true;
@@ -214,7 +263,7 @@ public class ItemLibrary : MonoBehaviour
         string method = "ConfusionHeal";
 
         // Creates a new inventoryitem
-        InventoryItem item = new InventoryItem(itemName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
+        InventoryItem item = new InventoryItem(itemName, codeName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
 
         // Returns the item we just created
         return item;
@@ -225,6 +274,8 @@ public class ItemLibrary : MonoBehaviour
     {
         // Name of the item we're creating
         string itemName = "Clairvoyance Potion";
+
+        string codeName = "Clairvoyance Potion";
 
         // If this item is stackable or if we can only have one in each slot
         bool stackable = true;
@@ -248,7 +299,7 @@ public class ItemLibrary : MonoBehaviour
         string method = "ClairvoyancePotion";
 
         // Creates a new inventoryitem
-        InventoryItem item = new InventoryItem(itemName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
+        InventoryItem item = new InventoryItem(itemName, codeName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
 
         // Returns the item we just created
         return item;
@@ -259,6 +310,8 @@ public class ItemLibrary : MonoBehaviour
     {
         // Name of the item we're creating
         string itemName = "Golden Hit Potion";
+
+        string codeName = "Golden Hit Potion";
 
         // If this item is stackable or if we can only have one in each slot
         bool stackable = true;
@@ -282,7 +335,7 @@ public class ItemLibrary : MonoBehaviour
         string method = "GoldenHitPotion";
 
         // Creates a new inventoryitem
-        InventoryItem item = new InventoryItem(itemName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
+        InventoryItem item = new InventoryItem(itemName, codeName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
 
         // Returns the item we just created
         return item;
@@ -295,6 +348,8 @@ public class ItemLibrary : MonoBehaviour
     {
         // Name of the item we're creating
         string itemName = "Iron Helmet";
+
+        string codeName = "Iron Helmet";
 
         // If this item is stackable or if we can only have one in each slot
         bool stackable = false;
@@ -318,7 +373,7 @@ public class ItemLibrary : MonoBehaviour
         string method = "null";
 
         // Creates a new inventoryitem     
-        InventoryItem item = new InventoryItem(itemName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
+        InventoryItem item = new InventoryItem(itemName, codeName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
 
         // Returns the item we just created
         return item;
@@ -328,6 +383,8 @@ public class ItemLibrary : MonoBehaviour
     {
         // Name of the item we're creating
         string itemName = "Iron Sword";
+
+        string codeName = "Iron Sword";
 
         // If this item is stackable or if we can only have one in each slot
         bool stackable = false;
@@ -351,7 +408,7 @@ public class ItemLibrary : MonoBehaviour
         string method = "null";
 
         // Creates a new inventoryitem     
-        InventoryItem item = new InventoryItem(itemName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
+        InventoryItem item = new InventoryItem(itemName, codeName, stackable, equippable, equipSlot, itemImage, value, infoText, method);
 
         // Returns the item we just created
         return item;
