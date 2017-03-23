@@ -130,6 +130,9 @@ public class MenuManagment : MonoBehaviour
 
     public void ExitToMainMenu()
     {
+        PlayerSingleton.instance.poisoned = false;
+        PlayerSingleton.instance.confused = false;
+        PlayerSingleton.instance.onFire = false;
         UnityEngine.SceneManagement.SceneManager.LoadScene("Main_Menu_Scene");
     }
 }

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class BarManager : MonoBehaviour
 {
-
     public Image healthBar;
     public Image manaBar;
     public Text healthText;

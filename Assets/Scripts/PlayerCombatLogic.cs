@@ -92,7 +92,7 @@ public class PlayerCombatLogic : MonoBehaviour
         interval = 0.3f;
 
         comboSystem.SetActive(true);    //Setting the combo system ui to true
-        dmg = PlayerSingleton.instance.playerDmg + (1.7f * (float)PlayerSingleton.instance.playerInt); //Setting the damge for the player
+        dmg = PlayerSingleton.instance.playerDmg + (2f * (float)PlayerSingleton.instance.playerInt); //Setting the damage for the player
         comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval); //Calling the funtion to actiavte the combo system
 
         PlayerSingleton.instance.playerMana -= 15;

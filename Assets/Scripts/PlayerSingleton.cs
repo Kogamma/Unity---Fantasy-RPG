@@ -72,9 +72,9 @@ public class PlayerSingleton : MonoBehaviour
 
     // The spawn coordinates of the save station that the player has saved to, used for positioning the player at the right statue after load of save file
     // All coordinates are save separatly since Vector3 isn't serializable
-    public float savePosX = -103.288f;
+    public float savePosX = -103.46f;
     public float savePosY = 4.986f;
-    public float savePosZ = 9.115f;
+    public float savePosZ = 8.86f;
 
     // Arrays containing bools that tells which chests is open
     public bool[] chestOpen_lightForest;

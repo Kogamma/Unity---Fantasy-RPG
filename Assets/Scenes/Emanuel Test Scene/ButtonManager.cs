@@ -28,25 +28,10 @@ public class ButtonManager : MonoBehaviour
     public void NewPlayBtn(string newPlayLevel)
     {
         PlayerSingleton.instance.playerInventory.Add("HealingPotion");
-        PlayerSingleton.instance.inventoryAmounts.Add(5);
+        PlayerSingleton.instance.inventoryAmounts.Add(3);
 
         PlayerSingleton.instance.playerInventory.Add("ManaPotion");
-        PlayerSingleton.instance.inventoryAmounts.Add(5);
-
-        PlayerSingleton.instance.playerInventory.Add("Antidote");
-        PlayerSingleton.instance.inventoryAmounts.Add(5);
-
-        PlayerSingleton.instance.playerInventory.Add("ClairvoyancePotion");
-        PlayerSingleton.instance.inventoryAmounts.Add(5);
-
-        PlayerSingleton.instance.playerInventory.Add("Ointment");
-        PlayerSingleton.instance.inventoryAmounts.Add(5);
-
-        PlayerSingleton.instance.playerInventory.Add("GoldenHitPotion");
-        PlayerSingleton.instance.inventoryAmounts.Add(5);
-
-        PlayerSingleton.instance.playerInventory.Add("ConfusionHeal");
-        PlayerSingleton.instance.inventoryAmounts.Add(5);
+        PlayerSingleton.instance.inventoryAmounts.Add(3);
 
         PlayerSingleton.instance.Save();
         SceneManager.LoadScene(newPlayLevel);   // starts the game

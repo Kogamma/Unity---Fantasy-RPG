@@ -8,7 +8,8 @@ public class StoryEvent_Gate : MonoBehaviour
     public GameObject gateExit;
     public TextBoxHandler textBox;
     public QuestDisplay questDisplay;
-    
+    public Transform player;
+
     
 	void Start ()
     {
@@ -16,11 +17,15 @@ public class StoryEvent_Gate : MonoBehaviour
             questGiver.SetActive(false);
         else if (PlayerSingleton.instance.activeQuestIndex >= 3)
             gateExit.SetActive(true);
+        else if (PlayerSingleton.instance.activeQuestIndex <= -1)
+            player.rotation = Quaternion.Euler(0, 30, 0);
 	}
 
 
     public void QuestGiverMessage()
     {
+
+
         string[] text = new string[6]
         {
             "Oh, so you've finally woken up?",

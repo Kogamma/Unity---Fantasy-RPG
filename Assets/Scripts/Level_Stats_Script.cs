@@ -552,8 +552,8 @@ public class Level_Stats_Script : MonoBehaviour
             PlayerSingleton.instance.playerInt = playerInt;
             PlayerSingleton.instance.skillPoints = statTotal;
 
-            PlayerSingleton.instance.playerMana += 3;
-            PlayerSingleton.instance.playerMaxMana += 3;
+            PlayerSingleton.instance.playerMana += 2;
+            PlayerSingleton.instance.playerMaxMana += 2;
         }
     }
     public void AddStr()

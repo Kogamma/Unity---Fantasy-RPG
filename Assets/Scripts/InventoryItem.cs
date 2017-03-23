@@ -114,12 +114,12 @@ public class InventoryItem : MonoBehaviour
         }
         else
         {
-            // Heals the player for 10 HP
+            // Heals the player for 15 HP
             PlayerSingleton.instance.playerHealth += 15;
 
             PlayerSingleton.instance.playerHealth = Mathf.Clamp(PlayerSingleton.instance.playerHealth, 0, PlayerSingleton.instance.playerMaxHealth);
             
-            textPages.Add("You were healed! You got 10 HP back!");
+            textPages.Add("You were healed! You got 15 HP back!");
         }
 
         return textPages;
@@ -135,12 +135,12 @@ public class InventoryItem : MonoBehaviour
         }
         else
         {
-            // Gives the player 5 mana back
+            // Gives the player 15 mana back
             PlayerSingleton.instance.playerMana += 15;
 
-            PlayerSingleton.instance.playerMana = Mathf.Clamp(PlayerSingleton.instance.playerMana, 0, 10);
+            PlayerSingleton.instance.playerMana = Mathf.Clamp(PlayerSingleton.instance.playerMana, 0, PlayerSingleton.instance.playerMaxMana);
             
-            textPages.Add("You're mana was restored! You got 5 mana back!");
+            textPages.Add("You're mana was restored! You got 15 mana back!");
         }
 
         return textPages;
