@@ -115,7 +115,7 @@ public class InventoryItem : MonoBehaviour
         else
         {
             // Heals the player for 10 HP
-            PlayerSingleton.instance.playerHealth += 10;
+            PlayerSingleton.instance.playerHealth += 15;
 
             PlayerSingleton.instance.playerHealth = Mathf.Clamp(PlayerSingleton.instance.playerHealth, 0, PlayerSingleton.instance.playerMaxHealth);
             
@@ -136,7 +136,7 @@ public class InventoryItem : MonoBehaviour
         else
         {
             // Gives the player 5 mana back
-            PlayerSingleton.instance.playerMana += 5;
+            PlayerSingleton.instance.playerMana += 15;
 
             PlayerSingleton.instance.playerMana = Mathf.Clamp(PlayerSingleton.instance.playerMana, 0, 10);
             
