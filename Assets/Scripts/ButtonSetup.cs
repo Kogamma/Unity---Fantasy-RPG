@@ -14,6 +14,7 @@ public class ButtonSetup : MonoBehaviour
     {
         // Makes the mouse cursor invisible
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
 
         Button[] allObjects = Resources.FindObjectsOfTypeAll(typeof(Button)) as Button[];
         // Do not activate if absolutely necessary, ask Oskar and Dennis first!

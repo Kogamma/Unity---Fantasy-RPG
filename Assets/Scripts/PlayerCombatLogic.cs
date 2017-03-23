@@ -65,7 +65,7 @@ public class PlayerCombatLogic : MonoBehaviour
         interval = 0.5f;    //They will come 0.5sec after each other 
 
         comboSystem.SetActive(true);                                                                        //Setting the combo system ui to true
-        dmg = PlayerSingleton.instance.playerDmg + ((0.7f * (float)PlayerSingleton.instance.playerInt));    //Setting the damage for the player
+        dmg = PlayerSingleton.instance.playerDmg + ((1.25f * (float)PlayerSingleton.instance.playerInt));    //Setting the damage for the player
         comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval);      //Calling the funtion to actiavte the combo system
 
         PlayerSingleton.instance.playerMana -= 5;
@@ -78,7 +78,7 @@ public class PlayerCombatLogic : MonoBehaviour
         interval = 0.3f;    //They will come 0.3sec after each other
 
         comboSystem.SetActive(true);                                                                        //Setting the combo system ui to true
-        dmg = PlayerSingleton.instance.playerDmg + ((0.9f * (float)PlayerSingleton.instance.playerInt));    //Setting the damage for the player
+        dmg = PlayerSingleton.instance.playerDmg + ((1.5f * (float)PlayerSingleton.instance.playerInt));    //Setting the damage for the player
         comboSystem.GetComponent<ComboSystem>().ActivateCombo(notes, noteSpeed, interval);      //Calling the funtion to actiavte the combo system
 
         PlayerSingleton.instance.playerMana -= 10;
