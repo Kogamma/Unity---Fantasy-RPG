@@ -16,6 +16,7 @@ public class CombatSceneStart : MonoBehaviour
     [SerializeField] GameObject UIGroup;
     [SerializeField] GameObject[] enemies = new GameObject[6];
     private GameObject enemy;
+    [SerializeField] Button fleeButton;
 
     // The first button we select in the combat scene
     public GameObject firstButtonSelected;
@@ -50,7 +51,10 @@ public class CombatSceneStart : MonoBehaviour
             enemy = Instantiate(enemies[4], enemies[4].transform.position, enemies[4].transform.rotation, enemyHolder.transform);
 
         else if (PlayerSingleton.instance.attackingEnemy == "DragonBoar")
+        {
             enemy = Instantiate(enemies[5], enemies[5].transform.position, enemies[5].transform.rotation, enemyHolder.transform);
+            fleeButton.interactable = false;
+        }
 
         textPages = new List<string>();
         textPages.Add("A " +  enemyHolder.transform.GetChild(0).GetComponent<EnemyClass>().displayName + " attacked you!");
