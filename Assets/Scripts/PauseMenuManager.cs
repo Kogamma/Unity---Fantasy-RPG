@@ -105,7 +105,7 @@ public class PauseMenuManager : MonoBehaviour
 
     public void LoadSave()
     {
-        PlayerSingleton.instance.Load();
+        PlayerSingleton.instance.Load(true);
     }
 
     public void ExitGame()
@@ -115,6 +115,7 @@ public class PauseMenuManager : MonoBehaviour
 
     public void ExitToMenu()
     {
+        PlayerSingleton.instance.Load(false);
         UnityEngine.SceneManagement.SceneManager.LoadScene("Main_Menu_Scene");
     }
 }
