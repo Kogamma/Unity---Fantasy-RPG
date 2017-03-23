@@ -378,6 +378,8 @@ public class CombatScript : MonoBehaviour
         player.transform.GetChild(5).GetComponent<ParticleSystem>().loop = false;
         PlayerSingleton.instance.confused = false;
 
+        PlayerSingleton.instance.playerMana = Mathf.Clamp(PlayerSingleton.instance.playerMana + (int)Random.Range(3,7), 0, PlayerSingleton.instance.playerMaxMana);
+
         if (levelUpMenu.GetComponent<Level_Stats_Script>().PlayerLevel())
         {
             Instantiate(levelUpParticle, player.transform.position, player.transform.rotation);
