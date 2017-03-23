@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class MenuManagment : MonoBehaviour
 {
@@ -20,30 +21,27 @@ public class MenuManagment : MonoBehaviour
 
     public AttackButton[] attackButtons;
 
+    Button[] buttons;
+
     [SerializeField] Color redColor;
     [SerializeField] Color blueColor;
 
     void Start()
     {
-        Button[] buttons = new Button[attackButtons.Length];
+        buttons = new Button[attackButtons.Length];
 
-        /*for (int i = 0; i < attackButtons.Length; i++)
+        for (int i = 0; i < attackButtons.Length; i++)
         {
             buttons[i] = attackButtons[i].button;
 
             EventTrigger trigger = buttons[i].GetComponent<EventTrigger>();
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.Select;
-            entry.callback.AddListener((eventData) => { DisplayDescription((BaseEventData)eventData, i); });
+            entry.callback.AddListener((eventData) => { DisplayDescription((BaseEventData)eventData); });
 
             trigger.triggers.Add(entry);
         }
 
-        // Add listeners for the OnSelect event so they call OnQuestButtonSelect
-        for (int i = 0; i < questButtons.Length; i++)
-        {
-            
-        }*/
     }
 
     void Update()
@@ -115,8 +113,10 @@ public class MenuManagment : MonoBehaviour
     }
 
 
-    public void DisplayDescription(int buttonIndex)
+    public void DisplayDescription(BaseEventData eventData)
     {
+        int buttonIndex = buttons.ToList().IndexOf(eventData.selectedObject.GetComponent<Button>());
+
         descriptionBox.GetComponentInChildren<Text>().text = attackButtons[buttonIndex].description;
         descriptionBox.SetActive(true);
     }
