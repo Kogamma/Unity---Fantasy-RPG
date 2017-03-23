@@ -15,9 +15,9 @@ public class StoryEvent_Gate : MonoBehaviour
     {
         if (PlayerSingleton.instance.activeQuestIndex >= 0)
             questGiver.SetActive(false);
-        else if (PlayerSingleton.instance.activeQuestIndex >= 3)
+        if (PlayerSingleton.instance.activeQuestIndex >= 3)
             gateExit.SetActive(true);
-        else if (PlayerSingleton.instance.activeQuestIndex <= -1)
+        if (PlayerSingleton.instance.activeQuestIndex <= -1)
             player.rotation = Quaternion.Euler(0, 30, 0);
 	}
 

@@ -505,8 +505,7 @@ public class Level_Stats_Script : MonoBehaviour
         PlayerSingleton.instance.playerMaxMana = playerMaxMana;
         PlayerSingleton.instance.skillPoints = statTotal;
         PlayerSingleton.instance.currentXPNeeded = (int)expSlider.maxValue;
-
-
+        
         return true;
     }
 
@@ -583,15 +582,15 @@ public class Level_Stats_Script : MonoBehaviour
         }
         else if(index == 1)
         {
-            statInfo.text = "Luck - Make a greater possibility to get a critical hit note";
+            statInfo.text = "Luck - Makes possibility higher for critical notes appearing";
         }
         else if(index == 2)
         {
-            statInfo.text = "Intelligence - Make magic attacks stronger";
+            statInfo.text = "Intelligence - Makes your magic stronger";
         }
         else if(index == 3)
         {
-            statInfo.text = "Strength - Make melee attacks stronger";
+            statInfo.text = "Strength - Makes normal melee attacks stronger";
         }
         stat_info.SetActive(true);
     }
