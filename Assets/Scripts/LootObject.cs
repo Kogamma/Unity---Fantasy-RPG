@@ -19,8 +19,6 @@ public class LootObject : MonoBehaviour
 
     public AudioClip openChestSFX;
 
-    public AudioSource audioSource;
-
     private bool opened;
 
     public enum Item
@@ -54,8 +52,6 @@ public class LootObject : MonoBehaviour
         itemReferences[6] = "Ointment";
         //itemReference[2] = "BasicSword";
         //itemReference[2] = "IronHelmet";
-
-        audioSource = GetComponent<AudioSource>();
         
         if (!opened && itemsToLoot.Count <= 0)
         {
@@ -85,7 +81,7 @@ public class LootObject : MonoBehaviour
             //Playing an animation to open the chest
             gameObject.transform.GetChild(2).GetComponent<Animator>().SetTrigger("Open");
             //Playing a sfx when the chest opens
-            audioSource.PlayOneShot(openChestSFX);
+            AudioHelper.PlaySound(openChestSFX);
         }
         
         text.Add("You got ");
@@ -104,15 +100,28 @@ public class LootObject : MonoBehaviour
 
         }
 
+        string orgItemName = itemName;
 
         for (int i = 0; i < lootedItems.Count; i++)
-        {
-            if(itemName != lootedItems[i])
+        {           
+            if (orgItemName != lootedItems[i])
             {
+                itemName = lootedItems[i];
+                orgItemName = itemName;
+
                 //ItemName will be equal to "i" in lootedItems
-                itemName = lootedItems[i]; 
+                itemName = ItemLibrary.GetReferenceItem(orgItemName).codeName;
+
                 //Add the number of how many items that have "itemName" in lootedItems and add itemName to text[0]
-                text[0] += "[" + lootedItems.FindAll(x => x == itemName).Count + "] " + itemName + " ";
+                text[0] += "[" + lootedItems.FindAll(x => x == orgItemName).Count + "] " + itemName + " ";
+
+                /*if (i < lootedItems.Count)
+                {
+                    if (orgItemName != lootedItems[i + 1])
+                    {
+                        text[0] += ", ";
+                    }
+                }*/            
             }
         }
 
