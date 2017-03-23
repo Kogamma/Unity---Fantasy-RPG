@@ -19,7 +19,7 @@ public class ContinueGameButton_Script : MonoBehaviour
     }
     public void Load()
     {
-        PlayerSingleton.instance.Load();
+        PlayerSingleton.instance.Load(true);
     }
 
 }
