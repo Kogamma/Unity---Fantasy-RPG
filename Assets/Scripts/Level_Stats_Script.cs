@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using System.Linq;
 
 public class Level_Stats_Script : MonoBehaviour
 {
@@ -30,13 +32,42 @@ public class Level_Stats_Script : MonoBehaviour
 
     public Slider expSlider;
 
-    public Text[] addButtons;
+    public Text[] addButtonsText;
+    private Button[] addButtons;
 
     void Start()
     {
         expSlider.maxValue = PlayerSingleton.instance.currentXPNeeded;
-    }
 
+        addButtons = new Button[addButtonsText.Length];
+
+        for (int i = 0; i < addButtonsText.Length; i++)
+        {
+            addButtons[i] = addButtonsText[i].transform.parent.GetComponent<Button>();
+        }
+
+        // Add listeners for showing info about the stats by selecting the buttons
+        for (int i = 0; i < addButtons.Length; i++)
+        {
+            // Gets the eventtrigger component 
+            EventTrigger trigger = addButtons[i].GetComponent<EventTrigger>();
+
+            // Adds the select event on the buttons and the correct function to call
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.Select;
+            entry.callback.AddListener((eventData) => { StatInformation((BaseEventData)eventData); });
+
+            trigger.triggers.Add(entry);
+
+            // Adds the deselect event on the buttons and the correct function to call
+            EventTrigger.Entry entry2 = new EventTrigger.Entry();
+            entry2.eventID = EventTriggerType.Deselect;
+            entry2.callback.AddListener((eventData) => { HideInfo((BaseEventData)eventData); });
+
+            trigger.triggers.Add(entry2);
+        }
+    }
+     
     void Update()
     {
         playerExp = PlayerSingleton.instance.playerExp;
@@ -64,21 +95,21 @@ public class Level_Stats_Script : MonoBehaviour
 
         if (PlayerSingleton.instance.skillPoints >= 1)
         {
-            for (int i = 0; i < addButtons.Length; i++)
+            for (int i = 0; i < addButtonsText.Length; i++)
             {
-                addButtons[i].transform.parent.GetComponent<Button>().interactable = true;
-                if (!addButtons[i].text.Contains(" +")) 
-                    addButtons[i].text = addButtons[i].text + " +";
+                addButtonsText[i].transform.parent.GetComponent<Button>().interactable = true;
+                if (!addButtonsText[i].text.Contains(" +")) 
+                    addButtonsText[i].text = addButtonsText[i].text + " +";
             }
         }
         else
         {
             
-            for (int i = 0; i < addButtons.Length; i++)
+            for (int i = 0; i < addButtonsText.Length; i++)
             {
                 //addButtons[i].transform.parent.GetComponent<Button>().interactable = false;
-                if (addButtons[i].text.Contains(" +"))
-                    addButtons[i].text = addButtons[i].text.Remove(addButtons[i].text.Length - 2, 2);
+                if (addButtonsText[i].text.Contains(" +"))
+                    addButtonsText[i].text = addButtonsText[i].text.Remove(addButtonsText[i].text.Length - 2, 2);
             }
         }
     }
@@ -478,6 +509,9 @@ public class Level_Stats_Script : MonoBehaviour
 
         return true;
     }
+
+    #region Add Stat Buttons
+
     //Allow the player to add Vit, Luck, Int or Str
     public void AddVit()
     {
@@ -532,12 +566,17 @@ public class Level_Stats_Script : MonoBehaviour
             PlayerSingleton.instance.skillPoints = statTotal;
         }
     }
+
+    #endregion
+
     //Show the player what the stats do in game
-    public void StatInformation(int index)
+    public void StatInformation(BaseEventData eventData)
     {
+        int index = addButtons.ToList().IndexOf(eventData.selectedObject.GetComponent<Button>());
+
         if (index == 0)
         {
-            statInfo.text = "Defence - Make enemy attacks hurt less";
+            statInfo.text = "Vitality - Makes your amount of health larger";
         }
         else if(index == 1)
         {
@@ -553,7 +592,9 @@ public class Level_Stats_Script : MonoBehaviour
         }
         stat_info.SetActive(true);
     }
-    public void HideInfo()
+
+
+    public void HideInfo(BaseEventData eventData)
     {
         stat_info.SetActive(false);
     }

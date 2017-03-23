@@ -180,8 +180,10 @@ public class MenuScreenManager : MonoBehaviour
         // Deactivates the quest log screen
         questScreen.SetActive(false);
 
+        BaseEventData data = null;
+
         // Hides the info window in the player menu if it's up when we close the menu
-        playerScreen.GetComponent<Level_Stats_Script>().HideInfo();
+        playerScreen.transform.parent.GetComponent<Level_Stats_Script>().HideInfo(data);
 
         // Activates the normal canvas again
         normalCanvas.GetComponent<Canvas>().enabled = true;
