@@ -68,13 +68,13 @@ public class PlayerSingleton : MonoBehaviour
     public string[] equippedItems = new string[6] {"null", "null", "null", "null", "null", "null"};
 
     // The non-combat scene that the player is in, used for returning after combat and after the save file is loaded
-    public string currentScene = "Town_Scene";
+    public string currentScene = "Starting_Gate";
 
     // The spawn coordinates of the save station that the player has saved to, used for positioning the player at the right statue after load of save file
     // All coordinates are save separatly since Vector3 isn't serializable
-    public float savePosX = -51.24f;
-    public float savePosY = -34.632f;
-    public float savePosZ = -69.54f;
+    public float savePosX = -103.288f;
+    public float savePosY = 4.986f;
+    public float savePosZ = 9.115f;
 
     // Arrays containing bools that tells which chests is open
     public bool[] chestOpen_lightForest;
@@ -161,7 +161,7 @@ public class PlayerSingleton : MonoBehaviour
     }
 
 
-    public void Load ()
+    public void Load (bool loadScene)
     {
         if(File.Exists(Application.persistentDataPath + "/playerInfo.dat"))
         {
@@ -200,7 +200,9 @@ public class PlayerSingleton : MonoBehaviour
 
             loaded = true;
             canMove = true;
-            UnityEngine.SceneManagement.SceneManager.LoadScene(currentScene);
+
+            if(loadScene)
+                UnityEngine.SceneManagement.SceneManager.LoadScene(currentScene);
         }
     }
 
