@@ -11,11 +11,16 @@ public class PlayerSingleton : MonoBehaviour
     {
         get
         {
+            // If an instance of this script doesn't exist already
             if (m_instance == null)
             {
+                // Creates a GameObject based of this class
                 GameObject prefab = (GameObject)Resources.Load("PlayerSingleton");
+                // Instantiates the created GameObject
                 GameObject created = Instantiate(prefab);
+                // Prevents the object from being destroyed when changing scenes
                 DontDestroyOnLoad(created);
+                // Assigns an instance of this script
                 m_instance = created.GetComponent<PlayerSingleton>();
             }
 
@@ -27,6 +32,7 @@ public class PlayerSingleton : MonoBehaviour
 
     /* Variables to be saved */
 
+    // Sound volumes set in options
     public float sfxVol = 0.5f;
     public float musicVol = 0.5f;
 
@@ -58,6 +64,7 @@ public class PlayerSingleton : MonoBehaviour
     public int playerMana = 10;
     public int playerMaxMana = 10;
 
+    // The players inventory
     public List<string> playerInventory = new List<string>();
     public List<int> inventoryAmounts = new List<int>();
 
@@ -83,15 +90,19 @@ public class PlayerSingleton : MonoBehaviour
     // Array containing bools that tells which areas of the game that has been explored
     public bool[] areaExplored = new bool[5];
 
+    // The currently active quest number
     public int activeQuestIndex = -1;
 
+    // The stages of each quest
     public List<int> questStages;
     
+    /* End of variables to be saved */
 
     #region In-game variables
 
     // Variables used for in-combat purposes to see what the current damage of the player is,
     // and if the player has attacked this round or not
+
     //public int currentDmg;
     public bool playerAttacked = false;
 
@@ -115,19 +126,25 @@ public class PlayerSingleton : MonoBehaviour
 
     // Controls if the game can start doing stuff yet or not
     public bool gameCanRun = false;
-
-
+    
     // Used to check if the game recently was loaded, then the player will be moved to the proper position.
     public bool loaded = false;
     #endregion
 
 
+    // Saves player data and progress
     public void Save ()
     {
+        // Binary formatter that will serialize the PlayerData class
         BinaryFormatter bf = new BinaryFormatter();
+
+        // The file that the data will be stored in
         FileStream file = File.Create(Application.persistentDataPath + "/playerInfo.dat");
 
+        // An instance of PlayerData
         PlayerData data = new PlayerData();
+
+        // Assigns all variables in PlayerData to its correspondants values in PlayerSingleton
         data.playerMaxHealth = playerMaxHealth;
         data.playerHealth = playerHealth;
         data.playerMaxMana = playerMaxMana;
@@ -156,20 +173,33 @@ public class PlayerSingleton : MonoBehaviour
         data.activeQuestIndex = activeQuestIndex;
         data.questStages = questStages;
 
+        // Stores the data in the file
         bf.Serialize(file, data);
+
+        // Closes file
         file.Close();
     }
 
 
+    // Loads savefile
     public void Load (bool loadScene)
     {
+        // Checks if a savefile exists
         if(File.Exists(Application.persistentDataPath + "/playerInfo.dat"))
         {
+            // Binary formatter that will deserialize the datafile
             BinaryFormatter bf = new BinaryFormatter();
+
+            // An instance of the savefile
             FileStream file = File.Open(Application.persistentDataPath + "/playerInfo.dat", FileMode.Open);
+
+            // An instance of the PlayerData class that is initialized with the savefiles data
             PlayerData data = (PlayerData)bf.Deserialize(file);
+
+            // Closes file
             file.Close();
 
+            // Assigns all variables to be saved/loaded in PlayerSingleton to its correspondants values in PlayerData
             playerMaxHealth = data.playerMaxHealth;
             playerHealth = data.playerHealth;
             playerMaxMana = data.playerMaxMana;
@@ -198,32 +228,45 @@ public class PlayerSingleton : MonoBehaviour
             activeQuestIndex = data.activeQuestIndex;
             questStages = data.questStages;
 
+            // The savefile has been loaded
             loaded = true;
+
+            // Unpauses the game
             canMove = true;
 
+            // Loads the scene that was open when the game was saved if the scene should be loaded
             if(loadScene)
                 UnityEngine.SceneManagement.SceneManager.LoadScene(currentScene);
         }
     }
 
 
+    // Saves options
     public void SaveOptions()
     {
+        // Sets a key that will tell if there is any saved options
         PlayerPrefs.SetInt("HasOptionsSave", 1);
 
+        // Sets the volume values to keys
         PlayerPrefs.SetFloat("MusicVolume", musicVol);
         PlayerPrefs.SetFloat("sfxVolume", sfxVol);
 
     }
 
 
+    // Loads options
     public void LoadOptions()
-    {
+    {   
+        // If there are any saved options
         if (PlayerPrefs.HasKey("HasOptionsSave"))
         {
+            // Assigns the saved values to the volume variables
             musicVol = PlayerPrefs.GetFloat("MusicVolume");
-            MusicHelper.UpdateVolume();
             sfxVol = PlayerPrefs.GetFloat("sfxVolume");
+
+            // Updates volume
+            MusicHelper.UpdateVolume();
+            AudioHelper.UpdateVolume();
         }
     }
 

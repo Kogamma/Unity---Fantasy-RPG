@@ -33,6 +33,10 @@ public class ButtonManager : MonoBehaviour
         PlayerSingleton.instance.playerInventory.Add("ManaPotion");
         PlayerSingleton.instance.inventoryAmounts.Add(3);
 
+        PlayerSingleton.instance.savePosX = -103.46f;
+        PlayerSingleton.instance.savePosY = 4.986f;
+        PlayerSingleton.instance.savePosZ = 8.86f;
+
         PlayerSingleton.instance.Save();
         SceneManager.LoadScene(newPlayLevel);   // starts the game
     }

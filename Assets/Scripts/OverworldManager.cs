@@ -15,27 +15,39 @@ public class OverworldManager : MonoBehaviour
     // This is the script that prints messages
     public TextBoxHandler textBox;
 
+    /*
     // Holds which save station that you interacted with
     [System.NonSerialized]
     public GameObject interactedSaveStation;
     // The buttons for choosing yes or no in the save window
     public GameObject choiceButtons;
+    */
 
+    // The chests in the scene
     public List<LootObject> chests;
 
     void Awake()
     {
+        // If the save file was loaded
         if (PlayerSingleton.instance.loaded)
         {
+            // Sets the players position to the position saved
             player.transform.position = new Vector3(PlayerSingleton.instance.savePosX, PlayerSingleton.instance.savePosY, PlayerSingleton.instance.savePosZ);
+
+            // Sets the players rotation towards the camera
             player.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+
+            // Resets the "loaded" bool since it has served its purpose
             PlayerSingleton.instance.loaded = false;
         }
+        // If the player has returned from the combat scene
         else if (PlayerSingleton.instance.overWorldPos != Vector3.zero && OverworldEnemySingleton.instance.backFromCombat)
         {
+            // Sets the players transform to its original values before the combat began
             player.transform.position = PlayerSingleton.instance.overWorldPos;
             player.transform.rotation = PlayerSingleton.instance.overWorldRot;
         }
+        //
         else if (!OverworldEnemySingleton.instance.backFromCombat && PlayerSingleton.instance.entryPos != Vector3.zero)
         {
             player.transform.position = PlayerSingleton.instance.entryPos;
@@ -150,23 +162,42 @@ public class OverworldManager : MonoBehaviour
         }
     }
 
-
+    /*
     public void SaveChoice(bool yes)
     {
+        // Deactivates the choice buttons
         choiceButtons.SetActive(false);
+
+        // Deselects all potential buttons
         UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
+
+        // The game is no longer paused
         PlayerSingleton.instance.gameCanRun = true;
         PlayerSingleton.instance.canMove = true;
 
+        // Confirmation text to be printed
+        string[] text = new string[1];
+
+        // If the "Yes"-button was pressed
         if (yes)
         {
-            PlayerSingleton.instance.savePosX = interactedSaveStation.transform.GetChild(0).position.x;
-            PlayerSingleton.instance.savePosY = interactedSaveStation.transform.GetChild(0).position.y;
-            PlayerSingleton.instance.savePosZ = interactedSaveStation.transform.GetChild(0).position.z;
-            string[] text = new string[1];
+            // Sets spawnpositions to be saved
+            PlayerSingleton.instance.savePosX = transform.GetChild(0).position.x;
+            PlayerSingleton.instance.savePosY = transform.GetChild(0).position.y;
+            PlayerSingleton.instance.savePosZ = transform.GetChild(0).position.z;
+
+            // Assigns confirmation message to the text
             text[0] = "Your progress was saved!";
+
+            // Saves the players progress
             PlayerSingleton.instance.Save();
-            textBox.PrintMessage(text, "", null, null);
         }
+        // If "No"-button was pressed
+        else
+            text[0] = "You didn't save";
+
+        // Prints confirmation message
+        textBox.PrintMessage(text, null, null, null);
     }
+    */
 }
