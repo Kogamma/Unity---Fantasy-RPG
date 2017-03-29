@@ -9,6 +9,7 @@ public class QuestEvent_DarkForest : MonoBehaviour
     public QuestDisplay questDisplay;
     public TextBoxHandler textBox;
     public Transform player;
+    public GameObject questUpdateTrigger;
 
 
 	void Start ()
@@ -22,6 +23,9 @@ public class QuestEvent_DarkForest : MonoBehaviour
                 dragon.SetActive(false);
                 gadhaGoz.SetActive(true);
             }
+
+            if (PlayerSingleton.instance.questStages[2] >= 1)
+                questUpdateTrigger.SetActive(false);
         }
         else if (PlayerSingleton.instance.activeQuestIndex > 2)
             dragon.SetActive(false);

@@ -78,7 +78,7 @@ public class PlayerSingleton : MonoBehaviour
     public string currentScene = "Starting_Gate";
 
     // The spawn coordinates of the save station that the player has saved to, used for positioning the player at the right statue after load of save file
-    // All coordinates are save separatly since Vector3 isn't serializable
+    // All coordinates are saved separatly since Vector3 isn't serializable
     public float savePosX = -103.46f;
     public float savePosY = 4.986f;
     public float savePosZ = 8.86f;

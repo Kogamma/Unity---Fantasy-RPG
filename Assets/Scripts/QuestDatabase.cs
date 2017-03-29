@@ -13,7 +13,7 @@ public class QuestDatabase : MonoBehaviour
     void Awake()
     {
         quests.Add(new Quest("Go to the forest", new string[] {
-            "A Mysterious Man told you that a beast inside the dark forest holds the key to The Gate Between Worlds.\nGet to the light side of the forest first.",
+            "A mysterious man told you that a beast inside The Dark Forest holds the key to The Gate Between Worlds.\nGet to the light side of the forest first.",
             "Trees are blocking the path to the forest.\nA lumberjack asked you to get his friend, Birch, so that they can take care of the trees.\nHe should be in Cinderella Town.",
             "You asked Birch to go and help his friend take care of the trees. They should be done now."}));
 
