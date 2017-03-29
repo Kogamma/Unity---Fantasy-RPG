@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SaveGame : MonoBehaviour
 {
-    public GameObject choiceButtons;        // The buttons where the player must choose wether to save or not
+    public GameObject choiceButtons;        // The buttons where the player must choose whether to save or not
     public SaveButtonsChoice saveChoice;    // The SaveButtonsChoice script that has the method that handles the choice of saving or not
 
 

@@ -30,7 +30,8 @@ public class PlayerSingleton : MonoBehaviour
 
     private static PlayerSingleton m_instance;
 
-    /* Variables to be saved */
+
+    #region Variables to be saved 
 
     // Sound volumes set in options
     public float sfxVol = 0.5f;
@@ -95,8 +96,8 @@ public class PlayerSingleton : MonoBehaviour
 
     // The stages of each quest
     public List<int> questStages;
-    
-    /* End of variables to be saved */
+
+    #endregion
 
     #region In-game variables
 
@@ -141,7 +142,7 @@ public class PlayerSingleton : MonoBehaviour
         // The file that the data will be stored in
         FileStream file = File.Create(Application.persistentDataPath + "/playerInfo.dat");
 
-        // An instance of PlayerData
+        // Creates an instance of PlayerData
         PlayerData data = new PlayerData();
 
         // Assigns all variables in PlayerData to its correspondants values in PlayerSingleton
