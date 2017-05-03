@@ -10,6 +10,10 @@ public class ButtonSetup : MonoBehaviour
 
     public AudioClip clickSound;
 
+    float clickVolume = 0.8f;
+
+    GameObject lastSelectedGameObject;
+
 	void Awake ()
     {
         // Makes the mouse cursor invisible
@@ -48,10 +52,35 @@ public class ButtonSetup : MonoBehaviour
             if (trigger.triggers.Count <= 1)
                 trigger.triggers.Add(entry);
         }
+
+        // Sets our last selected GameObject
+        lastSelectedGameObject = EventSystem.current.currentSelectedGameObject;
 	}
 	
+    void Update()
+    {
+        // Checks all three different mouse buttons to see if we click 
+        // because then we will lose focus of the selected UI element
+        for (int i = 0; i < 3; i++)
+        {
+            if (Input.GetMouseButtonDown(i))
+            {
+                // Sets the clickVolume to 0 temporarily since we don't want to hear 
+                // the click sound when we reselect the object after losing focus of it
+                clickVolume = 0;
+
+                // Sets the focus to the gameObject we recently had selected when we click the mouse
+                EventSystem.current.SetSelectedGameObject(lastSelectedGameObject);
+            }
+        }
+    }
+
 	void OnSelect(BaseEventData eventData)
     {
-        AudioHelper.PlayPitched(clickSound, 0.8f, 0.8f);
+        AudioHelper.PlayPitched(clickSound, clickVolume, clickVolume);
+
+        lastSelectedGameObject = EventSystem.current.currentSelectedGameObject;
+
+        clickVolume = 0.8f;
     }
 }
