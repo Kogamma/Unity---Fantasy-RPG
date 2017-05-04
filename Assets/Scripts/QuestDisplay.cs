@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class QuestDisplay : MonoBehaviour
 {
-    
     public Text completedText;
     public Text completedQuestText;
     public Text newQuestText;

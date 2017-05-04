@@ -16,7 +16,7 @@ public class QuestEvent_DarkForest : MonoBehaviour
     {
         if (PlayerSingleton.instance.activeQuestIndex == 2)
         {
-            if (PlayerSingleton.instance.questStages[2] >= 2)
+            if (PlayerSingleton.instance.questStages[2] >= 3)
             {
                 player.position = new Vector3(60, 3, 182);
                 player.rotation = Quaternion.Euler(0, 300, 0);

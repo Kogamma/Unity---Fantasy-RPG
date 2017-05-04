@@ -17,7 +17,7 @@ public class ForestBossScript : EnemyClass
             canFireAttack = true;
 
         if (enemyHp <= 0)
-            PlayerSingleton.instance.questStages[2] = 2;
+            PlayerSingleton.instance.questStages[2] = 3;
 	}
 
     public override void AttackPattern()

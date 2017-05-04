@@ -224,7 +224,7 @@ public class PlayerSingleton : MonoBehaviour
             savePosY = data.savePosY;
             savePosZ = data.savePosZ;
             chestOpen_lightForest = data.chestOpen_lightForest;
-            chestOpen_darkForest = data.chestOpen_lightForest;
+            chestOpen_darkForest = data.chestOpen_darkForest;
             areaExplored = data.areaExplored;
             activeQuestIndex = data.activeQuestIndex;
             questStages = data.questStages;
@@ -239,6 +239,40 @@ public class PlayerSingleton : MonoBehaviour
             if(loadScene)
                 UnityEngine.SceneManagement.SceneManager.LoadScene(currentScene);
         }
+    }
+
+
+    public void FullReset()
+    {
+        File.Delete(Application.persistentDataPath + "/playerInfo.dat");
+
+        playerMaxHealth = 10;
+        playerHealth = 10;
+        playerMaxMana = 10;
+        playerMana = 10;
+        playerDmg = 1;
+        playerMagicDmg = 1;
+        playerExp = 0;
+        level = 1;
+        currentXPNeeded = 100;
+        skillPoints = 0;
+        playerInt = 5;
+        playerVit = 5;
+        playerStr = 5;
+        playerLuck = 5;
+        playerInventory = new List<string>();
+        inventoryAmounts = new List<int>();
+        equippedItems = new string[6] { "null", "null", "null", "null", "null", "null" };
+        inventorySize = 15;
+        currentScene = "Starting_Gate";
+        savePosX = -103.46f;
+        savePosY = 4.986f;
+        savePosZ = 8.86f;
+        chestOpen_lightForest = null;
+        chestOpen_darkForest = null;
+        areaExplored = new bool[5];
+        activeQuestIndex = -1;
+        questStages = new List<int>();
     }
 
 

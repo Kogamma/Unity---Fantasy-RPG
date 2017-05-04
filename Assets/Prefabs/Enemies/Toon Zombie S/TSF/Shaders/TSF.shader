@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "TSF/Base1" 
 {
     Properties 
@@ -67,7 +69,7 @@ Shader "TSF/Base1"
                 v2f vert (appdata_base0 v)
                 {
                     v2f o;
-                    o.pos = mul ( UNITY_MATRIX_MVP, v.vertex );
+                    o.pos = UnityObjectToClipPos ( v.vertex );
                     float3 n = mul((float3x3)UNITY_MATRIX_IT_MV, v.normal);
                     n = n * float3(0.5,0.5,0.5) + float3(0.5,0.5,0.5);
                     o.uvn = n.xy;
