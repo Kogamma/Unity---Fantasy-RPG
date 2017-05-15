@@ -44,19 +44,21 @@ public class CombatStart : MonoBehaviour
         // Pauses the game if it's not already paused and vice versa
         PlayerSingleton.instance.canMove = !PlayerSingleton.instance.canMove;
         Time.timeScale = 1;
-
+        Debug.Log("hallå");
         // Pauses the music before loading new scene
         MusicHelper.Stop();
 
+        string currentScene = PlayerSingleton.instance.currentScene;
+
         // When the blackscreen is done the battle scene loads
-        if (PlayerSingleton.instance.currentScene == "Forest_Scene_1")
+        if (currentScene == "Forest_Scene_1" || currentScene == "Starting_Gate")
             SceneManager.LoadScene("Battle_scene");
-        else if (PlayerSingleton.instance.currentScene == "dark_forest_1" && PlayerSingleton.instance.attackingEnemy == "DragonBoar")
+        else if (currentScene == "dark_forest_1" && PlayerSingleton.instance.attackingEnemy == "DragonBoar")
         {
             SceneManager.LoadScene("Boss_Battle_Scene");
             PlayerSingleton.instance.canMove = false;
         }
-        else if (PlayerSingleton.instance.currentScene == "dark_forest_1")
+        else if (currentScene == "dark_forest_1")
             SceneManager.LoadScene("Battle_Scene_dark");
     }
 }
